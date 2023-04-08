@@ -1,0 +1,6 @@
+#ignore artifacts
+build
+.env.local
+node_modules
+public
+README.md
