@@ -177,7 +177,7 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
 
   const handleSetChange = (index, value, itemname) => {
     const updatedExercise = { ...newExercise };
-    updatedExercise.sets[itemname][index] = value;
+    updatedExercise.sets[itemname][index] = +value;
     setNewExercise(updatedExercise);
   };
   return (

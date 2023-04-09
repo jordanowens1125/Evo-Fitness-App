@@ -50,3 +50,15 @@ export const convertDateToMMDDYYYYFormat = (date) => {
   const result = `${month}-${day}-${year}`
   return result
 }
+
+export const convertMMDDYYYYtoYYYYMMDD = (date) => {
+  const [month, day, year] = date.split('-')
+  return `${year}-${month}-${day}`
+}
+
+export const sortObjectsWithDatePropertyInMMDDYYYY = (items) => {
+  const newItems = items.sort(function (a, b) {
+    return (convertMMDDYYYYtoDateFormat(a.date) - convertMMDDYYYYtoDateFormat(b.date))
+  })
+  return newItems
+}

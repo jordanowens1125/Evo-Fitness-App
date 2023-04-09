@@ -61,11 +61,17 @@ const kindsOfExercises = {
   },
 };
 
-const exercises = [
-  {
+let exercises = []
 
-  },
-  
-]
+Object.keys(kindsOfExercises).forEach(function (key) {
+  const exerciseObjects = kindsOfExercises[key].exercises.map((exercise) => {
+    return {
+      name: exercise,
+      kind: key,
+      units: kindsOfExercises[key].units,
+    };
+  });
+  exercises = [...exercises, ...exerciseObjects];
+});
 
-module.exports = {kindsOfExercises}
+module.exports = {kindsOfExercises, exercises}

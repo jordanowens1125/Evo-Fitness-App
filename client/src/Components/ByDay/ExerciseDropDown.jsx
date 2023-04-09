@@ -1,13 +1,13 @@
 import React from 'react'
-import kindsOfExercises from '../../data/exerciseCategories';
+import {kindsOfExercises} from '../../data/exerciseCategories';
 
-const ExerciseDropDown = ({ exercise, setExercise, kind }) => {
+const ExerciseDropDown = ({ exercise, handleExerciseChange, kind }) => {
   //only exercises that have the correct kind can be used as an option
   return (
     <select
       name="exercise"
       id="exercise"
-      onChange={(e) => setExercise(e.currentTarget.value)}
+      onChange={handleExerciseChange}
       value={exercise}
     >
       {kindsOfExercises[kind]["exercises"].map((exercise) => (

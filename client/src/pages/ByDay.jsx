@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import data from "../data/dummyData";
+import React, { useState, useContext } from "react";
 import {
   AreaChart,
   XAxis,
@@ -8,7 +7,7 @@ import {
   Tooltip,
   Area,
 } from "recharts";
-import kindsOfExercises from "../data/exerciseCategories";
+import {kindsOfExercises} from "../data/exerciseCategories";
 import {
   convertMMDDYYYYtoDateFormat,
   getDateOfOneMonthPrior,
@@ -19,6 +18,8 @@ import {
 import { daysPriorOptions } from "../data/timeData";
 import DateRangeDropDown from "../Components/ByDay/DateRangeDropDown";
 import ExerciseDropDown from "../Components/ByDay/ExerciseDropDown";
+import { DataContext } from "../Context/Context";
+import { generateRandomColor } from "../data/colors";
 
 const getDisplayValue = (exercises, exercise, value) => {
   let count = 0;
@@ -78,17 +79,6 @@ const inputDataIntoEmptyList = (
   return emptyDataForRange;
 };
 
-const insertNewExerciseIntoData = (newWorkout, data) => {
-  for (let i = 0; i < data.length; i++) {
-    if (data[i].date === newWorkout.date) {
-      //see if each exercise in this workout has been done already today and add to that
-      for (let j = 0; j < data[i].exercises.length; j++) {
-        console.log(data[i].exercises.length);
-      }
-    }
-  }
-};
-
 const filterDataByRange = (data, dateRange) => {
   const filteredArr = [];
   const start = convertMMDDYYYYtoDateFormat(dateRange[0]);
@@ -105,6 +95,7 @@ const filterDataByRange = (data, dateRange) => {
   }
   return filteredArr;
 };
+
 const ByDay = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [daysPrior, setDaysPrior] = useState(7);
@@ -114,41 +105,34 @@ const ByDay = () => {
   const [exercise, setExercise] = useState(
     kindsOfExercises["Weights/Reps"]["exercises"][0]
   );
+  const [randomColor, setRandomColor] = useState(generateRandomColor())
   const [kind, setKind] = useState("Weights/Reps");
   const [details, setDetails] = useState(kindsOfExercises[kind]["details"][0]);
   const [dateRange, setDateRange] = useState(
     getDatesForRange(priorDate, currentDate)
   );
-  const [chartData, setChartData] = useState(data.byDay);
+  const context = useContext(DataContext)
+  const data = context.data
   const emptyData = populateEmptyData(dateRange, details);
-  const filteredDataForRange = filterDataByRange(chartData, dateRange);
+  const filteredDataForRange = filterDataByRange(data, dateRange);
   const filledData = inputDataIntoEmptyList(
     filteredDataForRange,
     emptyData,
     exercise,
     details
-  );
-
-    // console.log(chartData);
-
-  const addExercise = () => {
-    const date = "03-30-2023";
-    const addedExercise = {
-      date,
-      name: "Pullups",
-      sets: {
-        Repetition: [20, 30, 40],
-        Weight: [5, 0, 70],
-      },
-    };
-    const updatedData = insertNewExerciseIntoData(addedExercise, chartData);
-  };
+  )
 
   const handleKindChange = (e) => {
     setKind(e.currentTarget.value);
     setExercise(kindsOfExercises[e.currentTarget.value]["exercises"][0]);
     setDetails(kindsOfExercises[e.currentTarget.value]["details"][0]);
+    setRandomColor(generateRandomColor());
   };
+
+  const handleExerciseChange = (e) => {
+    setRandomColor(generateRandomColor())
+    setExercise(e.currentTarget.value)
+  }
 
   const handleRangeChange = (e) => {
     setDaysPrior(e.currentTarget.value);
@@ -210,9 +194,6 @@ const ByDay = () => {
       </select>
     );
   };
-
-
-
   return (
     <>
       <AreaChart
@@ -223,8 +204,16 @@ const ByDay = () => {
       >
         <defs>
           <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+            <stop
+              offset="5%"
+              stopColor={randomColor || "#8884d8"}
+              stopOpacity={0.8}
+            />
+            <stop
+              offset="95%"
+              stopColor={randomColor || "#8884d8"}
+              stopOpacity={0}
+            />
           </linearGradient>
         </defs>
         <XAxis dataKey="date" />
@@ -234,14 +223,14 @@ const ByDay = () => {
         <Area
           type="monotone"
           dataKey={details}
-          stroke="#8884d8"
+          stroke={randomColor || "#8884d8"}
           fillOpacity={1}
           fill="url(#colorUv)"
         />
       </AreaChart>
       <ExerciseDropDown
         exercise={exercise}
-        setExercise={setExercise}
+        handleExerciseChange={handleExerciseChange}
         kind={kind}
       />
       <KindOfExerciseDropDown kind={kind} />
@@ -250,7 +239,7 @@ const ByDay = () => {
         daysPrior={daysPrior}
         handleRangeChange={handleRangeChange}
       />
-      <button onClick={addExercise}>submit</button>
+      {/* <button onClick={addExercise}>submit</button> */}
     </>
   );
 };

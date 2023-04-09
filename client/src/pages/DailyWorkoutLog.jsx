@@ -1,8 +1,11 @@
-import React, { useState } from "react";
-import dummyData from "../data/dummyData";
+import React, { useState, useContext } from "react";
 import DailyLog from "../Components/DailyWorkoutLog/DailyLog";
-import { convertDateToMMDDYYYYFormat } from "../utils/dateFunctions";
+import {
+  convertDateToMMDDYYYYFormat,
+  sortObjectsWithDatePropertyInMMDDYYYY,
+} from "../utils/dateFunctions";
 import AddExercisesToDay from "../Components/DailyWorkoutLog/AddExercisesToDay";
+import { DataContext } from "../Context/Context";
 
 const findLogForDate = (date, data) => {
   for (let i = 0; i < data.length; i++) {
@@ -14,12 +17,19 @@ const findLogForDate = (date, data) => {
 };
 
 const DailyWorkoutLog = () => {
-  const [data, setData] = useState(dummyData.byDay);
+  const context = useContext(DataContext);
+  const data = context.data;
+  const setData = context.setData;
   const [date, setDate] = useState(new Date());
 
   const handleDateChange = (num) => {
     const newDate = new Date(date.setDate(date.getDate() + num));
     setDate(newDate);
+  };
+
+  const jumpToDate = (e) => {
+    const [year, month, day] = e.currentTarget.value.split("-")
+    setDate(new Date(year, +month-1,day));
   };
 
   const test = convertDateToMMDDYYYYFormat(date);
@@ -38,8 +48,8 @@ const DailyWorkoutLog = () => {
     exerciseIndex,
     setIndex,
     Repetition,
-    Weight,
-    exercise
+    Weight
+    // exercise
   ) => {
     const updatedData = [...data];
     updatedData[logIndex].exercises[exerciseIndex].sets.Repetition[setIndex] =
@@ -74,7 +84,7 @@ const DailyWorkoutLog = () => {
   };
 
   const addSetToExerciseEntry = (exerciseIndex, object) => {
-    const updatedData = [...data]
+    const updatedData = [...data];
     switch (updatedData[logIndex].exercises[exerciseIndex].kind) {
       case "Weights/Reps":
         updatedData[logIndex].exercises[exerciseIndex].sets.Repetition.push(
@@ -100,16 +110,14 @@ const DailyWorkoutLog = () => {
   const addExerciseForDay = (newExercise) => {
     const inputDate = convertDateToMMDDYYYYFormat(date);
     const score = 1;
-
     //insert exercise for date
     let count = 0;
-    const updatedData = [...data];
+    let updatedData = [...data];
     for (let i = 0; i < updatedData.length; i++) {
       if (updatedData[i].date === inputDate) {
         for (let j = 0; j < updatedData[i].exercises.length; j++) {
           if (newExercise.name === updatedData[i].exercises[j].name) {
             count += 1;
-
             switch (newExercise.kind) {
               case "Weights/Reps":
                 updatedData[i].exercises[j].sets.Repetition.push.apply(
@@ -121,7 +129,6 @@ const DailyWorkoutLog = () => {
                   newExercise.sets.Weight
                 );
                 break;
-
               case "Distance/Time":
                 updatedData[i].exercises[j].sets.Time.push.apply(
                   updatedData[i].exercises[j].sets.Time,
@@ -132,29 +139,27 @@ const DailyWorkoutLog = () => {
                   newExercise.sets.Distance
                 );
                 break;
-
               default:
                 break;
             }
-
-            setData(updatedData);
-            return;
           }
+
           if (count === 0 && j === updatedData[i].exercises.length - 1) {
             updatedData[i].exercises.push(newExercise);
             count++;
-            setData(updatedData);
-            return;
           }
         }
       }
     }
+
     if (count === 0) {
       updatedData.push({
         date: inputDate,
         score,
         exercises: [newExercise],
       });
+      //sort newly added day
+      updatedData = sortObjectsWithDatePropertyInMMDDYYYY(updatedData);
     }
     setData(updatedData);
   };
@@ -163,8 +168,19 @@ const DailyWorkoutLog = () => {
     <>
       <div>
         <button onClick={(e) => handleDateChange(-1)}>left</button>
-        <span>{date.toISOString().slice(0, 10)}</span>
+        <label htmlFor="Date">Date:</label>
+        <input
+          type="date"
+          id="start"
+          name="Date"
+          value={date.toISOString().slice(0, 10)}
+          min="2023-04-01"
+          max="2040-12-31"
+          onChange={jumpToDate}
+        ></input>
         <button onClick={(e) => handleDateChange(1)}>right</button>
+        
+       
       </div>
 
       {/* Form to add exercises */}

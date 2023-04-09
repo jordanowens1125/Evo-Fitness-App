@@ -1,7 +1,6 @@
 import React from 'react'
 import WeightRepDisplay from './WeightRepDisplay';
 import AddSetToExercise from './AddSetToExercise';
-import kindsOfExercises from '../../data/exerciseCategories';
 import DistanceTimeDisplay from './DistanceTimeDisplay';
 
 const DailyLog = ({
