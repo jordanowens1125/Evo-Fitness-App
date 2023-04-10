@@ -5,7 +5,8 @@ import {
   sortObjectsWithDatePropertyInMMDDYYYY,
 } from "../utils/dateFunctions";
 import AddExercisesToDay from "../Components/DailyWorkoutLog/AddExercisesToDay";
-import { DataContext } from "../Context/Context";
+import { DataContext } from "../context/Context";
+import AddRoutineToDay from "../Components/DailyWorkoutLog/AddRoutineToDay";
 
 const findLogForDate = (date, data) => {
   for (let i = 0; i < data.length; i++) {
@@ -22,14 +23,16 @@ const DailyWorkoutLog = () => {
   const setData = context.setData;
   const [date, setDate] = useState(new Date());
 
+  const addRoutine = () => {};
+
   const handleDateChange = (num) => {
     const newDate = new Date(date.setDate(date.getDate() + num));
     setDate(newDate);
   };
 
   const jumpToDate = (e) => {
-    const [year, month, day] = e.currentTarget.value.split("-")
-    setDate(new Date(year, +month-1,day));
+    const [year, month, day] = e.currentTarget.value.split("-");
+    setDate(new Date(year, +month - 1, day));
   };
 
   const test = convertDateToMMDDYYYYFormat(date);
@@ -107,7 +110,7 @@ const DailyWorkoutLog = () => {
     }
     setData(updatedData);
   };
-  
+
   const addExerciseForDay = (newExercise) => {
     const inputDate = convertDateToMMDDYYYYFormat(date);
     const score = 1;
@@ -185,7 +188,7 @@ const DailyWorkoutLog = () => {
       {/* Form to add exercises */}
       <AddExercisesToDay addExerciseForDay={addExerciseForDay} />
       {/* End of Form to add exercises */}
-
+      <AddRoutineToDay addRoutine={addRoutine} />
       <div>
         {dailyLog ? (
           <DailyLog

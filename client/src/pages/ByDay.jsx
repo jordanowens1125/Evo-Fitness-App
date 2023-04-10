@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   AreaChart,
   XAxis,
@@ -7,8 +7,9 @@ import {
   Tooltip,
   Area,
 } from "recharts";
-import {kindsOfExercises} from "../data/exerciseCategories";
+import { kindsOfExercises } from "../data/exerciseCategories";
 import {
+  compareDatesInDateFormat,
   convertMMDDYYYYtoDateFormat,
   convertYYYYMMDDtoDate,
   getDatesForRange,
@@ -17,7 +18,7 @@ import {
 } from "../utils/dateFunctions";
 import DateRangeDropDown from "../Components/ByDay/DateRangeDropDown";
 import ExerciseDropDown from "../Components/ByDay/ExerciseDropDown";
-import { DataContext } from "../Context/Context";
+import { DataContext } from "../context/Context";
 import { generateRandomColor } from "../data/colors";
 
 const getDisplayValue = (exercises, exercise, value) => {
@@ -96,24 +97,20 @@ const filterDataByRange = (data, dateRange) => {
 };
 
 const ByDay = () => {
-  
   const [date, setDate] = useState(new Date());
-  const [dynamicMode, setDynamicMode] = useState(false)
   const [daysPrior, setDaysPrior] = useState(7);
-  const [priorDate,setPriorDate] = useState(new Date(
-    new Date().setDate(date.getDate() - daysPrior))
+  const [priorDate, setPriorDate] = useState(
+    new Date(new Date().setDate(date.getDate() - daysPrior))
   );
   const [exercise, setExercise] = useState(
     kindsOfExercises["Weights/Reps"]["exercises"][0]
   );
-  const [randomColor, setRandomColor] = useState(generateRandomColor())
+  const [randomColor, setRandomColor] = useState(generateRandomColor());
   const [kind, setKind] = useState("Weights/Reps");
   const [details, setDetails] = useState(kindsOfExercises[kind]["details"][0]);
-  const [dateRange, setDateRange] = useState(
-    getDatesForRange(priorDate, date)
-  );
-  const context = useContext(DataContext)
-  const data = context.data
+  const [dateRange, setDateRange] = useState(getDatesForRange(priorDate, date));
+  const context = useContext(DataContext);
+  const data = context.data;
   const emptyData = populateEmptyData(dateRange, details);
   const filteredDataForRange = filterDataByRange(data, dateRange);
   const filledData = inputDataIntoEmptyList(
@@ -121,38 +118,32 @@ const ByDay = () => {
     emptyData,
     exercise,
     details
-  )
+  );
 
   const setDateToToday = () => {
-    const newDate = new Date()
+    const newDate = new Date();
+    setDateInfo(newDate);
+  };
+
+  const jumpToDate = (e) => {
+    const newDate = convertYYYYMMDDtoDate(e.currentTarget.value);
+    setDateInfo(newDate);
+  };
+
+  const testLeft = () => {
+    setDateInfo(priorDate);
+  };
+  const testRight = () => {
+    const futureDate = getFutureDate(date, daysPrior);
+    setDateInfo(futureDate);
+  };
+
+  const setDateInfo = (newDate) => {
     setDate(newDate);
     const newPriorDate = getPriorDate(newDate, daysPrior);
     setPriorDate(newPriorDate);
     setDateRange(getDatesForRange(newPriorDate, newDate));
-  }
-
-  const jumpToDate = (e) => {
-    const newDate = convertYYYYMMDDtoDate(e.currentTarget.value)
-    setDate(newDate)  
-    const newPriorDate = getPriorDate(newDate, daysPrior)
-    setPriorDate(newPriorDate)
-    setDateRange(getDatesForRange(newPriorDate, newDate));
-  }
-
-  const testLeft = () => {
-    setDate(priorDate)
-    const newPriorDate = getPriorDate(priorDate, daysPrior)
-    setPriorDate(newPriorDate)
-    setDateRange(getDatesForRange(newPriorDate, priorDate));
-  }
-
-  const testRight = () => {
-    const futureDate = getFutureDate(date, daysPrior)
-    setDate(futureDate);
-    const newPriorDate = getPriorDate(futureDate, daysPrior);
-    setPriorDate(newPriorDate);
-    setDateRange(getDatesForRange(newPriorDate, futureDate));
-  }
+  };
 
   const handleKindChange = (e) => {
     setKind(e.currentTarget.value);
@@ -162,13 +153,13 @@ const ByDay = () => {
   };
 
   const handleExerciseChange = (e) => {
-    setRandomColor(generateRandomColor())
-    setExercise(e.currentTarget.value)
-  }
+    setRandomColor(generateRandomColor());
+    setExercise(e.currentTarget.value);
+  };
 
   const handleRangeChange = (e) => {
-    const newPriorDate = getPriorDate(date, e.currentTarget.value)
-    setDaysPrior(e.currentTarget.value)
+    const newPriorDate = getPriorDate(date, e.currentTarget.value);
+    setDaysPrior(e.currentTarget.value);
     setPriorDate(newPriorDate);
     setDateRange(getDatesForRange(newPriorDate, date));
   };
@@ -226,11 +217,11 @@ const ByDay = () => {
         onChange={jumpToDate}
       ></input>
 
-      {date.getDate() === new Date().getDate() ? (
+      {compareDatesInDateFormat(date, new Date()) ? (
         <></>
       ) : (
         <>
-          <button onClick={setDateToToday}>Set end date as today</button>
+          <button onClick={setDateToToday}>Today</button>
         </>
       )}
       <button onClick={testLeft}>Left</button>
@@ -257,7 +248,7 @@ const ByDay = () => {
         </defs>
         <XAxis dataKey="date" />
         <YAxis />
-        <CartesianGrid strokeDasharray="3 3" />
+        <CartesianGrid strokeDasharray="3 6" />
         <Tooltip />
         <Area
           type="monotone"
@@ -274,8 +265,6 @@ const ByDay = () => {
       />
       <KindOfExerciseDropDown kind={kind} />
       <DetailsDropDown details={details} setDetails={setDetails} />
-
-      {dynamicMode ? <>on</> : <>off</>}
     </>
   );
 };

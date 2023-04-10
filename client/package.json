@@ -4,10 +4,6 @@
   "private": true,
   "dependencies": {
     "@fullcalendar/core": "^6.1.5",
-    "@fullcalendar/daygrid": "^6.1.5",
-    "@fullcalendar/interaction": "^6.1.5",
-    "@fullcalendar/multimonth": "^6.1.5",
-    "@fullcalendar/react": "^6.1.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",

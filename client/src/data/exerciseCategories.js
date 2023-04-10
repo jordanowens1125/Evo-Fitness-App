@@ -70,10 +70,12 @@ let exercises = []
 Object.keys(kindsOfExercises).forEach(function (key) {
   if (kindsOfExercises[key].exercises.length > 0) {
     const exerciseObjects = kindsOfExercises[key].exercises.map((exercise) => {
+      const kindOfExercise = kindsOfExercises[key]
     return {
       name: exercise,
       kind: key,
-      units: kindsOfExercises[key].units,
+      units: kindOfExercise.units,
+      defaultSets: kindOfExercise.defaultSets,
     };
   });
   exercises = [...exercises, ...exerciseObjects];

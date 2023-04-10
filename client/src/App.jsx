@@ -6,13 +6,17 @@ import "./App.css";
 import dummyData from "./data/dummyData";
 import ByDay from "./pages/ByDay";
 import DailyWorkoutLog from "./pages/DailyWorkoutLog";
-import Calendar from "./pages/Calendar";
 import Layout from "./pages/Layout";
-import { DataContext } from "./Context/Context";
+import { DataContext } from "./context/Context";
 import AllWorkouts from "./pages/AllWorkouts";
+import ExerciseLog from "./pages/ExerciseLog";
+import CreateWorkout from "./pages/CreateWorkout";
+import Routines from "./pages/Routines";
+import {storedRoutines} from './data/routines' 
 
 function App() {
   const [data, setData] = useState(dummyData.byDay);
+  const [routines, setRoutines] = useState(storedRoutines);
   // const router = createBrowserRouter([
   //   {
   //     path: "/",
@@ -32,10 +36,13 @@ function App() {
   return (
     <div className="App">
       {/* <RouterProvider router={router} /> */}
-      <DataContext.Provider value={{ data, setData }}>
+      <DataContext.Provider value={{ data, setData, routines, setRoutines }}>
+        
         <ByDay />
-        <DailyWorkoutLog />
-        {/* <Calendar /> */}
+        <CreateWorkout />
+        <Routines/>
+        {/* <ExerciseLog /> */}
+        {/* <DailyWorkoutLog /> */}
         {/* <AllWorkouts/> */}
       </DataContext.Provider>
     </div>

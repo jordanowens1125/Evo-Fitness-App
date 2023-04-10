@@ -18,7 +18,7 @@ const byDay = [
         units: "Pounds",
         sets: {
           Repetition: [5, 9],
-          Weight: [15, 1, 3],
+          Weight: [15, 1],
         },
       },
     ],

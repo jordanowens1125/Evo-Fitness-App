@@ -1,5 +1,5 @@
 import { daysPriorOptions } from "../data/timeData";
-
+import dayjs from "dayjs";
 //format returned is 'MM-DD-YYYY'
 export const getDatesForRange = (start, end) => {
     for (
@@ -132,6 +132,12 @@ export const convertMMDDYYYYtoYYYYMMDD = (date) => {
 export const convertYYYYMMDDtoDate = (date) => {
   const [year, month, day] = date.split('-')
   return new Date(year, month-1,day)
+}
+
+export const compareDatesInDateFormat = (date1, date2) => {
+  return (
+    dayjs(date1).format("DD/MM/YYYY") === dayjs(date2).format("DD/MM/YYYY")
+  ); 
 }
 
 export const sortObjectsWithDatePropertyInMMDDYYYY = (items) => {
