@@ -3,6 +3,9 @@ export const colors = [
   "#fe68ce", //pink
   "#4cddfe", //blue
   "#8266cf", //purple
+  "#45B69C",  
+  "#28C2FF",
+  "#3066BE",
   // "red",
   // "green",
   // "blue",

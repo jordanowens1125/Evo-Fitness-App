@@ -107,6 +107,7 @@ const DailyWorkoutLog = () => {
     }
     setData(updatedData);
   };
+  
   const addExerciseForDay = (newExercise) => {
     const inputDate = convertDateToMMDDYYYYFormat(date);
     const score = 1;
@@ -179,8 +180,6 @@ const DailyWorkoutLog = () => {
           onChange={jumpToDate}
         ></input>
         <button onClick={(e) => handleDateChange(1)}>right</button>
-        
-       
       </div>
 
       {/* Form to add exercises */}

@@ -1,6 +1,11 @@
+const Weight = 'Weight'
+const Distance = 'Distance'
+const Time = 'Time'
+const Repetition= 'Repetition'
+
 const kindsOfExercises = {
   "Weights/Reps": {
-    details: ["Repetition", "Weight"],
+    details: [Repetition, Weight],
     exercises: ["Pushups", "Pullups"],
     units: "Pounds",
     defaultSets: {
@@ -9,9 +14,8 @@ const kindsOfExercises = {
     },
   },
   "Distance/Time": {
-    details: ["Distance", "Time", "Average Distance Over Time"],
-    etc:[],
-    
+    details: [Distance, Time, ],
+    etc:["Average Distance Over Time"],
     exercises: ["Jog"],
     units: "Miles",
     defaultSets: {
@@ -20,7 +24,7 @@ const kindsOfExercises = {
     },
   },
   Time: {
-    details: ["Time"],
+    details: [Time],
     exercises: [],
     // defaultSets: {
     //   Repetition: [1],
@@ -28,7 +32,7 @@ const kindsOfExercises = {
     // }
   },
   "Weights/Distance": {
-    details: [],
+    details: [Weight, Distance],
     exercises: [],
     // defaultSets: {
     //   Repetition: [1],
@@ -36,7 +40,7 @@ const kindsOfExercises = {
     // }
   },
   "Reps/Distance": {
-    details: [],
+    details: [Repetition, Distance],
     exercises: [],
     // defaultSets: {
     //   Repetition: [1],
@@ -44,19 +48,19 @@ const kindsOfExercises = {
     // }
   },
   "Reps/Time": {
-    details: [],
+    details: [Repetition,Time],
     exercises: [],
   },
   Weight: {
-    details: [],
+    details: [Weight],
     exercises: [],
   },
   Reps: {
-    details: [],
+    details: [Repetition],
     exercises: [],
   },
   Distance: {
-    details: [],
+    details: [Distance],
     exercises: [],
   },
 };
@@ -64,7 +68,8 @@ const kindsOfExercises = {
 let exercises = []
 
 Object.keys(kindsOfExercises).forEach(function (key) {
-  const exerciseObjects = kindsOfExercises[key].exercises.map((exercise) => {
+  if (kindsOfExercises[key].exercises.length > 0) {
+    const exerciseObjects = kindsOfExercises[key].exercises.map((exercise) => {
     return {
       name: exercise,
       kind: key,
@@ -72,6 +77,7 @@ Object.keys(kindsOfExercises).forEach(function (key) {
     };
   });
   exercises = [...exercises, ...exerciseObjects];
+  }
 });
 
 module.exports = {kindsOfExercises, exercises}

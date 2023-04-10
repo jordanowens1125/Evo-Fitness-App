@@ -1,3 +1,4 @@
+import { daysPriorOptions } from "../data/timeData";
 
 //format returned is 'MM-DD-YYYY'
 export const getDatesForRange = (start, end) => {
@@ -11,6 +12,48 @@ export const getDatesForRange = (start, end) => {
   }
     return arr;
 }
+
+export const getFutureDate = (date, rangeValue) => {
+  let futureDate = structuredClone(date);
+  switch (rangeValue) {
+    case daysPriorOptions[0]: //Week
+      futureDate.setDate(futureDate.getDate() + 7);
+      break;
+    case daysPriorOptions[1]: //Month
+      futureDate = getDateOfOneMonthLater(futureDate);
+      break;
+    case daysPriorOptions[2]: //6 Months
+      futureDate = getDateSixMonthsLater(futureDate);
+      break;
+    case daysPriorOptions[3]: //Year
+      futureDate = getDateOneYearLater(futureDate);
+      break;
+    default:
+      futureDate.setDate(futureDate.getDate() + 7);
+  }
+  return futureDate;
+};
+
+export const getPriorDate = (date, rangeValue) => {
+  let newPriorDate = structuredClone(date);
+  switch (rangeValue) {
+    case daysPriorOptions[0]: //Week
+      newPriorDate.setDate(newPriorDate.getDate() - 7);
+      break;
+    case daysPriorOptions[1]: //Month
+      newPriorDate = getDateOfOneMonthPrior(newPriorDate);
+      break;
+    case daysPriorOptions[2]: //6 Months
+      newPriorDate = getDateSixMonthsPrior(newPriorDate);
+      break;
+    case daysPriorOptions[3]: //Year
+      newPriorDate = getDateOneYearPrior(newPriorDate);
+      break;
+    default:
+      newPriorDate.setDate(newPriorDate.getDate() - 7);
+  }
+  return newPriorDate;
+};
 
 export const getDateOfOneMonthPrior = (date) => {
   const newDate = new Date(date.getFullYear(), date.getMonth() - 1, date.getDate())
@@ -38,6 +81,36 @@ export const getDateOneYearPrior = (date) => {
   return newDate;
 };
 
+export const getDateOfOneMonthLater = (date) => {
+  const newDate = new Date(
+    date.getFullYear(),
+    date.getMonth() + 1,
+    date.getDate()
+  );
+  if (newDate.getMonth() === date.getMonth()) {
+    return new Date(date.getFullYear(), date.getMonth(), 0);
+  }
+  return newDate;
+};
+
+export const getDateSixMonthsLater = (date) => {
+  const newDate = new Date(
+    date.getFullYear(),
+    date.getMonth() + 6,
+    date.getDate()
+  );
+  return newDate;
+};
+
+export const getDateOneYearLater = (date) => {
+  const newDate = new Date(
+    date.getFullYear() + 1,
+    date.getMonth(),
+    date.getDate()
+  );
+  return newDate;
+};
+
 export const convertMMDDYYYYtoDateFormat = (dateInMMDDYYFormat) => {
   const [month, day, year] = dateInMMDDYYFormat.split("-");
   const dateFormatted = new Date(year, month - 1, day); //minus 1 because months are 0 indexed
@@ -56,9 +129,15 @@ export const convertMMDDYYYYtoYYYYMMDD = (date) => {
   return `${year}-${month}-${day}`
 }
 
+export const convertYYYYMMDDtoDate = (date) => {
+  const [year, month, day] = date.split('-')
+  return new Date(year, month-1,day)
+}
+
 export const sortObjectsWithDatePropertyInMMDDYYYY = (items) => {
   const newItems = items.sort(function (a, b) {
     return (convertMMDDYYYYtoDateFormat(a.date) - convertMMDDYYYYtoDateFormat(b.date))
   })
   return newItems
 }
+

@@ -35,7 +35,7 @@ function App() {
       <DataContext.Provider value={{ data, setData }}>
         <ByDay />
         <DailyWorkoutLog />
-        <Calendar />
+        {/* <Calendar /> */}
         {/* <AllWorkouts/> */}
       </DataContext.Provider>
     </div>

@@ -10,12 +10,11 @@ import {
 import {kindsOfExercises} from "../data/exerciseCategories";
 import {
   convertMMDDYYYYtoDateFormat,
-  getDateOfOneMonthPrior,
-  getDateOneYearPrior,
-  getDateSixMonthsPrior,
+  convertYYYYMMDDtoDate,
   getDatesForRange,
+  getFutureDate,
+  getPriorDate,
 } from "../utils/dateFunctions";
-import { daysPriorOptions } from "../data/timeData";
 import DateRangeDropDown from "../Components/ByDay/DateRangeDropDown";
 import ExerciseDropDown from "../Components/ByDay/ExerciseDropDown";
 import { DataContext } from "../Context/Context";
@@ -97,10 +96,12 @@ const filterDataByRange = (data, dateRange) => {
 };
 
 const ByDay = () => {
-  const [currentDate, setCurrentDate] = useState(new Date());
+  
+  const [date, setDate] = useState(new Date());
+  const [dynamicMode, setDynamicMode] = useState(false)
   const [daysPrior, setDaysPrior] = useState(7);
-  const priorDate = new Date(
-    new Date().setDate(currentDate.getDate() - daysPrior)
+  const [priorDate,setPriorDate] = useState(new Date(
+    new Date().setDate(date.getDate() - daysPrior))
   );
   const [exercise, setExercise] = useState(
     kindsOfExercises["Weights/Reps"]["exercises"][0]
@@ -109,7 +110,7 @@ const ByDay = () => {
   const [kind, setKind] = useState("Weights/Reps");
   const [details, setDetails] = useState(kindsOfExercises[kind]["details"][0]);
   const [dateRange, setDateRange] = useState(
-    getDatesForRange(priorDate, currentDate)
+    getDatesForRange(priorDate, date)
   );
   const context = useContext(DataContext)
   const data = context.data
@@ -121,6 +122,37 @@ const ByDay = () => {
     exercise,
     details
   )
+
+  const setDateToToday = () => {
+    const newDate = new Date()
+    setDate(newDate);
+    const newPriorDate = getPriorDate(newDate, daysPrior);
+    setPriorDate(newPriorDate);
+    setDateRange(getDatesForRange(newPriorDate, newDate));
+  }
+
+  const jumpToDate = (e) => {
+    const newDate = convertYYYYMMDDtoDate(e.currentTarget.value)
+    setDate(newDate)  
+    const newPriorDate = getPriorDate(newDate, daysPrior)
+    setPriorDate(newPriorDate)
+    setDateRange(getDatesForRange(newPriorDate, newDate));
+  }
+
+  const testLeft = () => {
+    setDate(priorDate)
+    const newPriorDate = getPriorDate(priorDate, daysPrior)
+    setPriorDate(newPriorDate)
+    setDateRange(getDatesForRange(newPriorDate, priorDate));
+  }
+
+  const testRight = () => {
+    const futureDate = getFutureDate(date, daysPrior)
+    setDate(futureDate);
+    const newPriorDate = getPriorDate(futureDate, daysPrior);
+    setPriorDate(newPriorDate);
+    setDateRange(getDatesForRange(newPriorDate, futureDate));
+  }
 
   const handleKindChange = (e) => {
     setKind(e.currentTarget.value);
@@ -135,27 +167,10 @@ const ByDay = () => {
   }
 
   const handleRangeChange = (e) => {
-    setDaysPrior(e.currentTarget.value);
-    let newPriorDate = new Date();
-
-    switch (e.currentTarget.value) {
-      case daysPriorOptions[0]: //Week
-        newPriorDate.setDate(newPriorDate.getDate() - 7);
-        break;
-      case daysPriorOptions[1]: //Month
-        newPriorDate = getDateOfOneMonthPrior(newPriorDate);
-        break;
-      case daysPriorOptions[2]: //6 Months
-        newPriorDate = getDateSixMonthsPrior(newPriorDate);
-        break;
-      case daysPriorOptions[3]: //Year
-        newPriorDate = getDateOneYearPrior(newPriorDate);
-        break;
-      default:
-        newPriorDate.setDate(newPriorDate.getDate() - 7);
-    }
-
-    setDateRange(getDatesForRange(newPriorDate, new Date()));
+    const newPriorDate = getPriorDate(date, e.currentTarget.value)
+    setDaysPrior(e.currentTarget.value)
+    setPriorDate(newPriorDate);
+    setDateRange(getDatesForRange(newPriorDate, date));
   };
 
   const KindOfExerciseDropDown = ({ kind }) => {
@@ -196,9 +211,33 @@ const ByDay = () => {
   };
   return (
     <>
+      <DateRangeDropDown
+        daysPrior={daysPrior}
+        handleRangeChange={handleRangeChange}
+      />
+      <label htmlFor="Date">Date:</label>
+      <input
+        type="date"
+        id="start"
+        name="Date"
+        value={date.toISOString().slice(0, 10)}
+        min="2022-04-01"
+        max="2040-12-31"
+        onChange={jumpToDate}
+      ></input>
+
+      {date.getDate() === new Date().getDate() ? (
+        <></>
+      ) : (
+        <>
+          <button onClick={setDateToToday}>Set end date as today</button>
+        </>
+      )}
+      <button onClick={testLeft}>Left</button>
+      <button onClick={testRight}>Right</button>
       <AreaChart
-        width={730}
-        height={250}
+        width={800}
+        height={300}
         data={filledData}
         margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
       >
@@ -235,11 +274,8 @@ const ByDay = () => {
       />
       <KindOfExerciseDropDown kind={kind} />
       <DetailsDropDown details={details} setDetails={setDetails} />
-      <DateRangeDropDown
-        daysPrior={daysPrior}
-        handleRangeChange={handleRangeChange}
-      />
-      {/* <button onClick={addExercise}>submit</button> */}
+
+      {dynamicMode ? <>on</> : <>off</>}
     </>
   );
 };
