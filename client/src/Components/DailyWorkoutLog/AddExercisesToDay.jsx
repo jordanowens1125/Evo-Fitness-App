@@ -1,99 +1,24 @@
 import React, { useState } from "react";
 import { kindsOfExercises } from "../../data/exerciseCategories";
-
-const WeightsReps = (newExercise, index, reps, weight, handleSetChange) => {
-  const handleChange = (e) => {
-    handleSetChange(index, e.currentTarget.value, e.currentTarget.id);
-  };
-  return (
-    <>
-      <input
-        type="number"
-        name=""
-        id={`Repetition`}
-        placeholder="Reps"
-        value={reps}
-        onChange={handleChange}
-      />
-      <input
-        type="number"
-        name=""
-        id={`Weight`}
-        placeholder="Weight"
-        value={weight}
-        onChange={handleChange}
-      />
-      {newExercise.units}
-    </>
-  );
-};
-
-const TimeDistance = (newExercise, index, time, distance, handleSetChange) => {
-  const handleChange = (e) => {
-    handleSetChange(index, e.currentTarget.value, e.currentTarget.id);
-  };
-  return (
-    <>
-      <input
-        type="number"
-        name=""
-        id={`Time`}
-        placeholder="Time"
-        value={time}
-        onChange={handleChange}
-      />
-      <input
-        type="number"
-        name=""
-        id={`Distance`}
-        placeholder="Distance"
-        value={distance}
-        onChange={handleChange}
-      />
-      {newExercise.units}
-    </>
-  );
-};
+import DisplaySets from "./DisplaySets";
 
 const DifferentWorkoutDisplay = (newExercise, handleSetChange) => {
-  switch (newExercise.kind) {
-    case "Weights/Reps":
-      return newExercise.sets.Repetition.map((reps, index) => {
-        return (
-          <li key={index}>
-            {WeightsReps(
-              newExercise,
-              index,
-              reps,
-              newExercise.sets.Weight[index],
-              handleSetChange
-            )}
-          </li>
-        );
-      });
-    case "Distance/Time":
-      return newExercise.sets.Time.map((time, index) => {
-        return (
-          <li key={index}>
-            {TimeDistance(
-              newExercise,
-              index,
-              time,
-              newExercise.sets.Distance[index],
-              handleSetChange
-            )}
-          </li>
-        );
-      });
-
-    default:
-      return <h1>No exercise of this kind</h1>;
-  }
+  const detailReference = kindsOfExercises[newExercise.kind].details[0];
+  return newExercise.sets[detailReference].map((value, index) => {
+    return (
+      <div key={index}>
+        <DisplaySets
+          newExercise={newExercise}
+          index={index}
+          handleSetChange={handleSetChange}
+        />
+      </div>
+    );
+  });
 };
 
 const AddExercisesToDay = ({ addExerciseForDay }) => {
   const [newWorkoutMode, setNewWorkoutMode] = useState(false);
-  const [newSetMode, setNewSetMode] = useState(false);
   const [exerciseValue, setExerciseValue] = useState(0);
 
   let exercises = [];
@@ -114,7 +39,7 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
     kind: exercises[0].kind,
     units: exercises[0].units,
     sets: {
-      Repetition: [1],
+      Repetition: [0],
       Weight: [0],
     },
   });
@@ -125,13 +50,13 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
 
   const cancel = () => {
     setNewWorkoutMode(false);
-    setExerciseValue(0)
+    setExerciseValue(0);
     setNewExercise({
       name: exercises[0].name,
       kind: exercises[0].kind,
       units: exercises[0].units,
       sets: {
-        Repetition: [1],
+        Repetition: [0],
         Weight: [0],
       },
     });
@@ -139,33 +64,26 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
 
   const setExerciseName = (e) => {
     const updatedExercise = { ...newExercise };
+    
     setExerciseValue(e.currentTarget.value);
     updatedExercise["name"] = exercises[e.currentTarget.value].name;
     updatedExercise["kind"] = exercises[e.currentTarget.value].kind;
     updatedExercise["units"] = exercises[e.currentTarget.value].units;
-    const copiedSets = structuredClone(
+    const defaultSets = structuredClone(
       kindsOfExercises[exercises[e.currentTarget.value].kind].defaultSets
     );
-    updatedExercise.sets = copiedSets
-    setNewExercise(updatedExercise);
+    updatedExercise["sets"] = defaultSets;
+    setNewExercise(updatedExercise)
   };
 
   const addNewSetToExercise = () => {
     const updatedExercise = { ...newExercise };
-    switch (newExercise.kind) {
-      case "Weights/Reps":
-        updatedExercise.sets.Repetition = [
-          ...updatedExercise.sets.Repetition,
-          1,
-        ];
-        updatedExercise.sets.Weight = [...updatedExercise.sets.Weight, 0];
-        break;
-      case "Distance/Time":
-        updatedExercise.sets.Distance = [...updatedExercise.sets.Distance, 0];
-        updatedExercise.sets.Time = [...updatedExercise.sets.Time, 0];
-        break;
-      default:
-        break;
+    const kindofExercise = kindsOfExercises[updatedExercise.kind];
+    const details = kindofExercise.details;
+    const defaultSets = kindofExercise.defaultSets;
+    for (let i = 0; i < details.length; i++) {
+      updatedExercise.sets[details[i]] = updatedExercise.sets[details[i]].concat(
+        defaultSets[details[i]][0])
     }
     setNewExercise(updatedExercise);
   };
@@ -180,6 +98,7 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
     updatedExercise.sets[itemname][index] = +value;
     setNewExercise(updatedExercise);
   };
+
   return (
     <>
       {newWorkoutMode ? (
@@ -198,13 +117,10 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
             ))}
           </select>
           {/* Dropdown depends on exercise type */}
-
           {DifferentWorkoutDisplay(newExercise, handleSetChange)}
 
           <button onClick={addNewSetToExercise}>Add new set</button>
-          <button onClick={addNewExerciseAndSets}>
-            Add Exercise and its sets to Day
-          </button>
+          <button onClick={addNewExerciseAndSets}>Finish</button>
           <button onClick={cancel}>Cancel</button>
         </>
       ) : (

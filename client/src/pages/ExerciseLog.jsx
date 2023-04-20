@@ -29,7 +29,7 @@ const ExerciseLog = () => {
   const [exercise, setExercise] = useState(exercises[0].name);
   const context = useContext(DataContext);
   const data = context.data;
-  const test = returnDaysWithExercise(data, exercise);
+  const daysWithExercises = returnDaysWithExercise(data, exercise);
   const handleExerciseChange = (e) => {
     setExercise(e.currentTarget.value);
   };
@@ -41,7 +41,7 @@ const ExerciseLog = () => {
         handleExerciseChange={handleExerciseChange}
       />
 
-      {test.map((idk) => {
+      {daysWithExercises.map((idk) => {
         return (
           <div key={idk.date}>
             {idk.date}

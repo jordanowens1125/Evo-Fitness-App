@@ -1,84 +1,106 @@
-import React from 'react'
-import WeightRepDisplay from './WeightRepDisplay';
-import AddSetToExercise from './AddSetToExercise';
-import DistanceTimeDisplay from './DistanceTimeDisplay';
+import React, { useState } from "react";
+import SetsDisplayForLog from "./SetsDisplayForLog";
+import { kindsOfExercises } from "../../data/exerciseCategories";
 
 const DailyLog = ({
   log,
   removeExerciseFromLog,
   updateExerciseEntryForDay,
-  addSetToExerciseEntry,
   removeSetFromExercise,
 }) => {
+  const WorkoutDisplay = (
+    exercise,
+    exerciseIndex,
+    editMode,
+    setUpdatedExercise
+  ) => {
+    const detailReference = kindsOfExercises[exercise.kind].details[0];
 
-  const DifferentWorkoutDisplay = (exercise, exerciseIndex) => {
-    switch (exercise.kind) {
-      case "Weights/Reps":
-        return (
-          exercise.sets.Repetition.map((rep, setIndex) => {
-            return (
-              <div key={setIndex}>
-                <WeightRepDisplay
-                  Repetition={rep}
-                  Weight={exercise.sets.Weight[setIndex]}
-                  SetIndex={setIndex}
-                  Units={exercise.units}
-                  updateExerciseEntryForDay={updateExerciseEntryForDay}
-                  exerciseIndex={exerciseIndex}
-                ></WeightRepDisplay>
-                <button
-                  onClick={(e) =>
-                    removeSetFromExercise(exerciseIndex, setIndex)
-                  }
-                >
-                  Remove Set
-                </button>
-              </div>
-            );
-          }))
-          ;
-      case "Distance/Time":
-        return exercise.sets.Time.map((time, setIndex) => {
-          return (
-            <div key={setIndex}>
-              <DistanceTimeDisplay
-                Time={time}
-                Distance={exercise.sets.Distance[setIndex]}
-                SetIndex={setIndex}
-                Units={exercise.units}
-                updateExerciseEntryForDay={updateExerciseEntryForDay}
-                exerciseIndex={exerciseIndex}
-              ></DistanceTimeDisplay>
-              <button
-                onClick={(e) => removeSetFromExercise(exerciseIndex, setIndex)}
-              >
-                Remove Set
+    const result = exercise.sets[detailReference].map((value, index) => {
+      return (
+        <div key={index}>
+          <SetsDisplayForLog
+            exercise={exercise}
+            editMode={editMode}
+            SetIndex={index}
+            exerciseIndex={exerciseIndex}
+            updateExerciseEntryForDay={updateExerciseEntryForDay}
+            removeSetFromExercise={removeSetFromExercise}
+            setUpdatedExercise={setUpdatedExercise}
+          ></SetsDisplayForLog>
+        </div>
+      );
+    });
+    return result;
+  };
+
+  const ExerciseDisplay = ({ exercise, exerciseIndex }) => {
+    const [editMode, setEditMode] = useState(false);
+    const [updatedExercise, setUpdatedExercise] = useState(
+      structuredClone(exercise)
+    );
+      
+    const addNewSet = () => {
+      const copy = structuredClone(updatedExercise)
+      const newSet = kindsOfExercises[updatedExercise.kind].defaultSets
+      const details = kindsOfExercises[updatedExercise.kind].details;
+      for (let i = 0; i < details.length; i++){
+        const detail = details[i]
+        copy.sets[detail]= [...copy.sets[detail],...newSet[detail]]
+      }
+      setUpdatedExercise(copy)
+    };
+
+    const handleSubmit = () => {
+      updateExerciseEntryForDay(updatedExercise, exerciseIndex);
+    };
+    return (
+      <>
+        {editMode ? (
+          <>
+            <div key={exercise.name}>
+              {exercise.name}
+              <button onClick={addNewSet}>New Set?</button>
+              <button onClick={() => setEditMode(false)}>Cancel</button>
+              <button onClick={(e) => removeExerciseFromLog(exerciseIndex)}>
+                Delete this exercise from day
               </button>
+              <button onClick={() => handleSubmit()}>Submit</button>
+              Sets:
+              {WorkoutDisplay(
+                updatedExercise,
+                exerciseIndex,
+                editMode,
+                setUpdatedExercise
+              )}
             </div>
-          );
-        });
-      default:
-        return <h1>No exercise of this kind</h1>;
-    }
-  }
+          </>
+        ) : (
+          <>
+            <div key={exercise.name}>
+              {exercise.name}
+              <button onClick={() => setEditMode(true)}>Edit</button>
+              Sets:
+              {WorkoutDisplay(exercise, exerciseIndex)}
+            </div>
+          </>
+        )}
+      </>
+    );
+  };
   return (
     <>
       {log.exercises.map((exercise, exerciseIndex) => {
         return (
-          <div key={exercise.name}>
-            {exercise.name}
-            <button onClick={(e) => removeExerciseFromLog(exerciseIndex)}>
-              Delete this exercise from day
-            </button>
-            {/* Depends on exercise type */}
-            Sets:
-            {DifferentWorkoutDisplay(exercise,exerciseIndex)}
-            <AddSetToExercise exerciseIndex={exerciseIndex} addSetToExerciseEntry={addSetToExerciseEntry} exercise={exercise} />
-          </div>
+          <ExerciseDisplay
+            exercise={exercise}
+            exerciseIndex={exerciseIndex}
+            key={exerciseIndex}
+          />
         );
       })}
     </>
   );
 };
 
-export default DailyLog
+export default DailyLog;

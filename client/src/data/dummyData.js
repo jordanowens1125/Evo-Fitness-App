@@ -56,6 +56,11 @@ const byDay = [
   {
     date: "03-11-2023",
     score: 10,
+    // weight: {
+    //   value: 180,
+    //   units: 'metric'
+    // },
+    weight: 10,
     exercises: [
       {
         name: "Pullups",
@@ -128,6 +133,31 @@ const byDay = [
   {
     date: "04-06-2023",
     score: 10,
+    exercises: [
+      {
+        name: "Pullups",
+        kind: "Weights/Reps",
+        units: "Pounds",
+        sets: {
+          Repetition: [5],
+          Weight: [15],
+        },
+      },
+      {
+        name: "Pushups",
+        kind: "Weights/Reps",
+        units: "Pounds",
+        sets: {
+          Repetition: [5, 9],
+          Weight: [15, 0],
+        },
+      },
+    ],
+  },
+  {
+    date: "04-19-2023",
+    score: 10,
+    weight:10,
     exercises: [
       {
         name: "Pullups",

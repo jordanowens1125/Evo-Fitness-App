@@ -11,8 +11,10 @@ import { DataContext } from "./context/Context";
 import AllWorkouts from "./pages/AllWorkouts";
 import ExerciseLog from "./pages/ExerciseLog";
 import CreateWorkout from "./pages/CreateWorkout";
-import Routines from "./pages/Routines";
-import {storedRoutines} from './data/routines' 
+import { storedRoutines } from "./data/routines";
+import { PieChart, Pie } from "recharts";
+import Macros from "./pages/Macros";
+import WeightTracker from "./pages/WeightTracker";
 
 function App() {
   const [data, setData] = useState(dummyData.byDay);
@@ -37,13 +39,14 @@ function App() {
     <div className="App">
       {/* <RouterProvider router={router} /> */}
       <DataContext.Provider value={{ data, setData, routines, setRoutines }}>
-        
-        <ByDay />
-        <CreateWorkout />
-        <Routines/>
+        {/* <ByDay /> */}
+        {/* 
+        <DailyWorkoutLog />
+        <CreateWorkout /> */}
         {/* <ExerciseLog /> */}
-        {/* <DailyWorkoutLog /> */}
-        {/* <AllWorkouts/> */}
+        <WeightTracker/>
+          {/* <AllWorkouts /> */}
+        {/* <Macros /> */}
       </DataContext.Provider>
     </div>
   );

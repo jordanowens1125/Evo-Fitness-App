@@ -6,6 +6,7 @@ import {
   CartesianGrid,
   Tooltip,
   Area,
+  Legend,
 } from "recharts";
 import { kindsOfExercises } from "../data/exerciseCategories";
 import {
@@ -44,6 +45,7 @@ const populateEmptyData = (newDates, details) => {
       date: newDates[i],
       score: 0,
       exercises: [],
+      weight:0,
     };
     emptyData[details] = 0;
     dates.push(emptyData);
@@ -213,7 +215,7 @@ const ByDay = () => {
         name="Date"
         value={date.toISOString().slice(0, 10)}
         min="2022-04-01"
-        max="2040-12-31"
+        max="2035-12-31"
         onChange={jumpToDate}
       ></input>
 
@@ -237,18 +239,19 @@ const ByDay = () => {
             <stop
               offset="5%"
               stopColor={randomColor || "#8884d8"}
-              stopOpacity={0.8}
+              stopOpacity={0.5}
             />
             <stop
-              offset="95%"
+              offset="90%"
               stopColor={randomColor || "#8884d8"}
               stopOpacity={0}
             />
           </linearGradient>
         </defs>
-        <XAxis dataKey="date" />
-        <YAxis />
-        <CartesianGrid strokeDasharray="3 6" />
+        <Legend verticalAlign="top" height={36} />
+        <XAxis dataKey="date" tickLine={false} />
+        <YAxis tickLine={false} />
+        {/* <CartesianGrid strokeDasharray=".5 3" /> */}
         <Tooltip />
         <Area
           type="monotone"
@@ -256,6 +259,7 @@ const ByDay = () => {
           stroke={randomColor || "#8884d8"}
           fillOpacity={1}
           fill="url(#colorUv)"
+          dot={true}
         />
       </AreaChart>
       <ExerciseDropDown

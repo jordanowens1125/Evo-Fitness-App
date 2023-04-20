@@ -7,6 +7,7 @@ import {
 import AddExercisesToDay from "../Components/DailyWorkoutLog/AddExercisesToDay";
 import { DataContext } from "../context/Context";
 import AddRoutineToDay from "../Components/DailyWorkoutLog/AddRoutineToDay";
+import { findExerciseDetails } from "../utils/exerciseFunctions";
 
 const findLogForDate = (date, data) => {
   for (let i = 0; i < data.length; i++) {
@@ -21,9 +22,20 @@ const DailyWorkoutLog = () => {
   const context = useContext(DataContext);
   const data = context.data;
   const setData = context.setData;
-  const [date, setDate] = useState(new Date());
+  const routines = context.routines;
+  const setRoutines = context.setRoutines;
 
-  const addRoutine = () => {};
+  const [date, setDate] = useState(new Date());
+  const test = convertDateToMMDDYYYYFormat(date);
+  const [dailyLog, logIndex] = findLogForDate(test, data);
+
+  const addRoutine = (listOfExercises) => {
+    let copy = [...data]
+    for (let i = 0; i < listOfExercises.length; i++){
+      copy = addExerciseForDay(listOfExercises[i], copy)
+    }
+    setData(copy)
+  };
 
   const handleDateChange = (num) => {
     const newDate = new Date(date.setDate(date.getDate() + num));
@@ -35,9 +47,6 @@ const DailyWorkoutLog = () => {
     setDate(new Date(year, +month - 1, day));
   };
 
-  const test = convertDateToMMDDYYYYFormat(date);
-  const [dailyLog, logIndex] = findLogForDate(test, data);
-
   const removeExerciseFromLog = (exerciseIndex) => {
     const updatedData = [...data];
     updatedData[logIndex].exercises.splice(exerciseIndex, 1);
@@ -47,18 +56,16 @@ const DailyWorkoutLog = () => {
     setData(updatedData);
   };
 
-  const updateExerciseEntryForDay = (
-    exerciseIndex,
-    setIndex,
-    Repetition,
-    Weight
-    // exercise
-  ) => {
+  const saveRoutine = () => {
+    const updatedRoutines = [...routines];
+    const copiedExercises = [...dailyLog.exercises];
+    updatedRoutines.push(copiedExercises);
+    setRoutines(updatedRoutines);
+  };
+
+  const updateExerciseEntryForDay = (exercise, exerciseIndex) => {
     const updatedData = [...data];
-    updatedData[logIndex].exercises[exerciseIndex].sets.Repetition[setIndex] =
-      Repetition;
-    updatedData[logIndex].exercises[exerciseIndex].sets.Weight[setIndex] =
-      Weight;
+    updatedData[logIndex].exercises[exerciseIndex] = exercise;
     setData(updatedData);
   };
 
@@ -88,71 +95,48 @@ const DailyWorkoutLog = () => {
 
   const addSetToExerciseEntry = (exerciseIndex, object) => {
     const updatedData = [...data];
-    switch (updatedData[logIndex].exercises[exerciseIndex].kind) {
-      case "Weights/Reps":
-        updatedData[logIndex].exercises[exerciseIndex].sets.Repetition.push(
-          object.Reps
-        );
-        updatedData[logIndex].exercises[exerciseIndex].sets.Weight.push(
-          object.Weight
-        );
-        break;
-      case "Distance/Time":
-        updatedData[logIndex].exercises[exerciseIndex].sets.Time.push(
-          object.Time
-        );
-        updatedData[logIndex].exercises[exerciseIndex].sets.Distance.push(
-          object.Distance
-        );
-        break;
-      default:
-        break;
+    const details = Object.keys(object);
+    for (let i = 0; i < details.length; i++) {
+      const currentDetail =
+        updatedData[logIndex].exercises[exerciseIndex].sets[details[i]];
+      if (currentDetail) {
+        currentDetail.push(+object[details[i]]);
+      }
     }
     setData(updatedData);
   };
 
-  const addExerciseForDay = (newExercise) => {
+  const addExerciseForDay = (newExercise, dateData=data) => {
     const inputDate = convertDateToMMDDYYYYFormat(date);
     const score = 1;
     //insert exercise for date
     let count = 0;
-    let updatedData = [...data];
+    let updatedData = structuredClone(dateData);
     for (let i = 0; i < updatedData.length; i++) {
-      if (updatedData[i].date === inputDate) {
-        for (let j = 0; j < updatedData[i].exercises.length; j++) {
-          if (newExercise.name === updatedData[i].exercises[j].name) {
-            count += 1;
-            switch (newExercise.kind) {
-              case "Weights/Reps":
-                updatedData[i].exercises[j].sets.Repetition.push.apply(
-                  updatedData[i].exercises[j].sets.Repetition,
-                  newExercise.sets.Repetition
-                );
-                updatedData[i].exercises[j].sets.Weight.push.apply(
-                  updatedData[i].exercises[j].sets.Weight,
-                  newExercise.sets.Weight
-                );
-                break;
-              case "Distance/Time":
-                updatedData[i].exercises[j].sets.Time.push.apply(
-                  updatedData[i].exercises[j].sets.Time,
-                  newExercise.sets.Time
-                );
-                updatedData[i].exercises[j].sets.Distance.push.apply(
-                  updatedData[i].exercises[j].sets.Distance,
-                  newExercise.sets.Distance
-                );
-                break;
-              default:
-                break;
+      let dataForDay = updatedData[i];
+      if (dataForDay.date === inputDate) {
+        for (let j = 0; j < dataForDay.exercises.length; j++) {
+          //check and see if exercise is already present
+          if (newExercise.name === dataForDay.exercises[j].name) {
+            const details = findExerciseDetails(newExercise);
+            for (let i = 0; i < details.length; i++) {
+              const detail = details[i];
+              dataForDay.exercises[j].sets[detail] = dataForDay.exercises[
+                j
+              ].sets[detail].concat(newExercise.sets[detail]);
             }
+            count += 1;
           }
-
-          if (count === 0 && j === updatedData[i].exercises.length - 1) {
-            updatedData[i].exercises.push(newExercise);
-            count++;
+          //if exercise is not present in day
+          //include exercise length to ensure it only happens after getting to end of list
+          if (count === 0 && j === dataForDay.exercises.length - 1) {
+            dataForDay.exercises.push(newExercise);
+            count += 1;
+            //be sure to break to prevent adding to list again
+            break;
           }
         }
+        updatedData[i] = dataForDay;
       }
     }
 
@@ -165,7 +149,9 @@ const DailyWorkoutLog = () => {
       //sort newly added day
       updatedData = sortObjectsWithDatePropertyInMMDDYYYY(updatedData);
     }
+    // console.log(updatedData);
     setData(updatedData);
+    return updatedData
   };
 
   return (
@@ -189,16 +175,20 @@ const DailyWorkoutLog = () => {
       <AddExercisesToDay addExerciseForDay={addExerciseForDay} />
       {/* End of Form to add exercises */}
       <AddRoutineToDay addRoutine={addRoutine} />
+
       <div>
         {dailyLog ? (
-          <DailyLog
-            log={dailyLog}
-            test={test}
-            removeExerciseFromLog={removeExerciseFromLog}
-            updateExerciseEntryForDay={updateExerciseEntryForDay}
-            addSetToExerciseEntry={addSetToExerciseEntry}
-            removeSetFromExercise={removeSetFromExercise}
-          />
+          <>
+            <button onClick={saveRoutine}>Save today as routine</button>
+            <DailyLog
+              log={dailyLog}
+              test={test}
+              removeExerciseFromLog={removeExerciseFromLog}
+              updateExerciseEntryForDay={updateExerciseEntryForDay}
+              addSetToExerciseEntry={addSetToExerciseEntry}
+              removeSetFromExercise={removeSetFromExercise}
+            />
+          </>
         ) : (
           "No exercises"
         )}

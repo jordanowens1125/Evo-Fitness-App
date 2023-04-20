@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { exercises } from "../data/exerciseCategories";
 import { DataContext } from "../context/Context";
+import { kindsOfExercises } from "../data/exerciseCategories";
 
 const CreateWorkout = () => {
   const [exercisesInWorkout, setExercisesInWorkout] = useState({});
@@ -17,7 +18,6 @@ const CreateWorkout = () => {
     return ""
   });
 
-  console.log(filteredItems);
   const handleSearchParamChange = (e) => {
     setSearchParam(e.currentTarget.value);
   };
@@ -63,6 +63,11 @@ const CreateWorkout = () => {
           return (
             <div key={key}>
               {exercisesInWorkout[key].name}
+              {kindsOfExercises[exercisesInWorkout[key].kind].details.map((detail) => {
+                return (<div>{ detail}{exercisesInWorkout[key].sets[detail]}</div>)
+              })}
+              
+              {}
               <button onClick={() => removeExerciseFromWorkout(key)}>
                 Delete exercise from workout
               </button>
