@@ -25,9 +25,9 @@ import { generateRandomColor } from "../data/colors";
 const getDisplayValue = (exercises, exercise, value) => {
   let count = 0;
   for (let i = 0; i < exercises.length; i++) {
-    if (exercise === exercises[i].name) {
-      if (exercises[i].sets[value]) {
-        const addedValueToCount = exercises[i].sets[value].reduce(
+    if (exercise === exercises[i].exercise.exercise.name) {
+      if (exercises[i].sets[value.name]) {
+        const addedValueToCount = exercises[i].sets[value.name].reduce(
           (accums, current) => accums + current,
           0
         );
@@ -45,9 +45,9 @@ const populateEmptyData = (newDates, details) => {
       date: newDates[i],
       score: 0,
       exercises: [],
-      weight:0,
+      weight: 0,
     };
-    emptyData[details] = 0;
+    emptyData[details.name] = 0;
     dates.push(emptyData);
   }
   return dates;
@@ -70,7 +70,7 @@ const inputDataIntoEmptyList = (
     if (sortedData[count].date === emptyDataForRange[i].date) {
       emptyDataForRange[i].score = sortedData[count].score;
       emptyDataForRange[i].exercises = sortedData[count].exercises;
-      emptyDataForRange[i][detail] = getDisplayValue(
+      emptyDataForRange[i][detail.name] = getDisplayValue(
         sortedData[count].exercises,
         exercise,
         detail
@@ -109,7 +109,9 @@ const ByDay = () => {
   );
   const [randomColor, setRandomColor] = useState(generateRandomColor());
   const [kind, setKind] = useState("Weights/Reps");
-  const [details, setDetails] = useState(kindsOfExercises[kind]["details"][0]);
+  const [details, setDetails] = useState(
+    kindsOfExercises[kind]["details"]["Repetition"]
+  );
   const [dateRange, setDateRange] = useState(getDatesForRange(priorDate, date));
   const context = useContext(DataContext);
   const data = context.data;
@@ -149,8 +151,14 @@ const ByDay = () => {
 
   const handleKindChange = (e) => {
     setKind(e.currentTarget.value);
+
     setExercise(kindsOfExercises[e.currentTarget.value]["exercises"][0]);
-    setDetails(kindsOfExercises[e.currentTarget.value]["details"][0]);
+
+    const firstDetail = Object.keys(
+      kindsOfExercises[e.currentTarget.value]["details"]
+    )[0];
+
+    setDetails(kindsOfExercises[e.currentTarget.value]["details"][firstDetail]);
     setRandomColor(generateRandomColor());
   };
 
@@ -164,6 +172,11 @@ const ByDay = () => {
     setDaysPrior(e.currentTarget.value);
     setPriorDate(newPriorDate);
     setDateRange(getDatesForRange(newPriorDate, date));
+  };
+
+  const handleDetailsChange = (e) => {
+    const value = e.currentTarget.value;
+    setDetails(kindsOfExercises[kind]["details"][value]);
   };
 
   const KindOfExerciseDropDown = ({ kind }) => {
@@ -185,23 +198,23 @@ const ByDay = () => {
     );
   };
 
-  const DetailsDropDown = ({ details, setDetails }) => {
+  const DetailsDropDown = ({ details }) => {
     return (
       <select
         name="details"
         id="details"
-        onChange={(e) => setDetails(e.currentTarget.value)}
-        value={details}
+        onChange={(e) => handleDetailsChange(e)}
+        value={details.name}
       >
-        {kindsOfExercises[kind]["details"].map((details) => (
-          <option value={details} key={details}>
-            {" "}
-            {details}
+        {Object.keys(kindsOfExercises[kind]["details"]).map((detail, index) => (
+          <option value={detail.name} key={index} data-id={index}>
+            {detail}
           </option>
         ))}
       </select>
     );
   };
+
   return (
     <>
       <DateRangeDropDown
@@ -251,11 +264,11 @@ const ByDay = () => {
         <Legend verticalAlign="top" height={36} />
         <XAxis dataKey="date" tickLine={false} />
         <YAxis tickLine={false} />
-        {/* <CartesianGrid strokeDasharray=".5 3" /> */}
+
         <Tooltip />
         <Area
           type="monotone"
-          dataKey={details}
+          dataKey={details.name}
           stroke={randomColor || "#8884d8"}
           fillOpacity={1}
           fill="url(#colorUv)"
@@ -268,7 +281,7 @@ const ByDay = () => {
         kind={kind}
       />
       <KindOfExerciseDropDown kind={kind} />
-      <DetailsDropDown details={details} setDetails={setDetails} />
+      <DetailsDropDown details={details} />
     </>
   );
 };

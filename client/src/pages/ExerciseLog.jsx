@@ -1,21 +1,21 @@
 import React, { useState, useContext } from "react";
 import { DataContext } from "../context/Context";
 import { returnDaysWithExercise } from "../utils/filterFunctions";
-import { kindsOfExercises, exercises } from "../data/exerciseCategories";
+import { exerciseObjectsWithAllInfo } from "../data/bodySegments";
 
-const ExerciseDropdown = ({ exercise, handleExerciseChange }) => {
+const ExerciseDropdown = ({ exerciseObject, handleExerciseChange }) => {
   return (
     <>
       <select
         name="exercise"
         id="exercise"
-        value={exercise}
+        value={exerciseObject.exercise.name}
         onChange={handleExerciseChange}
       >
-        {exercises.map((exercise) => {
+        {Object.keys(exerciseObjectsWithAllInfo).map((exercise) => {
           return (
-            <option key={`${exercise.name}`} value={exercise.name}>
-              {exercise.name}
+            <option key={`${exercise}`} value={exercise}>
+              {exercise}
             </option>
           );
         })}
@@ -25,37 +25,37 @@ const ExerciseDropdown = ({ exercise, handleExerciseChange }) => {
 };
 
 const ExerciseLog = () => {
-  const [kindOfExercise, setKindofExercise] = useState("Weights/Reps");
-  const [exercise, setExercise] = useState(exercises[0].name);
+  const [exerciseObject, setExercise] = useState(
+    exerciseObjectsWithAllInfo["Pushups"]
+  );
   const context = useContext(DataContext);
   const data = context.data;
-  const daysWithExercises = returnDaysWithExercise(data, exercise);
+  const daysWithExercises = returnDaysWithExercise(data, exerciseObject);
   const handleExerciseChange = (e) => {
-    setExercise(e.currentTarget.value);
+    const value = exerciseObjectsWithAllInfo[e.currentTarget.value];
+    setExercise(value);
   };
-
+  console.log(exerciseObject);
   return (
     <>
       <ExerciseDropdown
-        exercise={exercise}
+        exerciseObject={exerciseObject}
         handleExerciseChange={handleExerciseChange}
       />
-
-      {daysWithExercises.map((idk) => {
+      {daysWithExercises.map((day) => {
         return (
-          <div key={idk.date}>
-            {idk.date}
-            {/* Different details needs to be displays differently */}
-            {kindsOfExercises[kindOfExercise].details.map((detail) => {
-              return (
-                <>
-                  <div>{detail}</div>
-                  <div>{idk.sets[detail]}</div>
-                  {/* Fix when units are displayed */}
-                  <div>{idk.units}</div>
-                </>
-              );
-            })}
+          <div key={day.date}>
+            <span>{day.date}</span>
+            <span>
+              {Object.keys(exerciseObject.exercise.details).map((detail) => {
+                return (
+                  <span key={detail}>
+                    {detail}
+                    {day.sets[detail]}
+                    </span>
+                  )
+              })}
+            </span>
           </div>
         );
       })}

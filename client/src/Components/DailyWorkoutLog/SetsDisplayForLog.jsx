@@ -9,7 +9,7 @@ const SetsDisplayForLog = ({
   setUpdatedExercise,
 }) => {
 
-  const details = kindsOfExercises[exercise.kind].details;
+  const details = Object.keys(exercise.exercise.exercise.details);
 
   const handleInputChange = (e) => {
     const splitID = e.currentTarget.id.split("-");

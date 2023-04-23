@@ -15,6 +15,7 @@ import { storedRoutines } from "./data/routines";
 import { PieChart, Pie } from "recharts";
 import Macros from "./pages/Macros";
 import WeightTracker from "./pages/WeightTracker";
+import Exercises from "./pages/Exercises";
 
 function App() {
   const [data, setData] = useState(dummyData.byDay);
@@ -40,12 +41,15 @@ function App() {
       {/* <RouterProvider router={router} /> */}
       <DataContext.Provider value={{ data, setData, routines, setRoutines }}>
         {/* <ByDay /> */}
-        {/* 
+        
         <DailyWorkoutLog />
-        <CreateWorkout /> */}
+        {/* <CreateWorkout /> */}
         {/* <ExerciseLog /> */}
-        <WeightTracker/>
-          {/* <AllWorkouts /> */}
+        {/* <WeightTracker/> */}
+        {/* <AllWorkouts /> */}
+        
+        {/* <Exercises/> */}
+
         {/* <Macros /> */}
       </DataContext.Provider>
     </div>

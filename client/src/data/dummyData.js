@@ -1,21 +1,19 @@
+import { exerciseObjectsWithAllInfo } from "./bodySegments";
+
 const byDay = [
   {
     date: "03-01-2023",
     score: 10,
     exercises: [
       {
-        name: "Pullups",
-        kind: "Weights/Reps",
-        units: "Pounds",
+        exercise: exerciseObjectsWithAllInfo['Pullups'],
         sets: {
           Repetition: [520, 14, 2],
           Weight: [15, 0, 0],
         },
       },
       {
-        name: "Pushups",
-        kind: "Weights/Reps",
-        units: "Pounds",
+        exercise: exerciseObjectsWithAllInfo["Pushups"],
         sets: {
           Repetition: [5, 9],
           Weight: [15, 1],
@@ -28,9 +26,7 @@ const byDay = [
     score: 10,
     exercises: [
       {
-        name: "Pullups",
-        kind: "Weights/Reps",
-        units: "Pounds",
+        exercise: exerciseObjectsWithAllInfo["Pullups"],
         sets: {
           Repetition: [1020, 9],
           Weight: [5, 7],
@@ -43,9 +39,7 @@ const byDay = [
     score: 10,
     exercises: [
       {
-        name: "Pushups",
-        kind: "Weights/Reps",
-        units: "Pounds",
+        exercise: exerciseObjectsWithAllInfo["Pushups"],
         sets: {
           Repetition: [10, 9],
           Weight: [5, 7],
@@ -63,18 +57,14 @@ const byDay = [
     weight: 10,
     exercises: [
       {
-        name: "Pullups",
-        kind: "Weights/Reps",
-        units: "Pounds",
+        exercise: exerciseObjectsWithAllInfo["Pullups"],
         sets: {
           Repetition: [5],
           Weight: [15],
         },
       },
       {
-        name: "Pushups",
-        kind: "Weights/Reps",
-        units: "Pounds",
+        exercise: exerciseObjectsWithAllInfo["Pushups"],
         sets: {
           Repetition: [5, 9],
           Weight: [15, 0],
@@ -87,18 +77,14 @@ const byDay = [
     score: 10,
     exercises: [
       {
-        name: "Pullups",
-        kind: "Weights/Reps",
-        units: "Pounds",
+        exercise: exerciseObjectsWithAllInfo["Pullups"],
         sets: {
           Repetition: [5],
           Weight: [15],
         },
       },
       {
-        name: "Pushups",
-        kind: "Weights/Reps",
-        units: "Pounds",
+        exercise: exerciseObjectsWithAllInfo["Pushups"],
         sets: {
           Repetition: [5, 9],
           Weight: [15, 0],
@@ -111,18 +97,14 @@ const byDay = [
     score: 10,
     exercises: [
       {
-        name: "Pullups",
-        kind: "Weights/Reps",
-        units: "Pounds",
+        exercise: exerciseObjectsWithAllInfo["Pullups"],
         sets: {
           Repetition: [5],
           Weight: [15],
         },
       },
       {
-        name: "Pushups",
-        kind: "Weights/Reps",
-        units: "Pounds",
+        exercise: exerciseObjectsWithAllInfo["Pushups"],
         sets: {
           Repetition: [5, 9],
           Weight: [15, 0],
@@ -135,18 +117,14 @@ const byDay = [
     score: 10,
     exercises: [
       {
-        name: "Pullups",
-        kind: "Weights/Reps",
-        units: "Pounds",
+        exercise: exerciseObjectsWithAllInfo["Pullups"],
         sets: {
           Repetition: [5],
           Weight: [15],
         },
       },
       {
-        name: "Pushups",
-        kind: "Weights/Reps",
-        units: "Pounds",
+        exercise: exerciseObjectsWithAllInfo["Pushups"],
         sets: {
           Repetition: [5, 9],
           Weight: [15, 0],
@@ -160,18 +138,14 @@ const byDay = [
     weight:10,
     exercises: [
       {
-        name: "Pullups",
-        kind: "Weights/Reps",
-        units: "Pounds",
+        exercise: exerciseObjectsWithAllInfo["Pullups"],
         sets: {
           Repetition: [5],
           Weight: [15],
         },
       },
       {
-        name: "Pushups",
-        kind: "Weights/Reps",
-        units: "Pounds",
+        exercise: exerciseObjectsWithAllInfo["Pushups"],
         sets: {
           Repetition: [5, 9],
           Weight: [15, 0],

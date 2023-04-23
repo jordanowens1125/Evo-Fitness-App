@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { kindsOfExercises } from "../../data/exerciseCategories";
 
 const DisplaySets = ({ newExercise, index, handleSetChange }) => {
-  const details = kindsOfExercises[newExercise.kind].details;
+  const details = Object.keys(newExercise.details)
   const [item, setItem] = useState({
     Repetition: 0,
     Weight: 0,
@@ -24,6 +23,7 @@ const DisplaySets = ({ newExercise, index, handleSetChange }) => {
       {details.map((detail) => {
         return (
           <span key={`${detail}-input`}>
+            {detail}
             <input
               key={detail}
               type="number"
@@ -32,6 +32,8 @@ const DisplaySets = ({ newExercise, index, handleSetChange }) => {
               value={item[detail]}
               onChange={handleInputChange}
             />
+            
+            {newExercise.details[detail].units}
           </span>
         );
       })}

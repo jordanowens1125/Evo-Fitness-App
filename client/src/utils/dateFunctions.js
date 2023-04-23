@@ -134,6 +134,13 @@ export const convertYYYYMMDDtoDate = (date) => {
   return new Date(year, month-1,day)
 }
 
+export const convertDatetoYYYYMMDDFormat = (date) => {
+  const YYYYMMDD = date.toISOString().slice(0, 10)
+  const [year, month, day] = YYYYMMDD.split('-')
+  const result = `${year}-${month}-${day}`
+  return result
+}
+
 export const compareDatesInDateFormat = (date1, date2) => {
   return (
     dayjs(date1).format("DD/MM/YYYY") === dayjs(date2).format("DD/MM/YYYY")

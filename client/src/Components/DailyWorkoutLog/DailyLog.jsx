@@ -14,8 +14,8 @@ const DailyLog = ({
     editMode,
     setUpdatedExercise
   ) => {
-    const detailReference = kindsOfExercises[exercise.kind].details[0];
-
+    const detailReference = Object.keys(exercise.exercise.exercise.details)[0];
+    
     const result = exercise.sets[detailReference].map((value, index) => {
       return (
         <div key={index}>
