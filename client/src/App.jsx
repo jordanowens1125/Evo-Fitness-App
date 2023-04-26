@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
 // import WorkoutHeatMap from './pages/WorkoutHeatMap'
 // import ExerciseChart from "./pages/ExerciseChart";
@@ -12,37 +12,28 @@ import Macros from "./pages/Macros";
 import WeightTracker from "./pages/WeightTracker";
 import Exercises from "./pages/Exercises";
 import WorkoutInfo from "./pages/WorkoutInfo";
+import Account from "./pages/Account";
 
 function App() {
   const [data, setData] = useState(dummyData.byDay);
   const [routines, setRoutines] = useState(storedRoutines);
-  // const router = createBrowserRouter([
-  //   {
-  //     path: "/",
-  //     element: <Layout/>,
-  //     children: [
-  //       {
-  //         path: "team",
-  //         element: <DailyWorkoutLog data={data} setData={setData} />,
-  //       },
-  //       {
-  //         path: "byDay",
-  //         element: <ByDay data={data} setData={setData} />,
-  //       },
-  //     ],
-  //   },
-  // ]);
+
   return (
-    <div className="App dark-mode">
-      {/* <RouterProvider router={router} /> */}
-      <DataContext.Provider value={{ data, setData, routines, setRoutines }}>
-         
-        {/* <WeightTracker/> */}
-        <DailyWorkoutLog/>
-        {/* <Exercises/> */}
-        {/* <WorkoutInfo /> */}
-        {/* <Macros /> */}
-      </DataContext.Provider>
+    <div className="dark-mode" id='App'>
+      <BrowserRouter>
+        <DataContext.Provider value={{ data, setData, routines, setRoutines }}>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<DailyWorkoutLog />} />
+              <Route path="/weight" element={<WeightTracker />} />
+              <Route path="/workoutInfo" element={<WorkoutInfo />} />
+              <Route path="/account" element={<Account />} />
+            </Route>
+            {/* <Exercises/> */}
+            {/* <Macros /> */}
+          </Routes>
+        </DataContext.Provider>
+      </BrowserRouter>
     </div>
   );
 }

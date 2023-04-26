@@ -9,6 +9,8 @@ import { DataContext } from "../context/Context";
 import AddRoutineToDay from "../Components/DailyWorkoutLog/AddRoutineToDay";
 import { findIndex } from "../utils/searchFunction";
 import NoData from "../Components/NoData";
+import RightArrow from "../assets/right-arrow";
+import LeftArrow from "../assets/left-arrow";
 
 const findLogForDate = (date, data) => {
   for (let i = 0; i < data.length; i++) {
@@ -16,7 +18,6 @@ const findLogForDate = (date, data) => {
       return [data[i], i];
     }
   }
-
   return [];
 };
 
@@ -176,7 +177,12 @@ const DailyWorkoutLog = () => {
   return (
     <>
       <div className="flex aic space-around">
-        <button onClick={(e) => handleDateChange(-1)}>left</button>
+        <button
+          onClick={(e) => handleDateChange(-1)}
+          className="svg-button rotate-180"
+        >
+          <LeftArrow />
+        </button>
         <span>
           <label htmlFor="Date">Date: </label>
           <input
@@ -189,11 +195,17 @@ const DailyWorkoutLog = () => {
             onChange={jumpToDate}
           ></input>
         </span>
-        <button onClick={(e) => handleDateChange(1)}>right</button>
+        <button
+          onClick={() => handleDateChange(1)}
+          className="svg-button "
+        >
+          <RightArrow />
+        </button>
       </div>
       <span className="flex jcc gap-lg">
         {/* Form to add exercises */}
         <AddExercisesToDay addExerciseForDay={addExerciseForDay} />
+
         {/* End of Form to add exercises */}
         <AddRoutineToDay addRoutine={addRoutine} />
       </span>

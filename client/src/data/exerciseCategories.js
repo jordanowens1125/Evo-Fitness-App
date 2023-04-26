@@ -101,6 +101,4 @@ Object.keys(kindsOfExercises).forEach(function (key) {
   }
 });
 
-console.log(exercises);
-
 module.exports = { kindsOfExercises, exercises, exerciseItems };

@@ -195,8 +195,8 @@ const WeightTracker = () => {
       </div>
 
       <AreaChart
-        width={800}
-        height={300}
+        width={900}
+        height={600}
         data={filledData}
         margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
         className=""

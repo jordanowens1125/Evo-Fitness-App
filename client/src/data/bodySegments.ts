@@ -58,7 +58,6 @@ export const exerciseObjectsWithAllInfo:any = {};
 
 bodySegments.map((segment) => {
   return segment.muscleGroups.map((muscleGroup) => {
-    
     const muscleGroupObject: muscleGroupType = {
           name: muscleGroup.name,
           image: muscleGroup.image,
@@ -88,5 +87,3 @@ bodySegments.map((segment) => {
     return muscleGroup;
   });
 });
-
-console.log(exercises);

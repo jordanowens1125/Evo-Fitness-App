@@ -23,7 +23,7 @@ const DailyLog = ({
       defaultSets: exercise.defaultSets,
       muscleGroup: exercise.muscleGroup,
       details: exercise.details,
-    }
+    };
     const result = exercise.sets[detailReference].map((value, index) => {
       return (
         <div key={index} className="full-width flex gap-lg">
@@ -51,7 +51,6 @@ const DailyLog = ({
 
     const addNewSet = () => {
       const copy = { ...updatedExercise };
-      console.log(copy);
       const details = Object.keys(copy.details);
       const newSet = copy.defaultSets;
 
@@ -76,7 +75,8 @@ const DailyLog = ({
             >
               <div className="width-md">
                 <span className="flex gap-sm aic wrap full-width space-between margin-bottom-lg">
-                  {exercise.name}
+                  <h2 className="primary">{exercise.name}</h2>
+
                   <button onClick={() => setEditMode(false)}>Cancel</button>
                 </span>
 
@@ -97,15 +97,19 @@ const DailyLog = ({
           <>
             <section
               key={exercise.name}
-              className="margin-bottom-sm padding-md flex flex-column aic"
+              className="margin-bottom-sm padding-lg flex flex-column aic"
             >
               <div className="width-md">
-                <span className="flex gap-lg margin-bottom-md full-width">
-                  {exercise.name}
-                  <button onClick={() => setEditMode(true)}>Edit</button>
-                  <button onClick={(e) => removeExerciseFromLog(exerciseIndex)}>
-                    Delete Exercise
-                  </button>
+                <span className="flex space-between margin-bottom-md full-width ">
+                  <h2 className="primary">{exercise.name}</h2>
+                  <span className="flex gap-lg">
+                    <button onClick={() => setEditMode(true)}>Edit</button>
+                    <button
+                      onClick={(e) => removeExerciseFromLog(exerciseIndex)}
+                    >
+                      Delete Exercise
+                    </button>
+                  </span>
                 </span>
 
                 {WorkoutDisplay(exercise, exerciseIndex)}

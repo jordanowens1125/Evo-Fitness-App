@@ -9,9 +9,21 @@ body{
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  width: 100vw;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+a:-webkit-any-link {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+a.primary{
+  color: pink;
+  fill:pink;
 }

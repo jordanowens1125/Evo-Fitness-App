@@ -52,6 +52,8 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
     updatedExercise["kind"] = exercises[value].kind;
     const defaultSets = { ...exercises[value].defaultSets };
     updatedExercise["sets"] = defaultSets;
+    updatedExercise['defaultSets'] = defaultSets
+    updatedExercise['details'] = exercises[value].details
     setNewExercise(updatedExercise);
   }; 
 
@@ -61,7 +63,7 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
 
     for (let i = 0; i < details.length; i++) {
       const oldSets = [...updatedExercise.sets[details[i]]];
-      const defaultValue = { ...updatedExercise }.defaultSets[details[i]];
+      const defaultValue = { ...updatedExercise }.defaultSets[details[i]][0]
       updatedExercise.sets[details[i]] = [...oldSets, defaultValue];
     }
     setNewExercise(updatedExercise);
@@ -112,7 +114,7 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
         <>
           <button
             onClick={() => handleNewWorkoutMode()}
-            className="secondary-button"
+            className=""
           >
             Add Exercise
           </button>

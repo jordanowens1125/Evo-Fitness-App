@@ -11,9 +11,17 @@
   --light-text-color: #1e232d; */
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
   min-width: 100vw;
   min-height: 100vh;
+  font-size: 1.2rem;
+  letter-spacing: 0.8px;
 }
 
 /* Dark Mode */
@@ -25,17 +33,22 @@ body {
   --text-color: #fdfefe;
   background-color: var(--bg-color);
   color: var(--text-color);
-  min-width: 100vw;
+  min-width: 100vh;
   min-height: 100vh;
 }
 
 /* Light Mode */
 .light-mode {
-  --bg-color: #fdffff;
+  /* --bg-color: #fdffff;
   --light-bg-color: #e0e4eb;
   --primary-color: #cc0030;
-  --secondary-color: #f2d272;
-  --text-color: #1e232d;
+  --secondary-color: #293649;
+  --text-color: #1e232d; */
+  --bg-color: #fff;
+  --light-bg-color: #f1f5f8;
+  --primary-color: #fe2d55;
+  --secondary-color: #1e232d;
+  --text-color: #293649;
   background-color: var(--bg-color);
   color: var(--text-color);
   min-width: 100vw;
@@ -44,35 +57,35 @@ body {
 
 /* Global css */
 /* height/Width */
-.full-height{
+.full-height {
   height: 100%;
 }
-.full-width{
+.full-width {
   width: 100%;
 }
-.width-xs{
-  width:40px
+.width-xs {
+  width: 40px;
 }
-.width-sm{
-  width:75px
+.width-sm {
+  width: 75px;
 }
-.width-md{
+.width-md {
   width: 500px;
 }
-.width-lg{
+.width-lg {
   width: 800px;
 }
 
-.height-xs{
-  height:40px
+.height-xs {
+  height: 40px;
 }
-.height-sm{
-  height:75px
+.height-sm {
+  height: 75px;
 }
-.height-md{
+.height-md {
   height: 500px;
 }
-.height-lg{
+.height-lg {
   height: 800px;
 }
 /* End of Height/Width */
@@ -81,43 +94,43 @@ body {
   display: flex;
 }
 
-.flex-column{
+.flex-column {
   flex-direction: column;
 }
 
-.aic{
+.aic {
   align-items: center;
 }
 
-.jcc{
+.jcc {
   justify-content: center;
 }
 
-.gap-sm{
+.gap-sm {
   gap: 5px;
 }
 
-.wrap{
+.wrap {
   flex-wrap: wrap;
 }
 
-.gap-md{
+.gap-md {
   gap: 10px;
 }
 
-.gap-lg{
+.gap-lg {
   gap: 20px;
 }
-.space-around{
+.space-around {
   justify-content: space-around;
 }
 
-.space-between{
+.space-between {
   justify-content: space-between;
 }
 /* flex end */
 /* Padding */
-.padding-xl{
+.padding-xl {
   padding: 30px;
 }
 
@@ -190,13 +203,42 @@ button {
   border-radius: 0.3rem;
   width: max-content;
 }
-
-.border{
-  border: 1px solid red
+/* SVGs */
+svg {
+  padding: 10px;
+  fill: var(--text-color);
+  color: var(--text-color);
+  transition: 1s;
 }
 
-.no-border{
-  border:none
+svg:not(.recharts-surface):hover {
+  fill: var(--primary-color);
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.active-link{
+  fill: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.inactive-link{
+  fill: inherit;
+  color: inherit;
+}
+
+/* End of SVGS */
+
+.border {
+  border: 1px solid red;
+}
+
+.no-border {
+  border: none;
+}
+
+.border-bottom-secondary{
+  border-bottom: 3px solid var(--light-bg-color)
 }
 
 /* End of global css */
@@ -208,29 +250,30 @@ button {
 
 .primary {
   color: var(--primary-color);
+  fill: var(--primary-color);
 }
 
-.bg-color{
+.bg-color {
   color: var(--bg-color);
 }
 
-.light-bg-color{
-  color:var(--light-bg-color);
+.light-bg-color {
+  color: var(--light-bg-color);
 }
 
-.secondary{
+.secondary {
   color: var(--secondary-color);
 }
 
 button {
   background-color: inherit;
-  border:1px solid var(--primary-color);
+  border: 1px solid var(--primary-color);
   color: inherit;
   padding: 3px;
   transition: 1s;
 }
 
-.secondary-button{
+.secondary-button {
   border: none;
   background-color: var(--light-bg-color);
   color: var(--secondary-color);
@@ -239,7 +282,7 @@ button {
 button:hover {
   background-color: var(--primary-color);
   transform: scale(1.1);
-  color:inherit
+  color: inherit;
 }
 
 section {
@@ -251,14 +294,15 @@ select {
   color: inherit;
 }
 
- input[type="date"]{
-  /* background-color: #293649; */
-  /* border: none;
-  color: var(--bg-color);
+input[type="date"] {
+  border: none;
+  letter-spacing: 1.6px;
   fill: inherit;
   font-weight: 700;
-  padding: 5px; */
+  padding: 2px;
+  border-radius: .2rem;
 }
+
 
 .primary-border {
   border: 1px solid var(--primary-color);
@@ -269,7 +313,24 @@ select {
 }
 
 /* background */
-.bg{
+.bg {
   background-color: var(--bg-color);
 }
 
+
+
+/* Rotation css */
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+.rotate-90 {
+  transform: rotate(90deg);
+}
+
+.rotate-180:hover {
+  transform: rotate(180deg) scale(1.1);
+  fill: var(--primary-color);
+}
+/* End of rotation css */

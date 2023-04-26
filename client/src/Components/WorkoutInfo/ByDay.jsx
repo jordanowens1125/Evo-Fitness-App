@@ -23,6 +23,8 @@ import ExerciseDropDown from "../ByDay/ExerciseDropDown";
 import { DataContext } from "../../context/Context";
 import { generateRandomColor } from "../../data/colors";
 import { exerciseObjectsWithAllInfo } from "../../data/bodySegments";
+import LeftArrow from '../../assets/left-arrow'
+import RightArrow from '../../assets/right-arrow'
 
 const getDisplayValue = (exercises, exercise, value) => {
   const name = exercise.name;
@@ -109,9 +111,7 @@ const ByDay = ({ exerciseObject, setExerciseObject }) => {
   );
   const [randomColor, setRandomColor] = useState(generateRandomColor());
   const detailReference = Object.keys(exerciseObject["details"])[0];
-  const [detail, setDetail] = useState(
-    exerciseObject.details[detailReference]
-  );
+  const [detail, setDetail] = useState(exerciseObject.details[detailReference]);
   const [dateRange, setDateRange] = useState(getDatesForRange(priorDate, date));
   const context = useContext(DataContext);
   const data = context.data;
@@ -124,7 +124,7 @@ const ByDay = ({ exerciseObject, setExerciseObject }) => {
     exerciseObject,
     detail
   );
-  
+
   const setDateToToday = () => {
     const newDate = new Date();
     setDateInfo(newDate);
@@ -191,13 +191,16 @@ const ByDay = ({ exerciseObject, setExerciseObject }) => {
   return (
     <>
       <div className="flex aic space-around">
-        <button onClick={testLeft}>Left</button>
+        <button onClick={testLeft} className="no-padding no-border">
+          <LeftArrow />
+        </button>
+        {/* <LeftArrow click={testLeft} /> */}
         <DateRangeDropDown
           daysPrior={daysPrior}
           handleRangeChange={handleRangeChange}
         />
         <span className="flex gap-md aic">
-          <label htmlFor="Date">Date: </label>
+          <label htmlFor="Date">End Date: </label>
           <input
             type="date"
             id="start"
@@ -215,10 +218,12 @@ const ByDay = ({ exerciseObject, setExerciseObject }) => {
             </>
           )}
         </span>
-        <button onClick={testRight}>Right</button>
+        <button onClick={testRight} className="no-padding no-border">
+          <RightArrow />
+        </button>
       </div>
-      <div className="height-md width-lg light-bg-color ">
-        <ResponsiveContainer >
+      <div className="height-md width-lg primary flex">
+        <ResponsiveContainer width={1500} height={500}>
           <AreaChart
             data={filledData}
             margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
@@ -241,7 +246,7 @@ const ByDay = ({ exerciseObject, setExerciseObject }) => {
             <XAxis dataKey="date" tickLine={false} />
             <YAxis tickLine={false} />
 
-            <Tooltip/>
+            <Tooltip />
             <Area
               type="monotone"
               dataKey={detail.name}
