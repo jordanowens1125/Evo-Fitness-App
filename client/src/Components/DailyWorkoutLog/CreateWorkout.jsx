@@ -1,73 +1,79 @@
 import React, { useState, useContext } from "react";
-import { exercises } from "../data/exerciseCategories";
-import { DataContext } from "../context/Context";
-import { kindsOfExercises } from "../data/exerciseCategories";
+import { exercises } from "../../data/bodySegments";
+import { DataContext } from "../../context/Context";
+import { kindsOfExercises } from "../../data/exerciseCategories";
+import DisplaySets from "./DisplaySets";
 
 const CreateWorkout = () => {
   const [exercisesInWorkout, setExercisesInWorkout] = useState({});
   const [searchParam, setSearchParam] = useState("");
   const context = useContext(DataContext);
-  const routines = context.routines
+  const routines = context.routines;
   const setRoutines = context.setRoutines;
 
   const filteredItems = exercises.filter((item) => {
-    const capitalizedTitle = item.name.toUpperCase();
-    if (!exercisesInWorkout[item.name]) {
+    const capitalizedTitle = item.exercise.name.toUpperCase();
+    if (!exercisesInWorkout[item.exercise.name]) {
       return capitalizedTitle.includes(searchParam.toUpperCase());
     }
-    return ""
+    return "";
   });
 
   const handleSearchParamChange = (e) => {
     setSearchParam(e.currentTarget.value);
   };
 
-  const addExerciseToWorkout = (exercise) => {
+  const addExerciseToWorkout = (item) => {
     const copiedExercises = { ...exercisesInWorkout };
-    copiedExercises[exercise.name] = {
-      name: exercise.name,
-      kind: exercise.kind,
-      units: exercise.units,
-      sets: exercise.defaultSets,
-      muscleGroup: exercise.muscleGroup,
+    copiedExercises[item.exercise.name] = {
+      name: item.exercise.name,
+      kind: item.exercise.kind,
+      sets: item.exercise.defaultSets,
+      muscleGroup: item.muscleGroup,
+      segment: item.segment,
+      details: item.exercise.details,
     };
     setExercisesInWorkout(copiedExercises);
   };
 
   const saveWorkout = () => {
     const exercises = [];
-
     Object.keys(exercisesInWorkout).forEach((exercise) => {
       exercises.push({
         name: exercisesInWorkout[exercise].name,
         kind: exercisesInWorkout[exercise].kind,
-        units: exercisesInWorkout[exercise].units,
         sets: exercisesInWorkout[exercise].sets,
         muscleGroup: exercisesInWorkout[exercise].muscleGroup,
       });
     });
-    const newRoutines = [exercises, ...routines]
-    setRoutines(newRoutines)
+    const newRoutines = [exercises, ...routines];
+    setRoutines(newRoutines);
     setExercisesInWorkout({});
   };
+
   const removeExerciseFromWorkout = (exercisekey) => {
     const updatedExercise = { ...exercisesInWorkout };
     delete updatedExercise[exercisekey];
     setExercisesInWorkout(updatedExercise);
   };
+
+  const handleSetChange = () => {};
+
   return (
     <>
       <div>
-        Selected
-        {Object.keys(exercisesInWorkout).map((key) => {
+        New Workout Exercises
+        {Object.keys(exercisesInWorkout).map((key, index) => {
           return (
             <div key={key}>
               {exercisesInWorkout[key].name}
-              {kindsOfExercises[exercisesInWorkout[key].kind].details.map((detail) => {
-                return (<div>{ detail}{exercisesInWorkout[key].sets[detail]}</div>)
-              })}
-              
-              {}
+              {
+                <DisplaySets
+                  newExercise={exercisesInWorkout[key]}
+                  index={index}
+                  handleSetChange={handleSetChange}
+                />
+              }
               <button onClick={() => removeExerciseFromWorkout(key)}>
                 Delete exercise from workout
               </button>
@@ -86,8 +92,11 @@ const CreateWorkout = () => {
         <ul id="search-results">
           {filteredItems.map((item) => {
             return (
-              <div key={item.name} onClick={() => addExerciseToWorkout(item)}>
-                {item.name}
+              <div
+                key={item.exercise.name}
+                onClick={() => addExerciseToWorkout(item)}
+              >
+                {item.exercise.name}
               </div>
             );
           })}

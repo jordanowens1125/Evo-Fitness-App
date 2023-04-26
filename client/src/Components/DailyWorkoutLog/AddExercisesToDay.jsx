@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { kindsOfExercises } from "../../data/exerciseCategories";
 import { exercises } from "../../data/bodySegments";
 import DisplaySets from "./DisplaySets";
 
@@ -7,7 +6,7 @@ const DifferentWorkoutDisplay = (newExercise, handleSetChange) => {
   const detailReference = Object.keys(newExercise.details)[0];
   return newExercise.sets[detailReference].map((value, index) => {
     return (
-      <div key={index}>
+      <div key={index} className="flex  aic">
         <DisplaySets
           newExercise={newExercise}
           index={index}
@@ -22,11 +21,11 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
   const [newWorkoutMode, setNewWorkoutMode] = useState(false);
   const [exerciseValue, setExerciseValue] = useState(0);
   const [newExercise, setNewExercise] = useState({
-    name: exercises[0].exercise.name,
-    kind: exercises[0].exercise.kind,
-    details: exercises[0].exercise.details,
-    sets: exercises[0].exercise.defaultSets,
-    defaultSets : exercises[0].exercise.defaultSets,
+    name: exercises[0].name,
+    kind: exercises[0].kind,
+    details: { ...exercises[0].details },
+    sets: { ...exercises[0].defaultSets }, //make sure default sets does not change
+    defaultSets: { ...exercises[0].defaultSets },
   });
 
   const handleNewWorkoutMode = () => {
@@ -37,10 +36,11 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
     setNewWorkoutMode(false);
     setExerciseValue(0);
     setNewExercise({
-      name: exercises[0].exercise.name,
-      kind: exercises[0].exercise.kind,
-      details: exercises[0].exercise.details,
-      sets: exercises[0].exercise.defaultSets,
+      name: exercises[0].name,
+      kind: exercises[0].kind,
+      details: { ...exercises[0].details },
+      sets: { ...exercises[0].defaultSets },
+      defaultSets: { ...exercises[0].defaultSets }, //make sure default sets does not change,
     });
   };
 
@@ -48,21 +48,21 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
     const value = e.currentTarget.value;
     const updatedExercise = { ...newExercise };
     setExerciseValue(value);
-    updatedExercise["name"] = exercises[value].exercise.name;
-    updatedExercise["kind"] = exercises[value].exercise.kind;
-    const defaultSets = { ...exercises[value].exercise.defaultSets }
+    updatedExercise["name"] = exercises[value].name;
+    updatedExercise["kind"] = exercises[value].kind;
+    const defaultSets = { ...exercises[value].defaultSets };
     updatedExercise["sets"] = defaultSets;
     setNewExercise(updatedExercise);
-  };
+  }; 
 
   const addNewSetToExercise = () => {
     const updatedExercise = { ...newExercise };
-    const details = Object.keys(updatedExercise.defaultSets)
-    
+    const details = Object.keys(updatedExercise.defaultSets);
+
     for (let i = 0; i < details.length; i++) {
-      const oldSets = [...updatedExercise.sets[details[i]]]
-      const defaultSets = [...updatedExercise.defaultSets[details[i]]]
-      updatedExercise.sets[details[i]] = oldSets.concat(defaultSets);
+      const oldSets = [...updatedExercise.sets[details[i]]];
+      const defaultValue = { ...updatedExercise }.defaultSets[details[i]];
+      updatedExercise.sets[details[i]] = [...oldSets, defaultValue];
     }
     setNewExercise(updatedExercise);
   };
@@ -82,29 +82,40 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
     <>
       {newWorkoutMode ? (
         <>
-          <select
-            name="exercise"
-            id="exercise"
-            onChange={setExerciseName}
-            value={exerciseValue}
-          >
-            {exercises.map((exercise, index) => (
-              <option value={index} key={exercise.exercise.name}>
-                {" "}
-                {exercise.exercise.name}
-              </option>
-            ))}
-          </select>
-          {/* Dropdown depends on exercise type */}
-          {DifferentWorkoutDisplay(newExercise, handleSetChange)}
+          <div className="flex flex-column space-between">
+            <select
+              name="exercise"
+              id="exercise"
+              onChange={setExerciseName}
+              value={exerciseValue}
+            >
+              {exercises.map((exercise, index) => (
+                <option value={index} key={exercise.name + index}>
+                  {" "}
+                  {exercise.name}
+                </option>
+              ))}
+            </select>
+            <button onClick={cancel}>Cancel</button>
+          </div>
 
-          <button onClick={addNewSetToExercise}>Add new set</button>
-          <button onClick={addNewExerciseAndSets}>Finish</button>
-          <button onClick={cancel}>Cancel</button>
+          {/* Dropdown depends on exercise type */}
+          <div>
+            {DifferentWorkoutDisplay(newExercise, handleSetChange)}
+            <span className="flex space-between margin-top-lg">
+              <button onClick={addNewSetToExercise}>Add new set</button>
+              <button onClick={addNewExerciseAndSets}>Finish</button>
+            </span>
+          </div>
         </>
       ) : (
         <>
-          <button onClick={() => handleNewWorkoutMode()}>Add Exercise</button>
+          <button
+            onClick={() => handleNewWorkoutMode()}
+            className="secondary-button"
+          >
+            Add Exercise
+          </button>
         </>
       )}
     </>

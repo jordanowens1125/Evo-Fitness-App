@@ -1,0 +1,62 @@
+import React, { useState } from "react";
+import AllWorkouts from "../Components/WorkoutInfo/AllWorkouts";
+import ByDay from "../Components/WorkoutInfo/ByDay";
+import ExerciseLog from "../Components/WorkoutInfo/ExerciseLog";
+import MuscleGroup from "../Components/WorkoutInfo/MuscleGroup";
+import { exerciseObjectsWithAllInfo } from "../data/bodySegments";
+
+
+const options = ["All", "Muscle Groups", "Exercises"];
+
+const WorkoutInfo = () => {
+  const [setting, setSetting] = useState("All");
+  const [exerciseObject, setExerciseObject] = useState(
+    exerciseObjectsWithAllInfo["Pushups"]
+  );
+  const handleSettingChange = (e) => {
+    setSetting(e.currentTarget.innerHTML);
+  };
+
+  const settingSwitch = function (setting) {
+    switch (setting) {
+      case "All":
+        return <AllWorkouts />;
+      case "Muscle Groups":
+        return <MuscleGroup />;
+      case "Exercises":
+        return (
+          <>
+            <ByDay
+              exerciseObject={exerciseObject}
+              setExerciseObject={setExerciseObject}
+            />
+            <ExerciseLog exerciseObject={exerciseObject} />
+          </>
+        );
+      default:
+        return <AllWorkouts />;
+    }
+  };
+
+  return (
+    <>
+      <span className="flex margin-bottom-lg">
+        {options.map((option) => {
+          return (
+            <div
+              className="secondary-border padding-sm"
+              onClick={handleSettingChange}
+              key={option}
+            >
+              {option}
+            </div>
+          );
+        })}
+      </span>
+
+      {settingSwitch(setting)}
+    </>
+  );
+};
+
+export default WorkoutInfo;

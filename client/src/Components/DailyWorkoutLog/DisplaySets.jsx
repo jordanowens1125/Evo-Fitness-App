@@ -23,7 +23,7 @@ const DisplaySets = ({ newExercise, index, handleSetChange }) => {
       {details.map((detail) => {
         return (
           <span key={`${detail}-input`}>
-            {detail}
+            {detail}:{" "}
             <input
               key={detail}
               type="number"
@@ -31,13 +31,13 @@ const DisplaySets = ({ newExercise, index, handleSetChange }) => {
               id={`Exercise${newExercise.name}-Set${index}-${detail}`}
               value={item[detail]}
               onChange={handleInputChange}
-            />
-            
+              className="width-sm"
+            />{" "}
             {newExercise.details[detail].units}
           </span>
         );
       })}
-      {newExercise.units}
+      {newExercise.units}{" "}
     </>
   );
 };

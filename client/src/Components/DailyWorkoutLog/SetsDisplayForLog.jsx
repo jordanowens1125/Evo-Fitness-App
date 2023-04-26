@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { kindsOfExercises } from "../../data/exerciseCategories";
+
 const SetsDisplayForLog = ({
   exercise,
   SetIndex,
@@ -7,18 +6,15 @@ const SetsDisplayForLog = ({
   editMode,
   removeSetFromExercise,
   setUpdatedExercise,
+  details,
 }) => {
-
-  const details = Object.keys(exercise.exercise.exercise.details);
-
   const handleInputChange = (e) => {
     const splitID = e.currentTarget.id.split("-");
     const updatedExercise = { ...exercise };
     //the detail is stored as the last item after the split
     updatedExercise.sets[splitID[3]][SetIndex] = +e.currentTarget.value;
-    setUpdatedExercise(updatedExercise)
+    setUpdatedExercise(updatedExercise);
   };
-
   return (
     <>
       {editMode ? (
@@ -26,6 +22,7 @@ const SetsDisplayForLog = ({
           {details.map((detail) => {
             return (
               <span key={`${detail}-input`}>
+                {detail}:{" "}
                 <input
                   key={detail}
                   type="number"
@@ -34,7 +31,9 @@ const SetsDisplayForLog = ({
                   value={exercise.sets[detail][SetIndex]}
                   placeholder={detail}
                   onChange={handleInputChange}
-                />
+                  className="width-xs "
+                />{" "}
+                {exercise.details[detail].units} x{" "}
               </span>
             );
           })}
@@ -42,7 +41,7 @@ const SetsDisplayForLog = ({
           <button
             onClick={() => removeSetFromExercise(exerciseIndex, SetIndex)}
           >
-            Remove Set
+            X
           </button>
         </>
       ) : (
@@ -50,14 +49,11 @@ const SetsDisplayForLog = ({
           {details.map((detail) => {
             return (
               <span key={`${detail}-input`}>
-                <div>
-                  {detail}
-                  {exercise.sets[detail][SetIndex]}
-                </div>
+                {detail}: {exercise.sets[detail][SetIndex]}{" "}
+                {exercise.details[detail].units} x{" "}
               </span>
             );
           })}
-          {exercise.units}
         </>
       )}
     </>

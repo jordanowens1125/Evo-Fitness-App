@@ -27,20 +27,6 @@ const AddRoutineToDay = ({ addRoutine }) => {
           >
             Cancel
           </button>
-        </>
-      ) : (
-        <>
-          <button
-            onClick={() => {
-              setEditMode(true);
-            }}
-          >
-            AddRoutineToDay
-          </button>
-        </>
-      )}
-      {editMode ? (
-        <>
           <div>
             Choose the routine you would like to add
             {routines.map((routine, index) => {
@@ -54,25 +40,26 @@ const AddRoutineToDay = ({ addRoutine }) => {
                     <button onClick={() => handleRoutineSubmission(routine)}>
                       Add me
                     </button>
-                  </div>
-                  {/* Add exercise to date ability */}
-                  {/* Edit routine */}
-                  {editMode ? (
-                    <>
-                      <button onClick={(e) => deleteRoutine(index)}>
+                  </div><button onClick={(e) => deleteRoutine(index)}>
                         Delete Routine
                       </button>
-                    </>
-                  ) : (
-                    <></>
-                  )}
+                  {/* Add exercise to date ability */}
+                  {/* Edit routine */}
                 </div>
               );
             })}
           </div>
         </>
       ) : (
-        <></>
+        <>
+          <button
+            onClick={() => {
+              setEditMode(true);
+            }}
+          >
+            Add Routine To Day
+          </button>
+        </>
       )}
     </>
   );

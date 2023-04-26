@@ -1,18 +1,26 @@
+import { exerciseObjectsWithAllInfo } from "./bodySegments";
+
 export const storedRoutines = [
   [
     {
-      name: "Pullups",
-      kind: "Weights/Reps",
-      units: "Pounds",
+      name: exerciseObjectsWithAllInfo["Pullups"].name,
+      segment: exerciseObjectsWithAllInfo["Pullups"].segment,
+      defaultSets: exerciseObjectsWithAllInfo["Pullups"].defaultSets,
+      kind: exerciseObjectsWithAllInfo["Pullups"].kind,
+      muscleGroup: exerciseObjectsWithAllInfo["Pullups"].muscleGroup,
+      details: exerciseObjectsWithAllInfo["Pullups"].details,
       sets: {
         Repetition: [520, 14, 2],
         Weight: [15, 0, 0],
       },
     },
     {
-      name: "Pushups",
-      kind: "Weights/Reps",
-      units: "Pounds",
+      name: exerciseObjectsWithAllInfo["Pushups"].name,
+      segment: exerciseObjectsWithAllInfo["Pushups"].segment,
+      defaultSets: exerciseObjectsWithAllInfo["Pushups"].defaultSets,
+      kind: exerciseObjectsWithAllInfo["Pushups"].kind,
+      muscleGroup: exerciseObjectsWithAllInfo["Pushups"].muscleGroup,
+      details: exerciseObjectsWithAllInfo["Pushups"].details,
       sets: {
         Repetition: [5, 9],
         Weight: [15, 1],
@@ -21,9 +29,12 @@ export const storedRoutines = [
   ],
   [
     {
-      name: "Pushups",
-      kind: "Weights/Reps",
-      units: "Pounds",
+      name: exerciseObjectsWithAllInfo["Pushups"].name,
+      segment: exerciseObjectsWithAllInfo["Pushups"].segment,
+      defaultSets: exerciseObjectsWithAllInfo["Pushups"].defaultSets,
+      kind: exerciseObjectsWithAllInfo["Pushups"].kind,
+      muscleGroup: exerciseObjectsWithAllInfo["Pushups"].muscleGroup,
+      details: exerciseObjectsWithAllInfo["Pushups"].details,
       sets: {
         Repetition: [5, 9],
         Weight: [15, 1],
@@ -31,38 +42,3 @@ export const storedRoutines = [
     },
   ],
 ];
-
-export const storedAsObject = {
-  test1: [
-    {
-      name: "Pullups",
-      kind: "Weights/Reps",
-      units: "Pounds",
-      sets: {
-        Repetition: [520, 14, 2],
-        Weight: [15, 0, 0],
-      },
-    },
-    {
-      name: "Pushups",
-      kind: "Weights/Reps",
-      units: "Pounds",
-      sets: {
-        Repetition: [5, 9],
-        Weight: [15, 1],
-      },
-    },
-  ],
-
-  test2: [
-    {
-      name: "Pushups",
-      kind: "Weights/Reps",
-      units: "Pounds",
-      sets: {
-        Repetition: [5, 9],
-        Weight: [15, 1],
-      },
-    },
-  ],
-};

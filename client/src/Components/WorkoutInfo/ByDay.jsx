@@ -7,8 +7,9 @@ import {
   Tooltip,
   Area,
   Legend,
+  ResponsiveContainer,
 } from "recharts";
-import { kindsOfExercises } from "../data/exerciseCategories";
+
 import {
   compareDatesInDateFormat,
   convertMMDDYYYYtoDateFormat,
@@ -16,16 +17,18 @@ import {
   getDatesForRange,
   getFutureDate,
   getPriorDate,
-} from "../utils/dateFunctions";
-import DateRangeDropDown from "../Components/ByDay/DateRangeDropDown";
-import ExerciseDropDown from "../Components/ByDay/ExerciseDropDown";
-import { DataContext } from "../context/Context";
-import { generateRandomColor } from "../data/colors";
+} from "../../utils/dateFunctions";
+import DateRangeDropDown from "../ByDay/DateRangeDropDown";
+import ExerciseDropDown from "../ByDay/ExerciseDropDown";
+import { DataContext } from "../../context/Context";
+import { generateRandomColor } from "../../data/colors";
+import { exerciseObjectsWithAllInfo } from "../../data/bodySegments";
 
 const getDisplayValue = (exercises, exercise, value) => {
+  const name = exercise.name;
   let count = 0;
   for (let i = 0; i < exercises.length; i++) {
-    if (exercise === exercises[i].exercise.exercise.name) {
+    if (name === exercises[i].name) {
       if (exercises[i].sets[value.name]) {
         const addedValueToCount = exercises[i].sets[value.name].reduce(
           (accums, current) => accums + current,
@@ -98,32 +101,30 @@ const filterDataByRange = (data, dateRange) => {
   return filteredArr;
 };
 
-const ByDay = () => {
+const ByDay = ({ exerciseObject, setExerciseObject }) => {
   const [date, setDate] = useState(new Date());
   const [daysPrior, setDaysPrior] = useState(7);
   const [priorDate, setPriorDate] = useState(
     new Date(new Date().setDate(date.getDate() - daysPrior))
   );
-  const [exercise, setExercise] = useState(
-    kindsOfExercises["Weights/Reps"]["exercises"][0]
-  );
   const [randomColor, setRandomColor] = useState(generateRandomColor());
-  const [kind, setKind] = useState("Weights/Reps");
-  const [details, setDetails] = useState(
-    kindsOfExercises[kind]["details"]["Repetition"]
+  const detailReference = Object.keys(exerciseObject["details"])[0];
+  const [detail, setDetail] = useState(
+    exerciseObject.details[detailReference]
   );
   const [dateRange, setDateRange] = useState(getDatesForRange(priorDate, date));
   const context = useContext(DataContext);
   const data = context.data;
-  const emptyData = populateEmptyData(dateRange, details);
+  const emptyData = populateEmptyData(dateRange, detail);
   const filteredDataForRange = filterDataByRange(data, dateRange);
+
   const filledData = inputDataIntoEmptyList(
     filteredDataForRange,
     emptyData,
-    exercise,
-    details
+    exerciseObject,
+    detail
   );
-
+  
   const setDateToToday = () => {
     const newDate = new Date();
     setDateInfo(newDate);
@@ -149,22 +150,12 @@ const ByDay = () => {
     setDateRange(getDatesForRange(newPriorDate, newDate));
   };
 
-  const handleKindChange = (e) => {
-    setKind(e.currentTarget.value);
-
-    setExercise(kindsOfExercises[e.currentTarget.value]["exercises"][0]);
-
-    const firstDetail = Object.keys(
-      kindsOfExercises[e.currentTarget.value]["details"]
-    )[0];
-
-    setDetails(kindsOfExercises[e.currentTarget.value]["details"][firstDetail]);
-    setRandomColor(generateRandomColor());
-  };
-
   const handleExerciseChange = (e) => {
     setRandomColor(generateRandomColor());
-    setExercise(e.currentTarget.value);
+    const newObject = exerciseObjectsWithAllInfo[e.currentTarget.value];
+    const firstDetail = Object.keys(newObject.details)[0];
+    setExerciseObject(newObject);
+    setDetail(newObject.details[firstDetail]);
   };
 
   const handleRangeChange = (e) => {
@@ -176,38 +167,20 @@ const ByDay = () => {
 
   const handleDetailsChange = (e) => {
     const value = e.currentTarget.value;
-    setDetails(kindsOfExercises[kind]["details"][value]);
+    console.log(exerciseObject.details[value]);
+    setDetail(exerciseObject.details[value]);
   };
 
-  const KindOfExerciseDropDown = ({ kind }) => {
-    const keys = Object.keys(kindsOfExercises);
-    return (
-      <select
-        name="exercise"
-        id="exercise"
-        onChange={handleKindChange}
-        value={kind}
-      >
-        {keys.map((kind) => (
-          <option value={kind} key={kind}>
-            {" "}
-            {kind}
-          </option>
-        ))}
-      </select>
-    );
-  };
-
-  const DetailsDropDown = ({ details }) => {
+  const DetailsDropDown = ({ detail }) => {
     return (
       <select
         name="details"
         id="details"
         onChange={(e) => handleDetailsChange(e)}
-        value={details.name}
+        value={detail.name}
       >
-        {Object.keys(kindsOfExercises[kind]["details"]).map((detail, index) => (
-          <option value={detail.name} key={index} data-id={index}>
+        {Object.keys(exerciseObject.details).map((detail, index) => (
+          <option value={detail} key={index} data-id={index}>
             {detail}
           </option>
         ))}
@@ -217,71 +190,78 @@ const ByDay = () => {
 
   return (
     <>
-      <DateRangeDropDown
-        daysPrior={daysPrior}
-        handleRangeChange={handleRangeChange}
-      />
-      <label htmlFor="Date">Date:</label>
-      <input
-        type="date"
-        id="start"
-        name="Date"
-        value={date.toISOString().slice(0, 10)}
-        min="2022-04-01"
-        max="2035-12-31"
-        onChange={jumpToDate}
-      ></input>
-
-      {compareDatesInDateFormat(date, new Date()) ? (
-        <></>
-      ) : (
-        <>
-          <button onClick={setDateToToday}>Today</button>
-        </>
-      )}
-      <button onClick={testLeft}>Left</button>
-      <button onClick={testRight}>Right</button>
-      <AreaChart
-        width={800}
-        height={300}
-        data={filledData}
-        margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-      >
-        <defs>
-          <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-            <stop
-              offset="5%"
-              stopColor={randomColor || "#8884d8"}
-              stopOpacity={0.5}
-            />
-            <stop
-              offset="90%"
-              stopColor={randomColor || "#8884d8"}
-              stopOpacity={0}
-            />
-          </linearGradient>
-        </defs>
-        <Legend verticalAlign="top" height={36} />
-        <XAxis dataKey="date" tickLine={false} />
-        <YAxis tickLine={false} />
-
-        <Tooltip />
-        <Area
-          type="monotone"
-          dataKey={details.name}
-          stroke={randomColor || "#8884d8"}
-          fillOpacity={1}
-          fill="url(#colorUv)"
-          dot={true}
+      <div className="flex aic space-around">
+        <button onClick={testLeft}>Left</button>
+        <DateRangeDropDown
+          daysPrior={daysPrior}
+          handleRangeChange={handleRangeChange}
         />
-      </AreaChart>
-      <ExerciseDropDown
-        exercise={exercise}
-        handleExerciseChange={handleExerciseChange}
-        kind={kind}
-      />
-      <KindOfExerciseDropDown kind={kind} />
-      <DetailsDropDown details={details} />
+        <span className="flex gap-md aic">
+          <label htmlFor="Date">Date: </label>
+          <input
+            type="date"
+            id="start"
+            name="Date"
+            value={date.toISOString().slice(0, 10)}
+            min="2022-04-01"
+            max="2035-12-31"
+            onChange={jumpToDate}
+          ></input>
+          {compareDatesInDateFormat(date, new Date()) ? (
+            <></>
+          ) : (
+            <>
+              <button onClick={setDateToToday}>Today</button>
+            </>
+          )}
+        </span>
+        <button onClick={testRight}>Right</button>
+      </div>
+      <div className="height-md width-lg light-bg-color ">
+        <ResponsiveContainer >
+          <AreaChart
+            data={filledData}
+            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+          >
+            <defs>
+              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                  offset="5%"
+                  stopColor={randomColor || "#8884d8"}
+                  stopOpacity={0.5}
+                />
+                <stop
+                  offset="90%"
+                  stopColor={randomColor || "#8884d8"}
+                  stopOpacity={0}
+                />
+              </linearGradient>
+            </defs>
+            <Legend verticalAlign="top" height={36} />
+            <XAxis dataKey="date" tickLine={false} />
+            <YAxis tickLine={false} />
+
+            <Tooltip/>
+            <Area
+              type="monotone"
+              dataKey={detail.name}
+              stroke={randomColor || "#8884d8"}
+              fillOpacity={1}
+              fill="url(#colorUv)"
+              dot={true}
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
+
+      <span className="aic flex jcc">
+        <ExerciseDropDown
+          exercise={exerciseObject.name}
+          handleExerciseChange={handleExerciseChange}
+        />
+
+        <DetailsDropDown detail={detail} />
+      </span>
     </>
   );
 };

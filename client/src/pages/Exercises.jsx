@@ -67,7 +67,8 @@ const Exercises = () => {
 
   return (
     <>
-      <div>Exercises</div>
+      <div>Exercises<button>New Exercise</button></div>
+      
       <button onClick={removeFilters}>Remove Filters</button>
       {/* <input
         type="text"
@@ -118,6 +119,7 @@ const Exercises = () => {
             {idk.exercise.name}
             {idk.muscleGroup.name}
             {idk.segment}
+            <button>Add exercise</button>
           </div>
         );
       })}

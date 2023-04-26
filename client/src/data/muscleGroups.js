@@ -2,7 +2,7 @@ import { exerciseItems } from "./exerciseCategories";
 
 const Pullups = exerciseItems["Pullups"];
 const Pushups = exerciseItems["Pushups"];
-
+const Jog = exerciseItems['Jog']
 
 export const Neck = {
   name: "Neck",
@@ -102,6 +102,13 @@ export const Hamstrings = {
   image: "",
 };
 
+export const Heart = {
+  name: 'Cardio',
+  exercises: [Jog],
+  color: '',
+  image: ''
+}
+
 export const muscleGroups = [
   Neck,
   Chest,
@@ -116,5 +123,4 @@ export const muscleGroups = [
   Calves, 
   Glutes,
   Hamstrings,
-  
 ];

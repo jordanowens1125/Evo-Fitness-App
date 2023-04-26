@@ -1,7 +1,7 @@
 import React from 'react'
-import {kindsOfExercises} from '../../data/exerciseCategories';
+import {exercises} from '../../data/exerciseCategories'
 
-const ExerciseDropDown = ({ exercise, handleExerciseChange, kind }) => {
+const ExerciseDropDown = ({ exercise, handleExerciseChange }) => {
   //only exercises that have the correct kind can be used as an option
   return (
     <select
@@ -10,10 +10,10 @@ const ExerciseDropDown = ({ exercise, handleExerciseChange, kind }) => {
       onChange={handleExerciseChange}
       value={exercise}
     >
-      {kindsOfExercises[kind]["exercises"].map((exercise) => (
-        <option value={exercise} key={exercise}>
+      {exercises.map((exercise) => (
+        <option value={exercise.name} key={exercise.name}>
           {" "}
-          {exercise}
+          {exercise.name}
         </option>
       ))}
     </select>

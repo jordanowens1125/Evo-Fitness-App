@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import SetsDisplayForLog from "./SetsDisplayForLog";
-import { kindsOfExercises } from "../../data/exerciseCategories";
 
 const DailyLog = ({
   log,
@@ -14,19 +13,29 @@ const DailyLog = ({
     editMode,
     setUpdatedExercise
   ) => {
-    const detailReference = Object.keys(exercise.exercise.exercise.details)[0];
-    
+    const details = Object.keys(exercise.details);
+    const detailReference = details[0];
+
+    const formattedExercise = {
+      sets: exercise.sets,
+      name: exercise.name,
+      kind: exercise.kind,
+      defaultSets: exercise.defaultSets,
+      muscleGroup: exercise.muscleGroup,
+      details: exercise.details,
+    }
     const result = exercise.sets[detailReference].map((value, index) => {
       return (
-        <div key={index}>
+        <div key={index} className="full-width flex gap-lg">
           <SetsDisplayForLog
-            exercise={exercise}
+            exercise={formattedExercise}
             editMode={editMode}
             SetIndex={index}
             exerciseIndex={exerciseIndex}
             updateExerciseEntryForDay={updateExerciseEntryForDay}
             removeSetFromExercise={removeSetFromExercise}
             setUpdatedExercise={setUpdatedExercise}
+            details={details}
           ></SetsDisplayForLog>
         </div>
       );
@@ -39,16 +48,19 @@ const DailyLog = ({
     const [updatedExercise, setUpdatedExercise] = useState(
       structuredClone(exercise)
     );
-      
+
     const addNewSet = () => {
-      const copy = structuredClone(updatedExercise)
-      const newSet = kindsOfExercises[updatedExercise.kind].defaultSets
-      const details = kindsOfExercises[updatedExercise.kind].details;
-      for (let i = 0; i < details.length; i++){
-        const detail = details[i]
-        copy.sets[detail]= [...copy.sets[detail],...newSet[detail]]
+      const copy = { ...updatedExercise };
+      console.log(copy);
+      const details = Object.keys(copy.details);
+      const newSet = copy.defaultSets;
+
+      for (let i = 0; i < details.length; i++) {
+        const detail = details[i];
+        copy.sets[detail] = [...copy.sets[detail], ...newSet[detail]];
       }
-      setUpdatedExercise(copy)
+
+      setUpdatedExercise(copy);
     };
 
     const handleSubmit = () => {
@@ -58,31 +70,47 @@ const DailyLog = ({
       <>
         {editMode ? (
           <>
-            <div key={exercise.name}>
-              {exercise.name}
-              <button onClick={addNewSet}>New Set?</button>
-              <button onClick={() => setEditMode(false)}>Cancel</button>
-              <button onClick={(e) => removeExerciseFromLog(exerciseIndex)}>
-                Delete this exercise from day
-              </button>
-              <button onClick={() => handleSubmit()}>Submit</button>
-              Sets:
-              {WorkoutDisplay(
-                updatedExercise,
-                exerciseIndex,
-                editMode,
-                setUpdatedExercise
-              )}
-            </div>
+            <section
+              key={exercise.name}
+              className="margin-md padding-lg flex aic jcc flex-column "
+            >
+              <div className="width-md">
+                <span className="flex gap-sm aic wrap full-width space-between margin-bottom-lg">
+                  {exercise.name}
+                  <button onClick={() => setEditMode(false)}>Cancel</button>
+                </span>
+
+                {WorkoutDisplay(
+                  updatedExercise,
+                  exerciseIndex,
+                  editMode,
+                  setUpdatedExercise
+                )}
+                <span className="flex aic space-between margin-top-lg">
+                  <button onClick={addNewSet}>New Set?</button>
+                  <button onClick={() => handleSubmit()}>Submit</button>
+                </span>
+              </div>
+            </section>
           </>
         ) : (
           <>
-            <div key={exercise.name}>
-              {exercise.name}
-              <button onClick={() => setEditMode(true)}>Edit</button>
-              Sets:
-              {WorkoutDisplay(exercise, exerciseIndex)}
-            </div>
+            <section
+              key={exercise.name}
+              className="margin-bottom-sm padding-md flex flex-column aic"
+            >
+              <div className="width-md">
+                <span className="flex gap-lg margin-bottom-md full-width">
+                  {exercise.name}
+                  <button onClick={() => setEditMode(true)}>Edit</button>
+                  <button onClick={(e) => removeExerciseFromLog(exerciseIndex)}>
+                    Delete Exercise
+                  </button>
+                </span>
+
+                {WorkoutDisplay(exercise, exerciseIndex)}
+              </div>
+            </section>
           </>
         )}
       </>

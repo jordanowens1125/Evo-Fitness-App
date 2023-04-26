@@ -4,18 +4,14 @@ import "./App.css";
 // import WorkoutHeatMap from './pages/WorkoutHeatMap'
 // import ExerciseChart from "./pages/ExerciseChart";
 import dummyData from "./data/dummyData";
-import ByDay from "./pages/ByDay";
 import DailyWorkoutLog from "./pages/DailyWorkoutLog";
 import Layout from "./pages/Layout";
 import { DataContext } from "./context/Context";
-import AllWorkouts from "./pages/AllWorkouts";
-import ExerciseLog from "./pages/ExerciseLog";
-import CreateWorkout from "./pages/CreateWorkout";
 import { storedRoutines } from "./data/routines";
-import { PieChart, Pie } from "recharts";
 import Macros from "./pages/Macros";
 import WeightTracker from "./pages/WeightTracker";
 import Exercises from "./pages/Exercises";
+import WorkoutInfo from "./pages/WorkoutInfo";
 
 function App() {
   const [data, setData] = useState(dummyData.byDay);
@@ -37,19 +33,14 @@ function App() {
   //   },
   // ]);
   return (
-    <div className="App">
+    <div className="App dark-mode">
       {/* <RouterProvider router={router} /> */}
       <DataContext.Provider value={{ data, setData, routines, setRoutines }}>
-        {/* <ByDay /> */}
-        
-        <DailyWorkoutLog />
-        {/* <CreateWorkout /> */}
-        {/* <ExerciseLog /> */}
+         
         {/* <WeightTracker/> */}
-        {/* <AllWorkouts /> */}
-        
+        <DailyWorkoutLog/>
         {/* <Exercises/> */}
-
+        {/* <WorkoutInfo /> */}
         {/* <Macros /> */}
       </DataContext.Provider>
     </div>

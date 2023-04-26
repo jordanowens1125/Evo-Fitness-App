@@ -13,7 +13,9 @@ import {
   Forearms,
   Lats,
   Triceps,
+  Heart,
 } from "./muscleGroups";
+import { exerciseType, muscleGroupType } from "../types/exercise";
 
 export const bodySegments = [
   {
@@ -41,7 +43,7 @@ export const bodySegments = [
   },
   {
     name: "Cardio",
-    muscleGroups: [],
+    muscleGroups: [Heart],
   },
   {
     name: "ETC",
@@ -49,32 +51,35 @@ export const bodySegments = [
   },
 ];
 
-export const exercises = [];
-export const muscleGroups = []
-export const exerciseObjectsWithAllInfo = {
-  
-}
+export const exercises: exerciseType[] = [];
+
+export const muscleGroups: muscleGroupType[] = [];
+export const exerciseObjectsWithAllInfo:any = {};
 
 bodySegments.map((segment) => {
   return segment.muscleGroups.map((muscleGroup) => {
-    if (muscleGroup.exercises.length > 0) {
-        
-      muscleGroup.exercises.map((exercise) => {
-        exercises.push({
-          exercise,
-          segment: segment.name,
-          muscleGroup: { name: muscleGroup.name, image: muscleGroup.image },
-        });
-        exerciseObjectsWithAllInfo[exercise.name] = {
-          exercise,
-          segment: segment.name,
-          muscleGroup: { name: muscleGroup.name, image: muscleGroup.image },
-        };
-        muscleGroups.push({
+    
+    const muscleGroupObject: muscleGroupType = {
           name: muscleGroup.name,
-          exercises: muscleGroup.exercises,
-          segment: segment
-        })
+          image: muscleGroup.image,
+          color: muscleGroup.color,
+          // segment: muscleGroup.segment,
+          // exercises: muscleGroup.exercises,
+        }
+    if (muscleGroup.exercises.length > 0) {
+      muscleGroup.exercises.map((exercise) => {
+        const exerciseObject: exerciseType =
+          {
+          name: exercise.name,
+          kind: exercise.kind,
+          details: exercise.details,
+          defaultSets: exercise.defaultSets,
+          segment: segment.name,
+          muscleGroup: { name: muscleGroup.name, image: muscleGroup.image },
+        }
+        exercises.push(exerciseObject);
+        exerciseObjectsWithAllInfo[exercise.name] = exerciseObject
+        muscleGroups.push(muscleGroupObject);
         return {
           exercise,
         };
@@ -84,3 +89,4 @@ bodySegments.map((segment) => {
   });
 });
 
+console.log(exercises);
