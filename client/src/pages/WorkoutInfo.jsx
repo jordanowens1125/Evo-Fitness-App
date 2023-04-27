@@ -40,11 +40,15 @@ const WorkoutInfo = () => {
 
   return (
     <>
-      <span className="flex margin-bottom-lg">
+      <span className="flex margin-bottom-lg jcc aic">
         {options.map((option) => {
           return (
             <div
-              className="secondary-border padding-sm"
+              className={
+                setting === option
+                  ? "active padding-sm secondary-border"
+                  : "secondary-border padding-sm inactive"
+              }
               onClick={handleSettingChange}
               key={option}
             >

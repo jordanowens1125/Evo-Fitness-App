@@ -212,7 +212,7 @@ const DailyWorkoutLog = () => {
 
       <div>
         {dailyLog ? (
-          <div className="flex flex-column jcc">
+          <div className="flex flex-column jcc margin-lg">
             <button onClick={saveRoutine}>Save today as routine</button>
             <DailyLog
               log={dailyLog}

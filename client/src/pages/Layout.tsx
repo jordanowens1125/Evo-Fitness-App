@@ -23,7 +23,7 @@ const Layout = () => {
   };
   return (
     <>
-      <nav className="full-width height-sm padding-lg flex aic space-between border-bottom-secondary">
+      <nav className="full-width height-sm padding-lg flex aic space-between border-bottom-secondary body-color">
         <NavLink
           to="/"
           aria-label="Home"
@@ -37,7 +37,10 @@ const Layout = () => {
         >
           <Dumbbell />
         </NavLink>
-        <button onClick={handleClick}>Switch</button>
+        <label className="switch">
+                <input type="checkbox" aria-label="Change Color Theme"/>
+                <span className="slider round" onClick={handleClick}></span>
+            </label>
         <NavLink
           to="/weight"
           className={({ isActive }) => (isActive ? "active-link" : "inactive-link")}
