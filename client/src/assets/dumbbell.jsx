@@ -4,8 +4,8 @@ const SvgComponent = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
-    width={64}
-    height={64}
+    width={props.value}
+    height={props.value}
     viewBox="0 0 24 24"
     {...props}
   >

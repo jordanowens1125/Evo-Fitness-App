@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { DataContext } from "../../context/Context";
 import { returnDaysWithExercise } from "../../utils/filterFunctions";
-import NoData from "../NoData";
+import NoData from "../Shared/NoData";
 
 const displaySets = (exercise) => {
   //get the detail
@@ -47,7 +47,7 @@ const ExerciseLog = (exerciseObject) => {
   return (
     <>
       {daysWithExercises.length === 0 ? (
-        <NoData/>
+        <NoData />
       ) : (
         daysWithExercises.map((day) => {
           return (

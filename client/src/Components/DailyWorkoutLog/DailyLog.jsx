@@ -97,10 +97,10 @@ const DailyLog = ({
           <>
             <section
               key={exercise.name}
-              className="margin-bottom-sm padding-lg flex flex-column aic"
+              className="margin-bottom-sm padding-lg flex flex-column"
             >
               <div className="width-md">
-                <span className="flex space-between margin-bottom-md full-width ">
+                <span className="flex margin-bottom-md gap-lg ">
                   <h2 className="primary">{exercise.name}</h2>
                   <span className="flex gap-lg">
                     <button onClick={() => setEditMode(true)}>Edit</button>

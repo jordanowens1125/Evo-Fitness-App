@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { DataContext } from "../../context/Context";
 
 const AddRoutineToDay = ({ addRoutine }) => {
-  const [editMode, setEditMode] = useState(false)
+  const [editMode, setEditMode] = useState(false);
   const context = useContext(DataContext);
   const routines = context.routines;
   const setRoutines = context.setRoutines;
@@ -13,41 +13,51 @@ const AddRoutineToDay = ({ addRoutine }) => {
   };
   const handleRoutineSubmission = (routine) => {
     addRoutine(routine);
-    setEditMode(false)
+    setEditMode(false);
   };
   useEffect(() => {}, [context, routines]);
   return (
     <>
       {editMode ? (
         <>
-          <button
-            onClick={() => {
-              setEditMode(false);
-            }}
-          >
-            Cancel
-          </button>
-          <div>
-            Choose the routine you would like to add
-            {routines.map((routine, index) => {
-              return (
-                <div key={index}>
-                  <div>
-                    Routine{index}
-                    {routine.map((exercise) => {
-                      return <div key={exercise.name}>{exercise.name}</div>;
-                    })}
-                    <button onClick={() => handleRoutineSubmission(routine)}>
-                      Add me
-                    </button>
-                  </div><button onClick={(e) => deleteRoutine(index)}>
+          <div className="modal">
+            <div className="modal-content">
+              <span className="flex space-between">
+                Choose the routine you would like to add
+                <button
+                  onClick={() => {
+                    setEditMode(false);
+                  }}
+                >
+                  Cancel
+                </button>
+              </span>
+
+              <div>
+                {routines.map((routine, index) => {
+                  return (
+                    <div key={index}>
+                      <div>
+                        Routine{index}
+                        {routine.map((exercise) => {
+                          return <div key={exercise.name}>{exercise.name}</div>;
+                        })}
+                        <button
+                          onClick={() => handleRoutineSubmission(routine)}
+                        >
+                          Add me
+                        </button>
+                      </div>
+                      <button onClick={(e) => deleteRoutine(index)}>
                         Delete Routine
                       </button>
-                  {/* Add exercise to date ability */}
-                  {/* Edit routine */}
-                </div>
-              );
-            })}
+                      {/* Add exercise to date ability */}
+                      {/* Edit routine */}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </>
       ) : (

@@ -8,7 +8,7 @@ import AddExercisesToDay from "../Components/DailyWorkoutLog/AddExercisesToDay";
 import { DataContext } from "../context/Context";
 import AddRoutineToDay from "../Components/DailyWorkoutLog/AddRoutineToDay";
 import { findIndex } from "../utils/searchFunction";
-import NoData from "../Components/NoData";
+import NoData from "../Components/Shared/NoData";
 import RightArrow from "../assets/right-arrow";
 import LeftArrow from "../assets/left-arrow";
 
@@ -195,10 +195,7 @@ const DailyWorkoutLog = () => {
             onChange={jumpToDate}
           ></input>
         </span>
-        <button
-          onClick={() => handleDateChange(1)}
-          className="svg-button "
-        >
+        <button onClick={() => handleDateChange(1)} className="svg-button ">
           <RightArrow />
         </button>
       </div>

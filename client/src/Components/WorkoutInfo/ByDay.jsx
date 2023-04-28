@@ -23,8 +23,8 @@ import ExerciseDropDown from "../ByDay/ExerciseDropDown";
 import { DataContext } from "../../context/Context";
 import { generateRandomColor } from "../../data/colors";
 import { exerciseObjectsWithAllInfo } from "../../data/bodySegments";
-import LeftArrow from '../../assets/left-arrow'
-import RightArrow from '../../assets/right-arrow'
+import LeftArrow from "../../assets/left-arrow";
+import RightArrow from "../../assets/right-arrow";
 
 const getDisplayValue = (exercises, exercise, value) => {
   const name = exercise.name;
@@ -190,83 +190,83 @@ const ByDay = ({ exerciseObject, setExerciseObject }) => {
 
   return (
     <>
-      <div className="flex aic space-around">
-        <button onClick={testLeft} className="no-padding no-border">
-          <LeftArrow />
-        </button>
-        {/* <LeftArrow click={testLeft} /> */}
-        <DateRangeDropDown
-          daysPrior={daysPrior}
-          handleRangeChange={handleRangeChange}
-        />
-        <span className="flex gap-md aic">
-          <label htmlFor="Date">End Date: </label>
-          <input
-            type="date"
-            id="start"
-            name="Date"
-            value={date.toISOString().slice(0, 10)}
-            min="2022-04-01"
-            max="2035-12-31"
-            onChange={jumpToDate}
-          ></input>
-          {compareDatesInDateFormat(date, new Date()) ? (
-            <></>
-          ) : (
-            <>
-              <button onClick={setDateToToday}>Today</button>
-            </>
-          )}
+        <div className="flex aic gap-lg jcc">
+          <button onClick={testLeft} className="no-padding no-border">
+            <LeftArrow />
+          </button>
+          {/* <LeftArrow click={testLeft} /> */}
+          <DateRangeDropDown
+            daysPrior={daysPrior}
+            handleRangeChange={handleRangeChange}
+          />
+          <span className="flex gap-md aic wrap">
+            <label htmlFor="Date">End Date: </label>
+            <input
+              type="date"
+              id="start"
+              name="Date"
+              value={date.toISOString().slice(0, 10)}
+              min="2022-04-01"
+              max="2035-12-31"
+              onChange={jumpToDate}
+            ></input>
+            {compareDatesInDateFormat(date, new Date()) ? (
+              <></>
+            ) : (
+              <>
+                <button onClick={setDateToToday}>Today</button>
+              </>
+            )}
+          </span>
+          <button onClick={testRight} className="no-padding no-border">
+            <RightArrow />
+          </button>
+        </div>
+        {/* <div className="height-md width-lg primary flex">
+          <ResponsiveContainer width={1500} height={500}>
+            <AreaChart
+              data={filledData}
+              margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+            >
+              <defs>
+                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                  <stop
+                    offset="5%"
+                    stopColor={randomColor || "#8884d8"}
+                    stopOpacity={0.5}
+                  />
+                  <stop
+                    offset="90%"
+                    stopColor={randomColor || "#8884d8"}
+                    stopOpacity={0}
+                  />
+                </linearGradient>
+              </defs>
+              <Legend verticalAlign="top" height={36} />
+              <XAxis dataKey="date" tickLine={false} />
+              <YAxis tickLine={false} />
+
+              <Tooltip />
+              <Area
+                type="monotone"
+                dataKey={detail.name}
+                stroke={randomColor || "#8884d8"}
+                fillOpacity={1}
+                fill="url(#colorUv)"
+                dot={true}
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div> */}
+
+        <span className="aic flex jcc">
+          <ExerciseDropDown
+            exercise={exerciseObject.name}
+            handleExerciseChange={handleExerciseChange}
+          />
+
+          <DetailsDropDown detail={detail} />
         </span>
-        <button onClick={testRight} className="no-padding no-border">
-          <RightArrow />
-        </button>
-      </div>
-      <div className="height-md width-lg primary flex">
-        <ResponsiveContainer width={1500} height={500}>
-          <AreaChart
-            data={filledData}
-            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-          >
-            <defs>
-              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor={randomColor || "#8884d8"}
-                  stopOpacity={0.5}
-                />
-                <stop
-                  offset="90%"
-                  stopColor={randomColor || "#8884d8"}
-                  stopOpacity={0}
-                />
-              </linearGradient>
-            </defs>
-            <Legend verticalAlign="top" height={36} />
-            <XAxis dataKey="date" tickLine={false} />
-            <YAxis tickLine={false} />
-
-            <Tooltip />
-            <Area
-              type="monotone"
-              dataKey={detail.name}
-              stroke={randomColor || "#8884d8"}
-              fillOpacity={1}
-              fill="url(#colorUv)"
-              dot={true}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
-
-      <span className="aic flex jcc">
-        <ExerciseDropDown
-          exercise={exerciseObject.name}
-          handleExerciseChange={handleExerciseChange}
-        />
-
-        <DetailsDropDown detail={detail} />
-      </span>
     </>
   );
 };

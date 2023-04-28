@@ -5,7 +5,6 @@ import ExerciseLog from "../Components/WorkoutInfo/ExerciseLog";
 import MuscleGroup from "../Components/WorkoutInfo/MuscleGroup";
 import { exerciseObjectsWithAllInfo } from "../data/bodySegments";
 
-
 const options = ["All", "Muscle Groups", "Exercises"];
 
 const WorkoutInfo = () => {
@@ -40,25 +39,27 @@ const WorkoutInfo = () => {
 
   return (
     <>
-      <span className="flex margin-bottom-lg jcc aic">
-        {options.map((option) => {
-          return (
-            <div
-              className={
-                setting === option
-                  ? "active padding-sm secondary-border"
-                  : "secondary-border padding-sm inactive"
-              }
-              onClick={handleSettingChange}
-              key={option}
-            >
-              {option}
-            </div>
-          );
-        })}
-      </span>
+      <div>
+        <span className="flex margin-bottom-lg jcc wrap">
+          {options.map((option) => {
+            return (
+              <div
+                className={
+                  setting === option
+                    ? "active padding-sm secondary-border"
+                    : "secondary-border padding-sm inactive"
+                }
+                onClick={handleSettingChange}
+                key={option}
+              >
+                {option}
+              </div>
+            );
+          })}
+        </span>
 
-      {settingSwitch(setting)}
+        {settingSwitch(setting)}
+      </div>
     </>
   );
 };

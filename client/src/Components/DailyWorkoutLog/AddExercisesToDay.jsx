@@ -52,10 +52,10 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
     updatedExercise["kind"] = exercises[value].kind;
     const defaultSets = { ...exercises[value].defaultSets };
     updatedExercise["sets"] = defaultSets;
-    updatedExercise['defaultSets'] = defaultSets
-    updatedExercise['details'] = exercises[value].details
+    updatedExercise["defaultSets"] = defaultSets;
+    updatedExercise["details"] = exercises[value].details;
     setNewExercise(updatedExercise);
-  }; 
+  };
 
   const addNewSetToExercise = () => {
     const updatedExercise = { ...newExercise };
@@ -63,7 +63,7 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
 
     for (let i = 0; i < details.length; i++) {
       const oldSets = [...updatedExercise.sets[details[i]]];
-      const defaultValue = { ...updatedExercise }.defaultSets[details[i]][0]
+      const defaultValue = { ...updatedExercise }.defaultSets[details[i]][0];
       updatedExercise.sets[details[i]] = [...oldSets, defaultValue];
     }
     setNewExercise(updatedExercise);
@@ -84,37 +84,49 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
     <>
       {newWorkoutMode ? (
         <>
-          <div className="flex flex-column space-between">
-            <select
-              name="exercise"
-              id="exercise"
-              onChange={setExerciseName}
-              value={exerciseValue}
-            >
-              {exercises.map((exercise, index) => (
-                <option value={index} key={exercise.name + index}>
-                  {" "}
-                  {exercise.name}
-                </option>
-              ))}
-            </select>
-            <button onClick={cancel}>Cancel</button>
-          </div>
+          <div className="modal">
+            <div className="modal-content">
+              <span className="flex space-between">
+                <h2 className="margin-bottom-lg">
+                Log an exercise:
+              </h2>
+              <button onClick={cancel}>Cancel</button>
+              </span>
+              
+              <div className="flex space-between ">
+                <span className="flex gap-lg">
+                  <select
+                    name="exercise"
+                    id="exercise"
+                    onChange={setExerciseName}
+                    value={exerciseValue}
+                  >
+                    {exercises.map((exercise, index) => (
+                      <option value={index} key={exercise.name + index}>
+                        {" "}
+                        {exercise.name}
+                      </option>
+                    ))}
+                  </select>
+                  <button className="secondary-buttono">Create New Exercise</button>
+                </span>
+                
+              </div>
 
-          {/* Dropdown depends on exercise type */}
-          <div>
-            {DifferentWorkoutDisplay(newExercise, handleSetChange)}
-            <span className="flex space-between margin-top-lg">
+              {/* Dropdown depends on exercise type */}
+              <div>{DifferentWorkoutDisplay(newExercise, handleSetChange)}</div>
               <button onClick={addNewSetToExercise}>Add new set</button>
-              <button onClick={addNewExerciseAndSets}>Finish</button>
-            </span>
+              <button onClick={addNewExerciseAndSets} className="primary">
+                Submit
+              </button>
+            </div>
           </div>
         </>
       ) : (
         <>
           <button
             onClick={() => handleNewWorkoutMode()}
-            className=""
+            className="secondary-button"
           >
             Add Exercise
           </button>
