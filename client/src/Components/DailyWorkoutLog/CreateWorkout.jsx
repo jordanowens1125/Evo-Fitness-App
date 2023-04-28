@@ -8,6 +8,7 @@ const CreateWorkout = () => {
   const [exercisesInWorkout, setExercisesInWorkout] = useState({});
   const [searchParam, setSearchParam] = useState("");
   const context = useContext(DataContext);
+
   const routines = context.routines;
   const setRoutines = context.setRoutines;
 

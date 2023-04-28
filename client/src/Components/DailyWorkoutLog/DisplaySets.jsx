@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 const DisplaySets = ({ newExercise, index, handleSetChange }) => {
-  const details = Object.keys(newExercise.details)
+  const details = Object.keys(newExercise.details);
   const [item, setItem] = useState({
     Repetition: 0,
     Weight: 0,
@@ -20,24 +20,26 @@ const DisplaySets = ({ newExercise, index, handleSetChange }) => {
 
   return (
     <>
-      {details.map((detail) => {
-        return (
-          <span key={`${detail}-input`}>
-            {detail}:{" "}
-            <input
-              key={detail}
-              type="number"
-              name={`Exercise${newExercise.name}Set${index}${detail}`}
-              id={`Exercise${newExercise.name}-Set${index}-${detail}`}
-              value={item[detail]}
-              onChange={handleInputChange}
-              className="width-sm"
-            />{" "}
-            {newExercise.details[detail].units}
-          </span>
-        );
-      })}
-      {newExercise.units}{" "}
+      <div className="padding-md">
+        {details.map((detail) => {
+          return (
+            <span key={`${detail}-input`} className="flex  flex-column">
+              <span className="margin-bottom-md">
+                {detail} {"   "} {newExercise.details[detail].units}
+              </span>
+              <input
+                key={detail}
+                type="number"
+                name={`Exercise${newExercise.name}Set${index}${detail}`}
+                id={`Exercise${newExercise.name}-Set${index}-${detail}`}
+                value={item[detail]}
+                onChange={handleInputChange}
+                className="width-xs"
+              />{" "}
+            </span>
+          );
+        })}
+      </div>
     </>
   );
 };

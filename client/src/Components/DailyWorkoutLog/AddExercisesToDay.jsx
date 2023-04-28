@@ -1,12 +1,17 @@
-import React, { useState } from "react";
-import { exercises } from "../../data/bodySegments";
+import React, { useState, useContext } from "react";
 import DisplaySets from "./DisplaySets";
+import CreateExercise from "./CreateExercise";
+import { DataContext } from "../../context/Context";
 
-const DifferentWorkoutDisplay = (newExercise, handleSetChange) => {
+const DifferentWorkoutDisplay = (newExercise, handleSetChange, removeSet) => {
   const detailReference = Object.keys(newExercise.details)[0];
   return newExercise.sets[detailReference].map((value, index) => {
     return (
-      <div key={index} className="flex  aic">
+      <div key={index} className="flex  flex-column bg-border padding-lg ">
+        <span className="flex space-between">
+          <p>Set {index+1}:</p>
+          <p onClick={() => removeSet(index)}>X</p>
+        </span>
         <DisplaySets
           newExercise={newExercise}
           index={index}
@@ -20,6 +25,9 @@ const DifferentWorkoutDisplay = (newExercise, handleSetChange) => {
 const AddExercisesToDay = ({ addExerciseForDay }) => {
   const [newWorkoutMode, setNewWorkoutMode] = useState(false);
   const [exerciseValue, setExerciseValue] = useState(0);
+  const [createModalOn, setCreateModalOn] = useState(true);
+  const context = useContext(DataContext)
+  const exercises = context.exerciseList
   const [newExercise, setNewExercise] = useState({
     name: exercises[0].name,
     kind: exercises[0].kind,
@@ -60,7 +68,6 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
   const addNewSetToExercise = () => {
     const updatedExercise = { ...newExercise };
     const details = Object.keys(updatedExercise.defaultSets);
-
     for (let i = 0; i < details.length; i++) {
       const oldSets = [...updatedExercise.sets[details[i]]];
       const defaultValue = { ...updatedExercise }.defaultSets[details[i]][0];
@@ -80,6 +87,22 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
     setNewExercise(updatedExercise);
   };
 
+  const removeSet = (index) => {
+    const updatedExercise = { ...newExercise };
+    const details = Object.keys(updatedExercise.defaultSets);
+    for (let i = 0; i < details.length; i++) {
+      const oldSets = [...updatedExercise.sets[details[i]]];
+      oldSets.splice(index, 1);
+      updatedExercise.sets[details[i]] = oldSets;
+      console.log(updatedExercise.sets);
+    }
+    setNewExercise(updatedExercise);
+  };
+
+  const cancelCreateWorkout = () => {
+    setCreateModalOn(false);
+  };
+
   return (
     <>
       {newWorkoutMode ? (
@@ -87,14 +110,12 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
           <div className="modal">
             <div className="modal-content">
               <span className="flex space-between">
-                <h2 className="margin-bottom-lg">
-                Log an exercise:
-              </h2>
-              <button onClick={cancel}>Cancel</button>
+                <h2 className="margin-bottom-lg">Log an exercise:</h2>
+                <button onClick={cancel}>Cancel</button>
               </span>
-              
+
               <div className="flex space-between ">
-                <span className="flex gap-lg">
+                <span className="flex gap-lg wrap">
                   <select
                     name="exercise"
                     id="exercise"
@@ -108,19 +129,40 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
                       </option>
                     ))}
                   </select>
-                  <button className="secondary-buttono">Create New Exercise</button>
+                  <button
+                    className="secondary-buttono"
+                    onClick={() => setCreateModalOn(true)}
+                  >
+                    Create New Exercise
+                  </button>
                 </span>
-                
               </div>
 
               {/* Dropdown depends on exercise type */}
-              <div>{DifferentWorkoutDisplay(newExercise, handleSetChange)}</div>
+              <div className="flex wrap gap-lg">
+                {DifferentWorkoutDisplay(
+                  newExercise,
+                  handleSetChange,
+                  removeSet
+                )}
+              </div>
               <button onClick={addNewSetToExercise}>Add new set</button>
               <button onClick={addNewExerciseAndSets} className="primary">
                 Submit
               </button>
             </div>
           </div>
+          {createModalOn ? (
+            <>
+              <div className="modal">
+                <div className="modal-content">
+                  <CreateExercise cancel={cancelCreateWorkout} />
+                </div>
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
         </>
       ) : (
         <>

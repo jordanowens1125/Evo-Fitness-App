@@ -1,21 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import AllWorkouts from "../Components/WorkoutInfo/AllWorkouts";
 import ByDay from "../Components/WorkoutInfo/ByDay";
 import ExerciseLog from "../Components/WorkoutInfo/ExerciseLog";
 import MuscleGroup from "../Components/WorkoutInfo/MuscleGroup";
 import { exerciseObjectsWithAllInfo } from "../data/bodySegments";
+import { DataContext } from "../context/Context";
 
 const options = ["All", "Muscle Groups", "Exercises"];
 
 const WorkoutInfo = () => {
   const [setting, setSetting] = useState("All");
-  const [exerciseObject, setExerciseObject] = useState(
-    exerciseObjectsWithAllInfo["Pushups"]
-  );
+  const context = useContext(DataContext);
+  const exercises = context.exerciseList;
+  const [exerciseIndex, setExerciseIndex] = useState(0);
+  const [exerciseObject, setExerciseObject] = useState(exercises[0])
   const handleSettingChange = (e) => {
     setSetting(e.currentTarget.innerHTML);
   };
 
+  const handleExerciseChange = (index) => {
+    setExerciseIndex(index)
+    setExerciseObject(exercises[index])
+  }
   const settingSwitch = function (setting) {
     switch (setting) {
       case "All":
@@ -26,8 +32,8 @@ const WorkoutInfo = () => {
         return (
           <>
             <ByDay
-              exerciseObject={exerciseObject}
-              setExerciseObject={setExerciseObject}
+              exerciseIndex={exerciseIndex}
+              setExerciseIndex={handleExerciseChange}
             />
             <ExerciseLog exerciseObject={exerciseObject} />
           </>

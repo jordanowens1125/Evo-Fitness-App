@@ -8,8 +8,9 @@ const Distance = { name: "Distance", units: "Miles" };
 const Time = { name: "Time", units: "Seconds" };
 const Repetition = { name: "Repetition", units: "" };
 
-const kindsOfExercises = {
-  "Weights/Reps": {
+const kindsOfExercises = [
+  {
+    name: "Weights/Reps",
     details: { Repetition, Weight },
     detailsList: [Repetition, Weight],
     exercises: ["Pushups", "Pullups"],
@@ -18,7 +19,8 @@ const kindsOfExercises = {
       Weight: [0],
     },
   },
-  "Distance/Time": {
+  {
+    name: "Distance/Time",
     details: { Distance, Time },
     detailsList: [Distance, Time],
     etc: ["Average Distance Over Time"],
@@ -28,77 +30,97 @@ const kindsOfExercises = {
       Time: [0],
     },
   },
-  Time: {
+  {
+    name: "Time",
     details: { Time },
     detailsList: [Time],
     exercises: [],
-    // defaultSets: {
-    //   Repetition: [0],
-    //   Weight: [0]
-    // }
+    defaultSets: {
+      Time: [0],
+    },
   },
-  "Weights/Distance": {
+  {
+    name: "Weights/Distance",
     details: { Weight, Distance },
     detailsList: [Weight, Distance],
     exercises: [],
-    // defaultSets: {
-    //   Repetition: [0],
-    //   Weight: [0]
-    // }
+    defaultSets: {
+      Distance: [0],
+      Weight: [0],
+    },
   },
-  "Reps/Distance": {
+  {
+    name: "Reps/Distance",
     details: { Repetition, Distance },
     detailsList: [Repetition, Distance],
     exercises: [],
-    // defaultSets: {
-    //   Repetition: [0],
-    //   Weight: [0]
-    // }
+    defaultSets: {
+      Repetition: [0],
+      Distance: [0],
+    },
   },
-  "Reps/Time": {
+  {
+    name: "Reps/Time",
     details: { Repetition, Time },
     detailsList: [Repetition, Time],
     exercises: [],
+    defaultSets: {
+      Repetition: [0],
+      Time: [0],
+    },
   },
-  Weight: {
+  {
+    name: "Weight",
     details: { Weight },
     detailsList: [Weight],
     exercises: [],
+    defaultSets: {
+      Weight: [0],
+    },
   },
-  Reps: {
+  {
+    name: "Repetition",
     details: { Repetition },
     detailsList: [Repetition],
     exercises: [],
+    defaultSets: {
+      Repetition: [0],
+    }
   },
-  Distance: {
+  {
+    name: "Distance",
     details: { Distance },
     detailsList: [Distance],
     exercises: [],
+    defaultSets: {
+      Distance: [0]
+    }
   },
-};
+];
 
 let exercises = [];
 let exerciseItems = {};
-Object.keys(kindsOfExercises).forEach(function (key) {
-  if (kindsOfExercises[key].exercises.length > 0) {
-    const exerciseObjects = kindsOfExercises[key].exercises.map((exercise) => {
-      const kindOfExercise = kindsOfExercises[key];
+kindsOfExercises.map((kind) => {
+  if (kind.exercises.length > 0) {
+    const exerciseObjects = kind.exercises.map((exercise) => {
+      const kindOfExercise = kind;
       const exerciseObject = {
         name: exercise,
-        kind: key,
+        kind: kind,
         details: kindOfExercise["details"],
         defaultSets: kindOfExercise.defaultSets,
       };
       exerciseItems[exercise] = exerciseObject;
       return {
         name: exercise,
-        kind: key,
+        kind: kind,
         details: kindOfExercise["details"],
         defaultSets: kindOfExercise.defaultSets,
       };
     });
     exercises = [...exercises, ...exerciseObjects];
   }
+  return 1;
 });
 
 module.exports = { kindsOfExercises, exercises, exerciseItems };

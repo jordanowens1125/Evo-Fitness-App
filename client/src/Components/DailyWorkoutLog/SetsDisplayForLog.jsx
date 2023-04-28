@@ -37,7 +37,6 @@ const SetsDisplayForLog = ({
               </span>
             );
           })}
-          {exercise.units}
           <button
             onClick={() => removeSetFromExercise(exerciseIndex, SetIndex)}
           >

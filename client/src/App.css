@@ -273,6 +273,11 @@ svg:not(.recharts-surface):hover {
   border: none;
 }
 
+.bg-border{
+  border: 3px solid var(--bg-color);
+  border-radius: .5rem;
+}
+
 .border-bottom-secondary {
   border-bottom: 3px solid var(--light-bg-color);
 }
@@ -462,6 +467,7 @@ input:checked + .slider:before {
   background-color: var(--light-bg-color);
   display: flex;
   flex-direction: column;
+  gap: 20px;
   padding: 20px;
   width: 95%;
   height: 95%;
