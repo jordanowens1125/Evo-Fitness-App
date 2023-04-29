@@ -228,10 +228,10 @@ const byDay = [
     ],
   },
   {
-    date: "04-25-2023",
-    officialDate: new Date(2023, 3, 25),
+    date: "04-22-2023",
+    officialDate: new Date(2023, 3, 22),
     score: 10,
-    weight: 10,
+    weight: 180,
     exercises: [
       {
         name: exerciseObjectsWithAllInfo["Pullups"].name,
@@ -247,9 +247,101 @@ const byDay = [
       },
     ],
   },
+  {
+    date: "04-23-2023",
+    officialDate: new Date(2023, 3, 23),
+    score: 10,
+    weight: 135,
+    exercises: [
+      {
+        name: exerciseObjectsWithAllInfo["Pullups"].name,
+        segment: exerciseObjectsWithAllInfo["Pullups"].segment,
+        defaultSets: exerciseObjectsWithAllInfo["Pullups"].defaultSets,
+        kind: exerciseObjectsWithAllInfo["Pullups"].kind,
+        muscleGroup: exerciseObjectsWithAllInfo["Pullups"].muscleGroup,
+        details: exerciseObjectsWithAllInfo["Pullups"].details,
+        sets: {
+          Repetition: [10, 2],
+          Weight: [15, 12],
+        },
+      },
+    ],
+  },
+  {
+    date: "04-24-2023",
+    officialDate: new Date(2023, 3, 24),
+    score: 10,
+    weight: 140,
+    exercises: [
+      {
+        name: exerciseObjectsWithAllInfo["Pullups"].name,
+        segment: exerciseObjectsWithAllInfo["Pullups"].segment,
+        defaultSets: exerciseObjectsWithAllInfo["Pullups"].defaultSets,
+        kind: exerciseObjectsWithAllInfo["Pullups"].kind,
+        muscleGroup: exerciseObjectsWithAllInfo["Pullups"].muscleGroup,
+        details: exerciseObjectsWithAllInfo["Pullups"].details,
+        sets: {
+          Repetition: [2],
+          Weight: [12],
+        },
+      },
+    ],
+  },
+  {
+    date: "04-25-2023",
+    officialDate: new Date(2023, 3, 25),
+    score: 10,
+    weight: 145,
+    exercises: [
+      {
+        name: exerciseObjectsWithAllInfo["Pullups"].name,
+        segment: exerciseObjectsWithAllInfo["Pullups"].segment,
+        defaultSets: exerciseObjectsWithAllInfo["Pullups"].defaultSets,
+        kind: exerciseObjectsWithAllInfo["Pullups"].kind,
+        muscleGroup: exerciseObjectsWithAllInfo["Pullups"].muscleGroup,
+        details: exerciseObjectsWithAllInfo["Pullups"].details,
+        sets: {
+          Repetition: [10],
+          Weight: [15],
+        },
+      },
+    ],
+  },
+  {
+    date: "04-29-2023",
+    officialDate: new Date(2023, 3, 29),
+    score: 10,
+    weight: 159,
+    exercises: [
+      {
+        name: exerciseObjectsWithAllInfo["Pullups"].name,
+        segment: exerciseObjectsWithAllInfo["Pullups"].segment,
+        defaultSets: exerciseObjectsWithAllInfo["Pullups"].defaultSets,
+        kind: exerciseObjectsWithAllInfo["Pullups"].kind,
+        muscleGroup: exerciseObjectsWithAllInfo["Pullups"].muscleGroup,
+        details: exerciseObjectsWithAllInfo["Pullups"].details,
+        sets: {
+          Repetition: [10],
+          Weight: [15],
+        },
+      },
+      {
+        name: exerciseObjectsWithAllInfo["Pushups"].name,
+        segment: exerciseObjectsWithAllInfo["Pushups"].segment,
+        defaultSets: exerciseObjectsWithAllInfo["Pushups"].defaultSets,
+        kind: exerciseObjectsWithAllInfo["Pushups"].kind,
+        muscleGroup: exerciseObjectsWithAllInfo["Pushups"].muscleGroup,
+        details: exerciseObjectsWithAllInfo["Pushups"].details,
+        sets: {
+          Repetition: [5, 9],
+          Weight: [15, 0],
+        },
+      },
+    ],
+  },
 ];
 
 const dummyData = {
   byDay,
 };
-export default dummyData
+export default dummyData;

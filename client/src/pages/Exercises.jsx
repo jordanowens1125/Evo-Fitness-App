@@ -1,9 +1,10 @@
 import React, { useState, useContext } from "react";
 import { exercises, bodySegments, muscleGroups } from "../data/bodySegments";
 import { DataContext } from "../context/Context";
+import CreateExercise from "../Components/DailyWorkoutLog/CreateExercise";
 
 const Exercises = () => {
-  const [unfiltered, setUnFiltered] = useState(exercises)
+  const [unfiltered, setUnFiltered] = useState(exercises);
   const [filtered, setFiltered] = useState(exercises);
   const [segment, setSegment] = useState("");
   const [muscleGroup, setMuscleGroup] = useState("");
@@ -14,12 +15,12 @@ const Exercises = () => {
   //filter by exercises in favorites/routines
 
   function handleParamChange(e) {
-    setSearchParam(e.currentTarget.value)
+    setSearchParam(e.currentTarget.value);
     const newFiltered = unfiltered.filter((item) => {
-      const capitalized = item.exercise.name.toUpperCase()
-      return capitalized.includes(e.currentTarget.value.toUpperCase())
-    })
-    setFiltered(newFiltered)
+      const capitalized = item.exercise.name.toUpperCase();
+      return capitalized.includes(e.currentTarget.value.toUpperCase());
+    });
+    setFiltered(newFiltered);
   }
 
   function removeFilters() {
@@ -30,9 +31,11 @@ const Exercises = () => {
   }
 
   function filterBySegment(value) {
-    let newFiltered = exercises.filter((exercise) => exercise.segment === value);
+    let newFiltered = exercises.filter(
+      (exercise) => exercise.segment === value
+    );
     setFiltered(newFiltered);
-    setUnFiltered(newFiltered)
+    setUnFiltered(newFiltered);
   }
 
   function handleSegmentChange(e) {
@@ -61,16 +64,15 @@ const Exercises = () => {
     let newFiltered = exercises.filter(
       (exercise) => exercise.muscleGroup.name === value
     );
-    setUnFiltered(newFiltered)
+    setUnFiltered(newFiltered);
     setFiltered(newFiltered);
   }
 
   return (
     <>
-      <div>Exercises<button>New Exercise</button></div>
-      
-      <button onClick={removeFilters}>Remove Filters</button>
-      {/* <input
+      Exercises: <CreateExercise />
+      <div className="flex aic gap-lg">
+        {/* <input
         type="text"
         name=""
         id=""
@@ -78,51 +80,61 @@ const Exercises = () => {
         onChange={handleParamChange}
       />
       <button onClick={()=> setSearchParam('')}>Clear</button> */}
-      <label htmlFor="Segment">Body Segment:</label>
-      <select
-        name="Segment"
-        id="Segment"
-        value={segment}
-        onChange={handleSegmentChange}
-      >
-        <option value=""></option>
-        {bodySegments.map((segment) => {
+        <span>
+          <label htmlFor="Segment">Body Segment:</label>
+          <select
+            name="Segment"
+            id="Segment"
+            value={segment}
+            onChange={handleSegmentChange}
+          >
+            <option value=""></option>
+            {bodySegments.map((segment) => {
+              return (
+                <option key={segment.name} value={segment.name}>
+                  {segment.name}
+                </option>
+              );
+            })}
+          </select>
+        </span>
+        <span>
+          <label htmlFor="Muscle Group">Muscle Group:</label>
+          <select
+            name="Muscle Group"
+            id="Muscle Group"
+            value={muscleGroup}
+            onChange={handleMuscleGroupChange}
+          >
+            <option value=""></option>
+            {muscleGroupsInSegment.map((muscleGroup) => {
+              return (
+                <option key={muscleGroup.name} value={muscleGroup.name}>
+                  {muscleGroup.name}
+                </option>
+              );
+            })}
+          </select>
+        </span>
+
+        <button onClick={removeFilters}>Remove Filters</button>
+      </div>
+      <div className="flex space-between">
+        
+        <div>
+          {filtered.map((exercise, index) => {
           return (
-            <option key={segment.name} value={segment.name}>
-              {segment.name}
-            </option>
+            <div key={index}>
+              {exercise.muscleGroup.image}
+              {exercise.name}
+              {exercise.muscleGroup.name}
+              <button>Add exercise</button>
+            </div>
           );
         })}
-      </select>
-
-      <label htmlFor="Muscle Group">Muscle Group:</label>
-      <select
-        name="Muscle Group"
-        id="Muscle Group"
-        value={muscleGroup}
-        onChange={handleMuscleGroupChange}
-      >
-        <option value=""></option>
-        {muscleGroupsInSegment.map((muscleGroup) => {
-          return (
-            <option key={muscleGroup.name} value={muscleGroup.name}>
-              {muscleGroup.name}
-            </option>
-          );
-        })}
-      </select>
-
-      {filtered.map((idk, index) => {
-        return (
-          <div key={index}>
-            {idk.muscleGroup.image}
-            {idk.exercise.name}
-            {idk.muscleGroup.name}
-            {idk.segment}
-            <button>Add exercise</button>
-          </div>
-        );
-      })}
+        </div>
+        
+      </div>
     </>
   );
 };

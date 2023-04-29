@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import DisplaySets from "./DisplaySets";
+import DisplaySets from "../Shared/DisplaySetInput";
 import CreateExercise from "./CreateExercise";
 import { DataContext } from "../../context/Context";
 
@@ -7,16 +7,8 @@ const DifferentWorkoutDisplay = (newExercise, handleSetChange, removeSet) => {
   const detailReference = Object.keys(newExercise.details)[0];
   return newExercise.sets[detailReference].map((value, index) => {
     return (
-      <div key={index} className="flex  flex-column bg-border padding-lg ">
-        <span className="flex space-between">
-          <p>Set {index+1}:</p>
-          <p onClick={() => removeSet(index)}>X</p>
-        </span>
-        <DisplaySets
-          newExercise={newExercise}
-          index={index}
-          handleSetChange={handleSetChange}
-        />
+      <div key={index} className="flex wrap gap-lg">
+        <DisplaySets exercise={newExercise} handleSetChange={handleSetChange} />
       </div>
     );
   });
@@ -25,9 +17,8 @@ const DifferentWorkoutDisplay = (newExercise, handleSetChange, removeSet) => {
 const AddExercisesToDay = ({ addExerciseForDay }) => {
   const [newWorkoutMode, setNewWorkoutMode] = useState(false);
   const [exerciseValue, setExerciseValue] = useState(0);
-  const [createModalOn, setCreateModalOn] = useState(true);
-  const context = useContext(DataContext)
-  const exercises = context.exerciseList
+  const context = useContext(DataContext);
+  const exercises = context.exerciseList;
   const [newExercise, setNewExercise] = useState({
     name: exercises[0].name,
     kind: exercises[0].kind,
@@ -40,8 +31,7 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
     setNewWorkoutMode(true);
   };
 
-  const cancel = () => {
-    setNewWorkoutMode(false);
+  const resetValues = () => {
     setExerciseValue(0);
     setNewExercise({
       name: exercises[0].name,
@@ -50,6 +40,11 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
       sets: { ...exercises[0].defaultSets },
       defaultSets: { ...exercises[0].defaultSets }, //make sure default sets does not change,
     });
+  };
+
+  const cancel = () => {
+    setNewWorkoutMode(false);
+    resetValues();
   };
 
   const setExerciseName = (e) => {
@@ -99,18 +94,14 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
     setNewExercise(updatedExercise);
   };
 
-  const cancelCreateWorkout = () => {
-    setCreateModalOn(false);
-  };
-
   return (
     <>
       {newWorkoutMode ? (
         <>
           <div className="modal">
             <div className="modal-content">
-              <span className="flex space-between">
-                <h2 className="margin-bottom-lg">Log an exercise:</h2>
+              <span className="flex space-between flex-start">
+                <p className="margin-bottom-lg heading-md">Log an exercise:</p>
                 <button onClick={cancel}>Cancel</button>
               </span>
 
@@ -129,17 +120,10 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
                       </option>
                     ))}
                   </select>
-                  <button
-                    className="secondary-buttono"
-                    onClick={() => setCreateModalOn(true)}
-                  >
-                    Create New Exercise
-                  </button>
+                  <CreateExercise/>
                 </span>
               </div>
-
-              {/* Dropdown depends on exercise type */}
-              <div className="flex wrap gap-lg">
+              <div className="flex wrap gap-lg aic">
                 {DifferentWorkoutDisplay(
                   newExercise,
                   handleSetChange,
@@ -152,17 +136,6 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
               </button>
             </div>
           </div>
-          {createModalOn ? (
-            <>
-              <div className="modal">
-                <div className="modal-content">
-                  <CreateExercise cancel={cancelCreateWorkout} />
-                </div>
-              </div>
-            </>
-          ) : (
-            <></>
-          )}
         </>
       ) : (
         <>

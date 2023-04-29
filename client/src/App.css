@@ -30,8 +30,14 @@ body {
 
 /* Light Mode */
 .light-mode {
-  --bg-color: #fff;
+  /* --bg-color: #fff;
   --light-bg-color: #f1f5f8;
+  --primary-color: #fe2d55;
+  --secondary-color: #1e232d;
+  --text-color: #293649; */
+  /* Version 2 */
+  --bg-color: #f4f6fc;
+  --light-bg-color: #ffffff;
   --primary-color: #fe2d55;
   --secondary-color: #1e232d;
   --text-color: #293649;
@@ -58,7 +64,7 @@ body {
   width: 75px;
 }
 .width-md {
-  width: 500px;
+  width: 300px;
 }
 .width-lg {
   width: 800px;
@@ -84,15 +90,21 @@ body {
 /* flex */
 .flex {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .flex-column {
+  display: flex;
   flex-direction: column;
 }
 
 .grow {
   flex-grow: 1;
   flex:1
+}
+
+.flex-start{
+  align-items: start;
 }
 
 .aic {
@@ -105,10 +117,6 @@ body {
 
 .gap-sm {
   gap: 5px;
-}
-
-.wrap {
-  flex-wrap: wrap;
 }
 
 .gap-md {
@@ -551,6 +559,11 @@ nav .modal-content *{
   cursor: pointer;
 }
 /* end of small modal/popup */
+
+.card{
+  width: 100%;
+  padding: 20px;
+}
 
 
 @media screen and (min-width: 480px) {

@@ -1,8 +1,12 @@
 import React, { useContext, useState, useEffect } from "react";
 import { DataContext } from "../../context/Context";
+import DisplaySets from "../Shared/DisplaySets";
+import NewWorkOut from './NewWorkout'
+
 
 const AddRoutineToDay = ({ addRoutine }) => {
   const [editMode, setEditMode] = useState(false);
+  const [newWorkout, setNewWorkout] = useState(true);
   const context = useContext(DataContext);
   const routines = context.routines;
   const setRoutines = context.setRoutines;
@@ -15,6 +19,9 @@ const AddRoutineToDay = ({ addRoutine }) => {
     addRoutine(routine);
     setEditMode(false);
   };
+  const handleOpenModal = () => {
+    setNewWorkout(true)
+  }
   useEffect(() => {}, [context, routines]);
   return (
     <>
@@ -22,8 +29,8 @@ const AddRoutineToDay = ({ addRoutine }) => {
         <>
           <div className="modal">
             <div className="modal-content">
-              <span className="flex space-between">
-                Choose the routine you would like to add
+              <span className="flex space-between flex-start heading-sm gap-lg">
+                Choose the workout you would like to add:
                 <button
                   onClick={() => {
                     setEditMode(false);
@@ -33,24 +40,41 @@ const AddRoutineToDay = ({ addRoutine }) => {
                 </button>
               </span>
 
-              <div>
+              <div className="flex flex-column wrap gap-lg">
+                <button onClick={handleOpenModal}>New Workout</button>
+                {newWorkout ? (
+                  <>
+                    <NewWorkOut cancel={()=> setNewWorkout(false)}/>
+                  </>
+                ) : (
+                  <></>
+                )}
                 {routines.map((routine, index) => {
                   return (
-                    <div key={index}>
-                      <div>
-                        Routine{index}
-                        {routine.map((exercise) => {
-                          return <div key={exercise.name}>{exercise.name}</div>;
-                        })}
-                        <button
-                          onClick={() => handleRoutineSubmission(routine)}
-                        >
-                          Add me
-                        </button>
+                    <div
+                      key={index}
+                      className="bg-border padding-md full-width"
+                    >
+                      <div className="flex-column wrap margin-bottom-md gap-lg">
+                        <b className="primary">Routine {index + 1}:</b>
+                        <span className="flex gap-lg">
+                          <button
+                            onClick={() => handleRoutineSubmission(routine)}
+                          >
+                            Add Me
+                          </button>
+                          <button onClick={(e) => deleteRoutine(index)}>
+                            Delete Routine
+                          </button>
+                        </span>
                       </div>
-                      <button onClick={(e) => deleteRoutine(index)}>
-                        Delete Routine
-                      </button>
+                      {routine.map((exercise) => {
+                        return (
+                          <div key={+index + exercise.name}>
+                            <DisplaySets exercise={exercise} />
+                          </div>
+                        );
+                      })}
                       {/* Add exercise to date ability */}
                       {/* Edit routine */}
                     </div>

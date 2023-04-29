@@ -26,7 +26,9 @@ const DailyLog = ({
     };
     const result = exercise.sets[detailReference].map((value, index) => {
       return (
-        <div key={index} className="full-width flex gap-lg">
+        <div
+          key={index}
+        >
           <SetsDisplayForLog
             exercise={formattedExercise}
             editMode={editMode}
@@ -35,7 +37,6 @@ const DailyLog = ({
             updateExerciseEntryForDay={updateExerciseEntryForDay}
             removeSetFromExercise={removeSetFromExercise}
             setUpdatedExercise={setUpdatedExercise}
-            details={details}
           ></SetsDisplayForLog>
         </div>
       );
@@ -71,21 +72,23 @@ const DailyLog = ({
           <>
             <section
               key={exercise.name}
-              className="margin-md padding-lg flex aic jcc flex-column "
+              className="margin-md padding-lg flex aic modal"
             >
-              <div className="width-md">
-                <span className="flex gap-sm aic wrap full-width space-between margin-bottom-lg">
+              <div className="modal-content">
+                <span className="flex gap-sm aic wrap full-width space-between">
                   <h2 className="primary">{exercise.name}</h2>
 
                   <button onClick={() => setEditMode(false)}>Cancel</button>
                 </span>
+                <div className="flex wrap gap-lg">
+                  {WorkoutDisplay(
+                    updatedExercise,
+                    exerciseIndex,
+                    editMode,
+                    setUpdatedExercise
+                  )}
+                </div>
 
-                {WorkoutDisplay(
-                  updatedExercise,
-                  exerciseIndex,
-                  editMode,
-                  setUpdatedExercise
-                )}
                 <span className="flex aic space-between margin-top-lg">
                   <button onClick={addNewSet}>New Set?</button>
                   <button onClick={() => handleSubmit()}>Submit</button>
@@ -99,19 +102,14 @@ const DailyLog = ({
               key={exercise.name}
               className="margin-bottom-sm padding-lg flex flex-column"
             >
-              <div className="width-md">
-                <span className="flex margin-bottom-md gap-lg ">
-                  <h2 className="primary">{exercise.name}</h2>
-                  <span className="flex gap-lg">
-                    <button onClick={() => setEditMode(true)}>Edit</button>
-                    <button
-                      onClick={(e) => removeExerciseFromLog(exerciseIndex)}
-                    >
-                      Delete Exercise
-                    </button>
-                  </span>
-                </span>
-
+              <span className="flex margin-bottom-md gap-lg wrap">
+                <h2 className="primary">{exercise.name}</h2>
+                  <button onClick={() => setEditMode(true)}>Edit</button>
+                  <button onClick={(e) => removeExerciseFromLog(exerciseIndex)}>
+                    Delete Exercise
+                  </button>
+              </span>
+              <div className="flex wrap gap-lg">
                 {WorkoutDisplay(exercise, exerciseIndex)}
               </div>
             </section>

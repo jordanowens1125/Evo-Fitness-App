@@ -22,16 +22,18 @@ const Account = () => {
       <div className="page">
         {editMode ? (
           <>
-            <section className="padding-lg flex flex-column gap-lg jcc margin-lg">
-              <input type="text" value={info.Name} />
-              <input type="number" value={info.Age} />
-              <input type="number" value={info.Height.Feet} />
-              <input type="number" value={info.Height.Inches} />
-              <input type="number" value={info.CurrentWeight} />
-              <span className="flex space-between">
-                <button onClick={() => setEditMode(false)}>Cancel</button>
-                <button onClick={handleSubmit}>Submit</button>
-              </span>
+            <section className="modal">
+              <div className="modal-content">
+                <input type="text" value={info.Name} />
+                <input type="number" value={info.Age} />
+                <input type="number" value={info.Height.Feet} />
+                <input type="number" value={info.Height.Inches} />
+                <input type="number" value={info.CurrentWeight} />
+                <span className="flex space-between">
+                  <button onClick={() => setEditMode(false)}>Cancel</button>
+                  <button onClick={handleSubmit}>Submit</button>
+                </span>
+              </div>
             </section>
           </>
         ) : (

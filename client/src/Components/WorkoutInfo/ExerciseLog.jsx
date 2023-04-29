@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { DataContext } from "../../context/Context";
 import { returnDaysWithExercise } from "../../utils/filterFunctions";
 import NoData from "../Shared/NoData";
+import DisplaySets from "../Shared/DisplaySets";
 
 const displaySets = (exercise) => {
   //get the detail
@@ -52,10 +53,12 @@ const ExerciseLog = (exerciseObject) => {
         daysWithExercises.map((day) => {
           return (
             <section key={day.date} className="margin-md padding-md">
-              <h3 className="primary heading-md margin-bottom-sm">
+              <h3 className="primary heading-md margin-bottom-md">
                 {day.date}
               </h3>
-              <span>{displaySets(day)}</span>
+              <div>
+                <DisplaySets exercise={day}/>
+              </div>
             </section>
           );
         })

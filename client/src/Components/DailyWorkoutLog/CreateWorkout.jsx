@@ -1,7 +1,6 @@
 import React, { useState, useContext } from "react";
 import { exercises } from "../../data/bodySegments";
 import { DataContext } from "../../context/Context";
-import { kindsOfExercises } from "../../data/exerciseCategories";
 import DisplaySets from "./DisplaySets";
 
 const CreateWorkout = () => {

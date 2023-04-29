@@ -1,3 +1,5 @@
+import DisplaySetsEdit from "../Shared/DisplaySetsEdit";
+import DisplaySets from "../Shared/DisplaySets";
 
 const SetsDisplayForLog = ({
   exercise,
@@ -6,7 +8,6 @@ const SetsDisplayForLog = ({
   editMode,
   removeSetFromExercise,
   setUpdatedExercise,
-  details,
 }) => {
   const handleInputChange = (e) => {
     const splitID = e.currentTarget.id.split("-");
@@ -19,40 +20,17 @@ const SetsDisplayForLog = ({
     <>
       {editMode ? (
         <>
-          {details.map((detail) => {
-            return (
-              <span key={`${detail}-input`}>
-                {detail}:{" "}
-                <input
-                  key={detail}
-                  type="number"
-                  name={`Exercise${exercise.name}Set${SetIndex}${detail}`}
-                  id={`Log-Exercise${exercise.name}-Set${SetIndex}-${detail}`}
-                  value={exercise.sets[detail][SetIndex]}
-                  placeholder={detail}
-                  onChange={handleInputChange}
-                  className="width-xs "
-                />{" "}
-                {exercise.details[detail].units} x{" "}
-              </span>
-            );
-          })}
-          <button
-            onClick={() => removeSetFromExercise(exerciseIndex, SetIndex)}
-          >
-            X
-          </button>
+          <DisplaySetsEdit
+            newExercise={exercise}
+            exerciseIndex={exerciseIndex}
+            SetIndex={SetIndex}
+            removeSetFromExercise={removeSetFromExercise}
+            handleSetChange={handleInputChange}
+          />
         </>
       ) : (
         <>
-          {details.map((detail) => {
-            return (
-              <span key={`${detail}-input`}>
-                {detail}: {exercise.sets[detail][SetIndex]}{" "}
-                {exercise.details[detail].units} x{" "}
-              </span>
-            );
-          })}
+          <DisplaySets exercise={exercise} />
         </>
       )}
     </>
