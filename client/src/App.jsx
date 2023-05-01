@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-// import WorkoutHeatMap from './pages/WorkoutHeatMap'
-// import ExerciseChart from "./pages/ExerciseChart";
 import dummyData from "./data/dummyData";
 import DailyWorkoutLog from "./pages/DailyWorkoutLog";
 import Layout from "./pages/Layout";
@@ -10,28 +8,42 @@ import { DataContext } from "./context/Context";
 import { storedRoutines } from "./data/routines";
 import Macros from "./pages/Macros";
 import WeightTracker from "./pages/WeightTracker";
-import Exercises from "./pages/Exercises";
+import QuickLinks from "./pages/QuickLinks";
 import WorkoutInfo from "./pages/WorkoutInfo";
 import Account from "./pages/Account";
 import { exercises } from "./data/bodySegments";
+import Signin from "./pages/Signin";
 
 function App() {
   const [data, setData] = useState(dummyData.byDay);
   const [routines, setRoutines] = useState(storedRoutines);
-  const [exerciseList, setExerciseList] = useState(exercises)
+  const [exerciseList, setExerciseList] = useState(exercises);
   return (
-    <div className="dark-mode" id='App'>
+    <div className="dark-mode" id="App">
       <BrowserRouter>
-        <DataContext.Provider value={{ data, setData, routines, setRoutines, exerciseList, setExerciseList }}>
+        <DataContext.Provider
+          value={{
+            data,
+            setData,
+            routines,
+            setRoutines,
+            exerciseList,
+            setExerciseList,
+          }}
+        >
           <Routes>
             <Route path="/" element={<Layout />}>
               <Route index element={<DailyWorkoutLog />} />
               <Route path="/weight" element={<WeightTracker />} />
               <Route path="/workoutInfo" element={<WorkoutInfo />} />
               <Route path="/account" element={<Account />} />
+              <Route path="/quickLinks" element={<QuickLinks />} />
+              {/* <Exercises/> */}
+              {/* <Macros /> */}
             </Route>
-            {/* <Exercises/> */}
-            {/* <Macros /> */}
+            <Route path="/signin" element={<Signin/>}>
+
+            </Route>
           </Routes>
         </DataContext.Provider>
       </BrowserRouter>

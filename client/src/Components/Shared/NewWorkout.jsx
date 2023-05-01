@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useContext } from "react";
+import { DataContext } from "../../context/Context";
 import Exercises from "../../pages/Exercises";
-import CreateExercise from "./CreateExercise";
 
 const NewWorkout = ({ cancel }) => {
+  const [exercisesInWorkout, setExercisesInWorkout] = useState([])
   return (
     <section className="modal">
       <div className="modal-content">
@@ -12,7 +13,7 @@ const NewWorkout = ({ cancel }) => {
         <div className="flex space-between gap-lg">
           <div className="bg padding-lg grow">Current Exercises:</div>
           <div className="grow flex bg padding-lg">
-            <Exercises />
+            <Exercises/>
           </div>
         </div>
       </div>

@@ -1,6 +1,13 @@
 import React from "react";
 
-const DisplaySets = ({ exercise, displayName, handleSetChange, SetIndex }) => {
+const DisplaySets = ({
+  exercise,
+  displayName,
+  handleSetChange,
+  SetIndex,
+  removeExercise,
+  removeSet,
+}) => {
   const details = Object.keys(exercise.details);
   const length = exercise.sets[details[0]].length;
   const indexArray = [];
@@ -11,7 +18,14 @@ const DisplaySets = ({ exercise, displayName, handleSetChange, SetIndex }) => {
     <>
       {displayName ? (
         <>
-          <i>{exercise.name}:</i>
+          <span className="flex space-between aic">
+            <i className="primary">{exercise.name}:</i>
+            {removeExercise ? (
+              <button onClick={removeExercise}>X</button>
+            ) : (
+              <></>
+            )}
+          </span>
         </>
       ) : (
         <></>
@@ -19,11 +33,15 @@ const DisplaySets = ({ exercise, displayName, handleSetChange, SetIndex }) => {
       <div className="flex gap-md margin-md">
         {indexArray.map((index) => {
           return (
-            <div key={index} className="card bg-border gap-md flex-column">
-              <b>Set: {index + 1}</b>
+            <div key={index} className="card bg-border gap-md secondary-bg">
+              <span className="flex space-between">
+                <b>Set: {index + 1}</b>
+                <button onClick={removeSet}>X</button>
+              </span>
+
               {details.map((detail) => {
                 return (
-                  <div key={index + detail} >
+                  <div key={index + detail}>
                     <div className="flex space-between">
                       <span>
                         {detail} {exercise.details[detail].units}:{" "}

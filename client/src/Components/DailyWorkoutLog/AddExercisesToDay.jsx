@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import DisplaySets from "../Shared/DisplaySetInput";
-import CreateExercise from "./CreateExercise";
+import CreateExercise from "../Shared/CreateExercise";
 import { DataContext } from "../../context/Context";
 
 const DifferentWorkoutDisplay = (newExercise, handleSetChange, removeSet) => {
@@ -120,7 +120,7 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
                       </option>
                     ))}
                   </select>
-                  <CreateExercise/>
+                  <CreateExercise />
                 </span>
               </div>
               <div className="flex wrap gap-lg aic">

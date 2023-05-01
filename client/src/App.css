@@ -96,6 +96,11 @@ body {
 .flex-column {
   display: flex;
   flex-direction: column;
+  gap: 2px;
+}
+
+.flex-end{
+  justify-content: flex-end;
 }
 
 .grow {
@@ -230,7 +235,7 @@ button:hover {
 .secondary-button {
   background-color: var(--bg-color);
   border: 1px solid var(--light-bg-color);
-  color: #f2d272;
+  color: var(--text-color);
 }
 
 .secondary-button:hover {
@@ -356,6 +361,7 @@ input[type="date"] {
 
 .secondary-bg {
   background-color: var(--light-bg-color);
+  border-radius: .5rem;
 }
 
 /* Rotation css */
@@ -582,5 +588,8 @@ nav .modal-content *{
   }
   .mobile{
     display: flex;
+  }
+  body{
+    font-size: 1rem;
   }
 }

@@ -7,6 +7,7 @@ import Dumbbell from "../assets/dumbbell.jsx";
 import User from "../assets/user.jsx";
 import SignOut from "../assets/signout.jsx";
 import Hamburger from "../assets/hamburger.jsx";
+import Options from "../assets/options.jsx"
 import useOutsideClick from "../hooks/useOutsideClick.jsx";
 
 const svgValueDeskTop = 64;
@@ -41,8 +42,8 @@ const Layout = () => {
   };
 
   const handleMobileClick = () => {
-  setMobileOpen(false)
-}
+    setMobileOpen(false);
+  };
 
   const ProfileDropDown = () => {
     return (
@@ -58,6 +59,18 @@ const Layout = () => {
               }
             >
               Profile
+            </NavLink>
+          </span>
+          <span className="full-width padding-sm">
+            <NavLink
+              to="/quicklinks"
+              className={({ isActive }) =>
+                isActive
+                  ? "active-link full-width padding-sm"
+                  : "inactive-link full-width padding-sm"
+              }
+            >
+              Quick Links
             </NavLink>
           </span>
           <span className="flex aic padding-sm" onClick={handleLogOutClick}>
@@ -174,7 +187,18 @@ const Layout = () => {
                   <User value={svgValueMobile} />
                   Profile
                 </NavLink>
-
+                <NavLink
+                  to="/quicklinks"
+                  onClick={handleMobileClick}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "active-link full-width"
+                      : "inactive-link full-width"
+                  }
+                >
+                  <Options value={svgValueMobile} />
+                  Quick Links
+                </NavLink>
                 <span className="full-width">
                   <SignOut value={svgValueMobile} />
                   Log Out
@@ -191,7 +215,7 @@ const Layout = () => {
         </>
       ) : (
         <>
-          <div className="body-color mobile">
+          <div className="body-color mobile flex-end">
             <span onClick={() => setMobileOpen(true)}>
               <Hamburger value={svgValueMobile} />
             </span>

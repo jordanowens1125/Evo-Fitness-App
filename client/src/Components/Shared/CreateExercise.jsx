@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { kindsOfExercises } from "../../data/exerciseCategories";
 import { muscleGroups } from "../../data/bodySegments";
-import DropDownUsingName from "../Shared/DropDownUsingName";
+import DropDownUsingName from "./DropDownUsingName";
 import { DataContext } from "../../context/Context";
 
 const newExerciseObject = {
@@ -40,14 +40,14 @@ const CreateExercise = () => {
 
   const resetExerciseProps = () => {
     setName("");
-    setMuscleGroup(newExerciseObject.kind);
-    setKind(newExerciseObject.kind);
+    setMuscleGroup(0);
+    setKind(0);
     cancel();
   };
 
   const cancel = () => {
-    setActive(false)
-  }
+    setActive(false);
+  };
 
   const resetValues = () => {
     // setExerciseValue(0);

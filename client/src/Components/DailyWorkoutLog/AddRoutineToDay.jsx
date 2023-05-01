@@ -1,12 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
 import { DataContext } from "../../context/Context";
 import DisplaySets from "../Shared/DisplaySets";
-import NewWorkOut from './NewWorkout'
+import CreateWorkout from "../Shared/CreateWorkout";
 
 
 const AddRoutineToDay = ({ addRoutine }) => {
   const [editMode, setEditMode] = useState(false);
-  const [newWorkout, setNewWorkout] = useState(true);
   const context = useContext(DataContext);
   const routines = context.routines;
   const setRoutines = context.setRoutines;
@@ -19,9 +18,6 @@ const AddRoutineToDay = ({ addRoutine }) => {
     addRoutine(routine);
     setEditMode(false);
   };
-  const handleOpenModal = () => {
-    setNewWorkout(true)
-  }
   useEffect(() => {}, [context, routines]);
   return (
     <>
@@ -41,14 +37,7 @@ const AddRoutineToDay = ({ addRoutine }) => {
               </span>
 
               <div className="flex flex-column wrap gap-lg">
-                <button onClick={handleOpenModal}>New Workout</button>
-                {newWorkout ? (
-                  <>
-                    <NewWorkOut cancel={()=> setNewWorkout(false)}/>
-                  </>
-                ) : (
-                  <></>
-                )}
+                <CreateWorkout/>
                 {routines.map((routine, index) => {
                   return (
                     <div
@@ -71,7 +60,7 @@ const AddRoutineToDay = ({ addRoutine }) => {
                       {routine.map((exercise) => {
                         return (
                           <div key={+index + exercise.name}>
-                            <DisplaySets exercise={exercise} />
+                            <DisplaySets exercise={exercise} displayName={true}/>
                           </div>
                         );
                       })}
