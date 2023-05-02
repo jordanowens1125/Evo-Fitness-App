@@ -36,7 +36,7 @@ const DisplaySets = ({
             <div key={index} className="card bg-border gap-md secondary-bg">
               <span className="flex space-between">
                 <b>Set: {index + 1}</b>
-                <button onClick={removeSet}>X</button>
+                <button onClick={()=> removeSet(exercise.name, index)}>X</button>
               </span>
 
               {details.map((detail) => {

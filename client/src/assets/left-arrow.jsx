@@ -5,8 +5,8 @@ const SvgComponent = (props) => (
     fill="currentColor"
     viewBox="0 0 24 24"
     className="rotate-180"
-    width={64}
-    height={64}
+    width={props.value}
+    height={props.value}
     {...props}
   >
     <title />

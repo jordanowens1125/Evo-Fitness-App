@@ -199,10 +199,18 @@ const Layout = () => {
                   <Options value={svgValueMobile} />
                   Quick Links
                 </NavLink>
-                <span className="full-width">
+                <NavLink
+                  to="/signin"
+                  onClick={handleMobileClick}
+                  className={({ isActive }) =>
+                    isActive
+                      ? "active-link full-width"
+                      : "inactive-link full-width"
+                  }
+                >
                   <SignOut value={svgValueMobile} />
                   Log Out
-                </span>
+                </NavLink>
                 <span>
                   <label className="switch">
                     <input type="checkbox" aria-label="Change Color Theme" />

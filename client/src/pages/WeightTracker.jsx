@@ -22,7 +22,7 @@ import {
   getPriorDate,
 } from "../utils/dateFunctions";
 import DateRangeDropDown from "../Components/ByDay/DateRangeDropDown";
-import { getWeightChartHeight, getWindowHeight, getWindowWidth } from "../utils/getDimensions";
+import DateComponent from "../Components/Shared/Date";
 
 const templateDay = {
   date: "",
@@ -158,49 +158,36 @@ const WeightTracker = () => {
     <>
       <div className="page flex flex-column  ">
         <div className="flex aic space-around wrap padding-md">
-          <button onClick={testLeft}>Left</button>
+          <DateComponent
+            input={date}
+            decreaseby1={testLeft}
+            increaseby1={testRight}
+            jumpToDate={jumpToDate}
+            setDateToday={setDateToToday}
+          />
           <DateRangeDropDown
             daysPrior={daysPrior}
             handleRangeChange={handleRangeChange}
           />
-          <span className="flex gap-md aic">
-            <label htmlFor="Date">Date:</label>
-            <input
-              type="date"
-              id="start"
-              name="Date"
-              value={date.toISOString().slice(0, 10)}
-              min="2022-04-01"
-              max={convertDatetoYYYYMMDDFormat(new Date())}
-              onChange={jumpToDate}
-            ></input>
-
-            {compareDatesInDateFormat(date, new Date()) ? (
-              <></>
-            ) : (
-              <>
-                <button onClick={setDateToToday}>Today</button>
-              </>
-            )}
-          </span>
-          <button onClick={testRight}>Right</button>
         </div>
-        Current Weight:
-        <input
-          type="number"
-          name="Weight"
-          id="Weight"
-          value={weightToday}
-          onChange={handleLogWeightForDay}
-          className="width-sm primary bg no-border heading-md"
-        />
-        lbs
+        <span className="flex">
+          Current Weight:
+          <input
+            type="number"
+            name="Weight"
+            id="Weight"
+            value={weightToday}
+            onChange={handleLogWeightForDay}
+            className="width-sm primary bg no-border heading-md"
+          />
+          lbs
+        </span>
+
         <div className="full-width full-height grow flex aic">
           <ResponsiveContainer height={400} width={"100%"}>
             <AreaChart
               data={filledData}
               margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-              className=""
             >
               <defs>
                 <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">

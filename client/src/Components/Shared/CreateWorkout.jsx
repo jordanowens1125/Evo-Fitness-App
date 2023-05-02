@@ -25,15 +25,15 @@ const CreateWorkout = () => {
 
   const addExerciseToWorkout = (item) => {
     const copiedExercises = { ...exercisesInWorkout };
-    const copy = {...item}
+    const copy = structuredClone(item);
     copiedExercises[copy.name] = {
       name: copy.name,
       kind: copy.kind,
-      sets: copy.defaultSets,
+      sets: structuredClone(copy.defaultSets),
       muscleGroup: copy.muscleGroup,
       segment: copy.segment,
       details: copy.details,
-      defaultSets: copy.defaultSets,
+      defaultSets: structuredClone(copy.defaultSets),
     };
     setExercisesInWorkout(copiedExercises);
   };
@@ -48,7 +48,7 @@ const CreateWorkout = () => {
         muscleGroup: exercisesInWorkout[exercise].muscleGroup,
         segment: exercisesInWorkout[exercise].segment,
         details: exercisesInWorkout[exercise].details,
-        defaultSets: exercisesInWorkout[exercise].defaultSets,
+        defaultSets: { ...exercisesInWorkout[exercise].defaultSets },
       });
     });
     const newRoutines = [exercises, ...routines];
@@ -63,13 +63,31 @@ const CreateWorkout = () => {
     setExercisesInWorkout(updatedExercise);
   };
 
-  const handleSetChange = () => {};
+  const handleSetChange = () => {
+    
+  };
   const handleCancel = () => {
     setExercisesInWorkout({});
     setShowModal(false);
   };
 
-  const removeSet = (exerciseName, setIndex) => {};
+  const removeSet = (exerciseName, setIndex) => {
+    const oldExerciseObject = { ...exercisesInWorkout };
+    const exercise = oldExerciseObject[exerciseName];
+
+    const details = Object.keys(exercise.details);
+    if (exercise.sets[details[0]].length===1) {
+      delete oldExerciseObject[exerciseName]
+    } else {
+      for (let i = 0; i < details.length; i++) {
+        const detail = details[i];
+        exercise.sets[detail].splice(setIndex, 1);
+      }
+    }
+
+    exercisesInWorkout[exerciseName] = exercise;
+    setExercisesInWorkout(oldExerciseObject);
+  };
   const addNewSet = (exerciseName) => {
     const copy = { ...exercisesInWorkout };
     const sets = copy[exerciseName].sets;
@@ -81,7 +99,6 @@ const CreateWorkout = () => {
       const lastValue = copy[exerciseName].sets[detail][length - 1];
       copy[exerciseName].sets[detail].push(lastValue);
     }
-    console.log(exercisesInWorkout[exerciseName]);
     setExercisesInWorkout(copy);
   };
   return (
@@ -109,7 +126,7 @@ const CreateWorkout = () => {
                               removeExercise={() =>
                                 removeExerciseFromWorkout(key)
                               }
-                              removeSet={() => removeSet(key, index)}
+                              removeSet={removeSet}
                             />
                             <button onClick={() => addNewSet(key)}>
                               New Set
@@ -139,7 +156,7 @@ const CreateWorkout = () => {
                         onClick={() => addExerciseToWorkout(item)}
                         className="flex bg padding-md"
                       >
-                          {item.muscleGroup.image}
+                        {item.muscleGroup.image}
 
                         <span className="flex-column">
                           {item.name}

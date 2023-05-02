@@ -11,6 +11,7 @@ import { findIndex } from "../utils/searchFunction";
 import NoData from "../Components/Shared/NoData";
 import RightArrow from "../assets/right-arrow";
 import LeftArrow from "../assets/left-arrow";
+import DateComponent  from "../Components/Shared/Date";
 
 const findLogForDate = (date, data) => {
   for (let i = 0; i < data.length; i++) {
@@ -176,29 +177,12 @@ const DailyWorkoutLog = () => {
 
   return (
     <>
-      <div className="flex aic space-around">
-        <button
-          onClick={(e) => handleDateChange(-1)}
-          className="svg-button rotate-180"
-        >
-          <LeftArrow />
-        </button>
-        <span>
-          <label htmlFor="Date">Date: </label>
-          <input
-            type="date"
-            id="start"
-            name="Date"
-            value={date.toISOString().slice(0, 10)}
-            min="2023-04-01"
-            max="2040-12-31"
-            onChange={jumpToDate}
-          ></input>
-        </span>
-        <button onClick={() => handleDateChange(1)} className="svg-button ">
-          <RightArrow />
-        </button>
-      </div>
+      <DateComponent
+        decreaseby1={() => handleDateChange(-1)}
+        increaseby1={() => handleDateChange(1)}
+        input={date}
+        jumpToDate={jumpToDate}
+      />
       <span className="flex jcc gap-lg">
         {/* Form to add exercises */}
         <AddExercisesToDay addExerciseForDay={addExerciseForDay} />
