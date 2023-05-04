@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 const DisplaySets = ({
   exercise,
   displayName,
   handleSetChange,
-  SetIndex,
   removeExercise,
   removeSet,
 }) => {
@@ -19,7 +18,7 @@ const DisplaySets = ({
       {displayName ? (
         <>
           <span className="flex space-between aic">
-            <i className="primary">{exercise.name}:</i>
+            <i className="primary ">{exercise.name}:</i>
             {removeExercise ? (
               <button onClick={removeExercise}>X</button>
             ) : (
@@ -36,7 +35,9 @@ const DisplaySets = ({
             <div key={index} className="card bg-border gap-md secondary-bg">
               <span className="flex space-between">
                 <b>Set: {index + 1}</b>
-                <button onClick={()=> removeSet(exercise.name, index)}>X</button>
+                <button onClick={() => removeSet(index, exercise.name)}>
+                  X
+                </button>
               </span>
 
               {details.map((detail) => {
@@ -49,12 +50,13 @@ const DisplaySets = ({
                       <input
                         key={detail}
                         type="number"
-                        name={`Exercise${exercise.name}Set${SetIndex}${detail}`}
-                        id={`Log-Exercise${exercise.name}-Set${SetIndex}-${detail}`}
-                        value={exercise.sets[detail][SetIndex]}
+                        name={`Exercise${exercise.name}Set${index}${detail}`}
+                        id={`${exercise.name}-Set${index}-${detail}`}
+                        value={exercise.sets[detail][index]}
                         placeholder={detail}
-                        onChange={handleSetChange}
-                        className="width-sm"
+                        onChange={(e)=>handleSetChange(e, index, detail)}
+                        className="width-xs"
+                        min={0}
                       />
                     </div>
                   </div>

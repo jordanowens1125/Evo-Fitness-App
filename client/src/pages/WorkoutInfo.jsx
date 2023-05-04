@@ -3,10 +3,10 @@ import AllWorkouts from "../Components/WorkoutInfo/AllWorkouts";
 import ByDay from "../Components/WorkoutInfo/ByDay";
 import ExerciseLog from "../Components/WorkoutInfo/ExerciseLog";
 import MuscleGroup from "../Components/WorkoutInfo/MuscleGroup";
-import { exerciseObjectsWithAllInfo } from "../data/bodySegments";
 import { DataContext } from "../context/Context";
 
-const options = ["All", "Muscle Groups", "Exercises"];
+// const options = ["All", "Muscle Groups", "Exercises"];
+const options = ['All', 'Exercises']
 
 const WorkoutInfo = () => {
   const [setting, setSetting] = useState("All");

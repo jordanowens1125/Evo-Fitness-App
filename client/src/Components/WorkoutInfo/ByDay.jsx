@@ -24,6 +24,7 @@ import { generateRandomColor } from "../../data/colors";
 import LeftArrow from "../../assets/left-arrow";
 import RightArrow from "../../assets/right-arrow";
 import DropDownUsingName from "../Shared/DropDownUsingName";
+import DateComponent from "../Shared/Date";
 
 const getDisplayValue = (exercises, exercise, value) => {
   const name = exercise.name;
@@ -111,7 +112,7 @@ const ByDay = ({ exerciseIndex, setExerciseIndex }) => {
   const context = useContext(DataContext);
   const data = context.data;
   const exercises = context.exerciseList;
-  const exerciseObject = exercises[exerciseIndex]
+  const exerciseObject = exercises[exerciseIndex];
   const [randomColor, setRandomColor] = useState(generateRandomColor());
   const detailReference = Object.keys(exerciseObject["details"])[0];
   const [detail, setDetail] = useState(exerciseObject.details[detailReference]);
@@ -156,7 +157,7 @@ const ByDay = ({ exerciseIndex, setExerciseIndex }) => {
     setRandomColor(generateRandomColor());
     const newObject = exercises[e.currentTarget.value];
     const firstDetail = Object.keys(newObject.details)[0];
-    setExerciseIndex(e.currentTarget.value)
+    setExerciseIndex(e.currentTarget.value);
     setDetail(newObject.details[firstDetail]);
   };
 
@@ -191,37 +192,26 @@ const ByDay = ({ exerciseIndex, setExerciseIndex }) => {
 
   return (
     <>
-      <div className="flex aic gap-lg jcc wrap">
-        <button onClick={testLeft} className="no-padding no-border">
-          <LeftArrow />
-        </button>
-        {/* <LeftArrow click={testLeft} /> */}
-        <DateRangeDropDown
-          daysPrior={daysPrior}
-          handleRangeChange={handleRangeChange}
+      <div className="flex-column aic jcc wrap">
+        <DateComponent
+          decreaseby1={testLeft}
+          increaseby1={testRight}
+          input={date}
+          jumpToDate={jumpToDate}
+          setDateToday={setDateToToday}
         />
-        <span className="flex gap-md aic wrap">
-          <label htmlFor="Date">End Date: </label>
-          <input
-            type="date"
-            id="start"
-            name="Date"
-            value={date.toISOString().slice(0, 10)}
-            min="2022-04-01"
-            max="2035-12-31"
-            onChange={jumpToDate}
-          ></input>
-          {compareDatesInDateFormat(date, new Date()) ? (
-            <></>
-          ) : (
-            <>
-              <button onClick={setDateToToday}>Today</button>
-            </>
-          )}
+        <span className="aic flex full-width space-around">
+          <DropDownUsingName
+            value={exerciseIndex}
+            handleChange={handleExerciseChange}
+            listOfValues={exercises}
+          />
+          <DetailsDropDown detail={detail} />
+          <DateRangeDropDown
+            daysPrior={daysPrior}
+            handleRangeChange={handleRangeChange}
+          />
         </span>
-        {/* <button onClick={testRight} className="no-padding no-border">
-          <RightArrow />
-        </button> */}
       </div>
       <div className="full-width full-height grow flex aic">
         <ResponsiveContainer width={"100%"} height={400}>
@@ -259,15 +249,6 @@ const ByDay = ({ exerciseIndex, setExerciseIndex }) => {
           </AreaChart>
         </ResponsiveContainer>
       </div>
-
-      <span className="aic flex jcc">
-        <DropDownUsingName
-          value={exerciseIndex}
-          handleChange={handleExerciseChange}
-          listOfValues={exercises}
-        />
-        <DetailsDropDown detail={detail} />
-      </span>
     </>
   );
 };

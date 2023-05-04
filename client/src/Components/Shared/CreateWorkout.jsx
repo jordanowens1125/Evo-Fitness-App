@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { DataContext } from "../../context/Context";
-import DisplaySetsInput from "./DisplaySetInput";
+import DisplaySetsInput from "./DisplaySetsInput";
 
 const CreateWorkout = () => {
   const [showModal, setShowModal] = useState(false);
@@ -63,31 +63,33 @@ const CreateWorkout = () => {
     setExercisesInWorkout(updatedExercise);
   };
 
-  const handleSetChange = () => {
-    
+  const handleSetChange = (e, setIndex, detail) => {
+    const updatedExercises = { ...exercisesInWorkout };
+    const exercise = e.currentTarget.id.split("-")[0];
+    updatedExercises[exercise].sets[detail][setIndex] = e.currentTarget.value;
+    setExercisesInWorkout(updatedExercises);
   };
   const handleCancel = () => {
     setExercisesInWorkout({});
     setShowModal(false);
   };
 
-  const removeSet = (exerciseName, setIndex) => {
+  const removeSet = (setIndex,exerciseName) => {
     const oldExerciseObject = { ...exercisesInWorkout };
     const exercise = oldExerciseObject[exerciseName];
-
     const details = Object.keys(exercise.details);
-    if (exercise.sets[details[0]].length===1) {
-      delete oldExerciseObject[exerciseName]
+    if (exercise.sets[details[0]].length === 1) {
+      delete oldExerciseObject[exerciseName];
     } else {
       for (let i = 0; i < details.length; i++) {
         const detail = details[i];
         exercise.sets[detail].splice(setIndex, 1);
       }
     }
-
     exercisesInWorkout[exerciseName] = exercise;
     setExercisesInWorkout(oldExerciseObject);
   };
+
   const addNewSet = (exerciseName) => {
     const copy = { ...exercisesInWorkout };
     const sets = copy[exerciseName].sets;

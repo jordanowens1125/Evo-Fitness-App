@@ -7,7 +7,7 @@ import Dumbbell from "../assets/dumbbell.jsx";
 import User from "../assets/user.jsx";
 import SignOut from "../assets/signout.jsx";
 import Hamburger from "../assets/hamburger.jsx";
-import Options from "../assets/options.jsx"
+import Options from "../assets/options.jsx";
 import useOutsideClick from "../hooks/useOutsideClick.jsx";
 
 const svgValueDeskTop = 64;
@@ -17,7 +17,9 @@ const svgValueMobile = 64;
 const Layout = () => {
   const [theme, setTheme] = useState("dark-mode");
 
-  const impactRef = useRef(null);
+  const impactRef:any = useRef(null);
+  // const myRef:any = useRef(null)
+  // const executeScroll = () => myRef.current.scrollIntoView()
 
   const [open, setOpen] = useState(false);
   const [mobile, setMobileOpen] = useState(false);
@@ -48,7 +50,7 @@ const Layout = () => {
   const ProfileDropDown = () => {
     return (
       <>
-        <div ref={impactRef} className="popup">
+        <div ref={impactRef} className="popup" >
           <span className="full-width" onClick={() => setOpen(false)}>
             <NavLink
               to="/account"
@@ -227,7 +229,8 @@ const Layout = () => {
             <span onClick={() => setMobileOpen(true)}>
               <Hamburger value={svgValueMobile} />
             </span>
-          </div>
+            </div>
+            {/* <button className="scroll-to-top" onClick={executeScroll}>Back To Top</button> */}
         </>
       )}
 

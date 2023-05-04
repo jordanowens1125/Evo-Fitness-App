@@ -1,55 +1,17 @@
-import React, { useState } from "react";
-import SetsDisplayForLog from "./SetsDisplayForLog";
+import React, { useState, useEffect } from "react";
+import DisplaySets from "../Shared/DisplaySets";
+import DisplaySetsInput from "../Shared/DisplaySetsInput";
 
 const DailyLog = ({
   log,
   removeExerciseFromLog,
   updateExerciseEntryForDay,
-  removeSetFromExercise,
 }) => {
-  const WorkoutDisplay = (
-    exercise,
-    exerciseIndex,
-    editMode,
-    setUpdatedExercise
-  ) => {
-    const details = Object.keys(exercise.details);
-    const detailReference = details[0];
-
-    const formattedExercise = {
-      sets: exercise.sets,
-      name: exercise.name,
-      kind: exercise.kind,
-      defaultSets: exercise.defaultSets,
-      muscleGroup: exercise.muscleGroup,
-      details: exercise.details,
-    };
-    const result = exercise.sets[detailReference].map((value, index) => {
-      return (
-        <div
-          key={index}
-        >
-          <SetsDisplayForLog
-            exercise={formattedExercise}
-            editMode={editMode}
-            SetIndex={index}
-            exerciseIndex={exerciseIndex}
-            updateExerciseEntryForDay={updateExerciseEntryForDay}
-            removeSetFromExercise={removeSetFromExercise}
-            setUpdatedExercise={setUpdatedExercise}
-          ></SetsDisplayForLog>
-        </div>
-      );
-    });
-    return result;
-  };
-
   const ExerciseDisplay = ({ exercise, exerciseIndex }) => {
     const [editMode, setEditMode] = useState(false);
     const [updatedExercise, setUpdatedExercise] = useState(
       structuredClone(exercise)
     );
-
     const addNewSet = () => {
       const copy = { ...updatedExercise };
       const details = Object.keys(copy.details);
@@ -59,12 +21,30 @@ const DailyLog = ({
         const detail = details[i];
         copy.sets[detail] = [...copy.sets[detail], ...newSet[detail]];
       }
-
       setUpdatedExercise(copy);
     };
 
     const handleSubmit = () => {
       updateExerciseEntryForDay(updatedExercise, exerciseIndex);
+    };
+    const handleSetChange = (e, setIndex, detail) => {
+      const copy = { ...updatedExercise };
+      copy.sets[detail][setIndex] = e.currentTarget.value;
+      setUpdatedExercise(copy);
+    };
+    const removeSetFromExercise = (setIndex) => {
+      const copy = { ...updatedExercise };
+      const details = Object.keys(copy.details);
+      for (let i = 0; i < details.length; i++) {
+        copy.sets[details[i]].splice(setIndex, 1);
+      }
+      if (
+       copy.sets[details[0]]
+          .length === 0
+      ) {
+        copy.sets = structuredClone(copy.defaultSets)
+      }
+      setUpdatedExercise(copy);
     };
     return (
       <>
@@ -81,12 +61,12 @@ const DailyLog = ({
                   <button onClick={() => setEditMode(false)}>Cancel</button>
                 </span>
                 <div className="flex wrap gap-lg">
-                  {WorkoutDisplay(
-                    updatedExercise,
-                    exerciseIndex,
-                    editMode,
-                    setUpdatedExercise
-                  )}
+                  <DisplaySetsInput
+                    exercise={updatedExercise}
+                    handleSetChange={handleSetChange}
+                    removeSet={removeSetFromExercise}
+                    exerciseIndex={exerciseIndex}
+                  />
                 </div>
 
                 <span className="flex aic space-between margin-top-lg">
@@ -104,13 +84,13 @@ const DailyLog = ({
             >
               <span className="flex margin-bottom-md gap-lg wrap">
                 <h2 className="primary">{exercise.name}</h2>
-                  <button onClick={() => setEditMode(true)}>Edit</button>
-                  <button onClick={(e) => removeExerciseFromLog(exerciseIndex)}>
-                    Delete Exercise
-                  </button>
+                <button onClick={() => setEditMode(true)}>Edit</button>
+                <button onClick={(e) => removeExerciseFromLog(exerciseIndex)}>
+                  Delete Exercise
+                </button>
               </span>
               <div className="flex wrap gap-lg">
-                {WorkoutDisplay(exercise, exerciseIndex)}
+                <DisplaySets exercise={exercise} />
               </div>
             </section>
           </>

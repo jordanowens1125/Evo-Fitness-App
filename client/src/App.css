@@ -302,6 +302,9 @@ svg:not(.recharts-surface):hover {
   border-radius: 2rem;
 }
 
+/* Font styling */
+
+
 .primary {
   color: var(--primary-color);
   fill: var(--primary-color);
@@ -323,6 +326,8 @@ svg:not(.recharts-surface):hover {
 .secondary {
   color: var(--secondary-color);
 }
+
+/* End of font styling */
 
 section {
   background-color: var(--light-bg-color);
@@ -566,6 +571,13 @@ nav .modal-content *{
 }
 /* end of small modal/popup */
 
+/* Scroll to top element */
+.scroll-to-top{
+  position: fixed;
+  bottom: 10px;
+  right:10px
+}
+/* End of scroll to top element */
 .card{
   width: 100%;
   padding: 20px;

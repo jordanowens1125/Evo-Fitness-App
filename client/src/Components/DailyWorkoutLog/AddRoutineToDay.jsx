@@ -50,10 +50,10 @@ const AddRoutineToDay = ({ addRoutine }) => {
                           <button
                             onClick={() => handleRoutineSubmission(routine)}
                           >
-                            Add Me
+                            Log
                           </button>
                           <button onClick={(e) => deleteRoutine(index)}>
-                            Delete Routine
+                            Delete
                           </button>
                         </span>
                       </div>
@@ -80,7 +80,7 @@ const AddRoutineToDay = ({ addRoutine }) => {
               setEditMode(true);
             }}
           >
-            Add Routine To Day
+            Add Routine
           </button>
         </>
       )}

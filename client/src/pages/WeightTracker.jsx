@@ -156,20 +156,14 @@ const WeightTracker = () => {
 
   return (
     <>
-      <div className="page flex flex-column  ">
-        <div className="flex aic space-around wrap padding-md">
-          <DateComponent
-            input={date}
-            decreaseby1={testLeft}
-            increaseby1={testRight}
-            jumpToDate={jumpToDate}
-            setDateToday={setDateToToday}
-          />
-          <DateRangeDropDown
-            daysPrior={daysPrior}
-            handleRangeChange={handleRangeChange}
-          />
-        </div>
+      <div className="page flex-column  aic">
+        <DateComponent
+          input={date}
+          decreaseby1={testLeft}
+          increaseby1={testRight}
+          jumpToDate={jumpToDate}
+          setDateToday={setDateToToday}
+        />
         <span className="flex">
           Current Weight:
           <input
@@ -182,6 +176,12 @@ const WeightTracker = () => {
           />
           lbs
         </span>
+        <div className="flex aic space-around wrap">
+          <DateRangeDropDown
+            daysPrior={daysPrior}
+            handleRangeChange={handleRangeChange}
+          />
+        </div>
 
         <div className="full-width full-height grow flex aic">
           <ResponsiveContainer height={400} width={"100%"}>

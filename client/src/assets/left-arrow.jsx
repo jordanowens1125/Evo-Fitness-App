@@ -4,7 +4,6 @@ const SvgComponent = (props) => (
     xmlns="http://www.w3.org/2000/svg"
     fill="currentColor"
     viewBox="0 0 24 24"
-    className="rotate-180"
     width={props.value}
     height={props.value}
     {...props}

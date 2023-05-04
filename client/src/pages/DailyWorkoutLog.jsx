@@ -9,9 +9,7 @@ import { DataContext } from "../context/Context";
 import AddRoutineToDay from "../Components/DailyWorkoutLog/AddRoutineToDay";
 import { findIndex } from "../utils/searchFunction";
 import NoData from "../Components/Shared/NoData";
-import RightArrow from "../assets/right-arrow";
-import LeftArrow from "../assets/left-arrow";
-import DateComponent  from "../Components/Shared/Date";
+import DateComponent from "../Components/Shared/Date";
 
 const findLogForDate = (date, data) => {
   for (let i = 0; i < data.length; i++) {
@@ -84,18 +82,18 @@ const DailyWorkoutLog = () => {
 
   const removeSetFromExercise = (exerciseIndex, setIndex) => {
     const updatedData = [...data];
-    updatedData[logIndex].exercises[exerciseIndex].sets.Repetition.splice(
-      setIndex,
-      1
+    const details = Object.keys(
+      updatedData[logIndex].exercises[exerciseIndex].details
     );
-    updatedData[logIndex].exercises[exerciseIndex].sets.Weight.splice(
-      setIndex,
-      1
-    );
+    for (let i = 0; i < details.length; i++) {
+      updatedData[logIndex].exercises[exerciseIndex].sets[details[i]].splice(
+        setIndex,
+        1
+      );
+    }
     if (
-      updatedData[logIndex].exercises[exerciseIndex].sets.Repetition.length ===
-        0 ||
-      updatedData[logIndex].exercises[exerciseIndex].sets.Weight.length === 0
+      updatedData[logIndex].exercises[exerciseIndex].sets[details[0]].length ===
+      0
     ) {
       updatedData[logIndex].exercises.splice(exerciseIndex, 1);
       //if day empty
@@ -108,7 +106,7 @@ const DailyWorkoutLog = () => {
 
   const addSetToExerciseEntry = (exerciseIndex, object) => {
     const updatedData = [...data];
-    const details = Object.keys(object);
+    const details = updatedData[logIndex].exercises[exerciseIndex].details;
     for (let i = 0; i < details.length; i++) {
       const currentDetail =
         updatedData[logIndex].exercises[exerciseIndex].sets[details[i]];
@@ -121,12 +119,8 @@ const DailyWorkoutLog = () => {
 
   const addExerciseForDay = (newExercise, dateData = data) => {
     const name = newExercise.name;
-    const index = findIndex(
-      dateData,
-      new Date(2023, 0, 23),
-      0,
-      dateData.length
-    );
+    const index = findIndex(dateData, new Date(2023, 4, 1));
+    console.log(index);
     const inputDate = convertDateToMMDDYYYYFormat(date);
 
     const score = 1;
@@ -175,6 +169,11 @@ const DailyWorkoutLog = () => {
     return updatedData;
   };
 
+  const setDateToday = () => {
+    const newDate = new Date();
+    setDate(newDate);
+  };
+
   return (
     <>
       <DateComponent
@@ -182,6 +181,7 @@ const DailyWorkoutLog = () => {
         increaseby1={() => handleDateChange(1)}
         input={date}
         jumpToDate={jumpToDate}
+        setDateToday={setDateToday}
       />
       <span className="flex jcc gap-lg">
         {/* Form to add exercises */}
@@ -193,8 +193,9 @@ const DailyWorkoutLog = () => {
 
       <div>
         {dailyLog ? (
-          <div className="flex flex-column jcc margin-lg">
+          <div className="flex flex-column jcc margin-lg gap-lg">
             <button onClick={saveRoutine}>Save today as routine</button>
+            
             <DailyLog
               log={dailyLog}
               removeExerciseFromLog={removeExerciseFromLog}
