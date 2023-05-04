@@ -86,8 +86,8 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
     <>
       {newWorkoutMode ? (
         <>
-          <div className="modal">
-            <div className="modal-content">
+          <div className="modal ">
+            <div className="modal-content ">
               <span className="flex space-between flex-start">
                 <p className="margin-bottom-lg heading-md">Log an exercise:</p>
                 <button onClick={cancel}>Cancel</button>

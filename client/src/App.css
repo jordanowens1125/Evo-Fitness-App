@@ -480,6 +480,7 @@ input:checked + .slider:before {
   width: 100%;
   background-color: rgb(0, 0, 0); /* Fallback color */
   background-color: rgba(0, 0, 0, 0.4); /* Black w*/
+  padding:20px;
 }
 
 .modal-content {
@@ -499,8 +500,8 @@ input:checked + .slider:before {
 .modal-cancel{
   position: absolute;
   z-index:3;
-  top:10px;
-  right:20px;
+  top:20px;
+  right:30px;
 
 }
 
@@ -581,6 +582,9 @@ nav .modal-content *{
 .card{
   width: 100%;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 

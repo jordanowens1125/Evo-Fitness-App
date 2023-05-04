@@ -43,7 +43,7 @@ const DisplaySets = ({
               {details.map((detail) => {
                 return (
                   <div key={index + detail}>
-                    <div className="flex space-between">
+                    <div className="flex space-between gap-md">
                       <span>
                         {detail} {exercise.details[detail].units}:{" "}
                       </span>

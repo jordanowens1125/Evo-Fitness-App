@@ -52,7 +52,7 @@ const DailyLog = ({
           <>
             <section
               key={exercise.name}
-              className="margin-md padding-lg flex aic modal"
+              className="padding-lg flex aic modal"
             >
               <div className="modal-content">
                 <span className="flex gap-sm aic wrap full-width space-between">

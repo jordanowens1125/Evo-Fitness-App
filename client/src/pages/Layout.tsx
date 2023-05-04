@@ -130,7 +130,7 @@ const Layout = () => {
       </nav>
       {mobile ? (
         <>
-          <nav className=" flex aic space-between body-color wrap mobile modal border light-bg-color">
+          <nav className=" flex aic space-between body-color wrap mobile border light-bg-color">
             <div className="modal">
               <span
                 className="modal-cancel heading-md"
