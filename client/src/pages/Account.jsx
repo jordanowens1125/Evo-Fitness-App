@@ -15,6 +15,7 @@ const Account = () => {
   const [editMode, setEditMode] = useState(false);
 
   const handleSubmit = () => {
+    setInfo('')
     setEditMode(false);
   };
   return (

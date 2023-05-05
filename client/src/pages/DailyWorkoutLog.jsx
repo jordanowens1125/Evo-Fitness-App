@@ -104,19 +104,6 @@ const DailyWorkoutLog = () => {
     setData(updatedData);
   };
 
-  const addSetToExerciseEntry = (exerciseIndex, object) => {
-    const updatedData = [...data];
-    const details = updatedData[logIndex].exercises[exerciseIndex].details;
-    for (let i = 0; i < details.length; i++) {
-      const currentDetail =
-        updatedData[logIndex].exercises[exerciseIndex].sets[details[i]];
-      if (currentDetail) {
-        currentDetail.push(+object[details[i]]);
-      }
-    }
-    setData(updatedData);
-  };
-
   const addExerciseForDay = (newExercise, dateData = data) => {
     const name = newExercise.name;
     const index = findIndex(dateData, new Date(2023, 4, 1));

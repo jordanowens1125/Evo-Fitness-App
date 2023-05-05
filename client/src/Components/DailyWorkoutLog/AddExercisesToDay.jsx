@@ -65,7 +65,7 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
     cancel();
   };
 
-  const handleSetChange = (e,setIndex, detail) => {
+  const handleSetChange = (e, setIndex, detail) => {
     const updatedExercise = { ...newExercise };
     updatedExercise.sets[detail][setIndex] = e.currentTarget.value;
     setNewExercise(updatedExercise);
@@ -78,6 +78,10 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
       const oldSets = [...updatedExercise.sets[details[i]]];
       oldSets.splice(index, 1);
       updatedExercise.sets[details[i]] = oldSets;
+    }
+    if (updatedExercise.sets[details[0]].length === 0) {
+      updatedExercise.sets = structuredClone(updatedExercise.defaultSets);
+      //Must have a least one set popup
     }
     setNewExercise(updatedExercise);
   };

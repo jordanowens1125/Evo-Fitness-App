@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import DisplaySets from "../Shared/DisplaySets";
 import DisplaySetsInput from "../Shared/DisplaySetsInput";
 
@@ -43,6 +43,7 @@ const DailyLog = ({
           .length === 0
       ) {
         copy.sets = structuredClone(copy.defaultSets)
+        //Must have a least one set popup
       }
       setUpdatedExercise(copy);
     };
