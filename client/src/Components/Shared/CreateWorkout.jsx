@@ -39,6 +39,7 @@ const CreateWorkout = () => {
   };
 
   const saveWorkout = () => {
+    
     const exercises = [];
     Object.keys(exercisesInWorkout).forEach((exercise) => {
       exercises.push({
@@ -52,9 +53,13 @@ const CreateWorkout = () => {
       });
     });
     const newRoutines = [exercises, ...routines];
+    console.log('Api call to add new workout')
+    //if api call is successful
     setRoutines(newRoutines);
     setExercisesInWorkout({});
     setShowModal(false);
+    //if api call not successful
+    //
   };
 
   const removeExerciseFromWorkout = (exercisekey) => {

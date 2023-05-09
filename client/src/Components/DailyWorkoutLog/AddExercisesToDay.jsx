@@ -1,7 +1,8 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import DisplaySetsInput from "../Shared/DisplaySetsInput";
 import CreateExercise from "../Shared/CreateExercise";
 import { DataContext } from "../../context/Context";
+// import { getExercises } from "../../api/exercises";
 
 const AddExercisesToDay = ({ addExerciseForDay }) => {
   const [newWorkoutMode, setNewWorkoutMode] = useState(false);
@@ -15,6 +16,17 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
     sets: { ...exercises[0].defaultSets }, //make sure default sets does not change
     defaultSets: { ...exercises[0].defaultSets },
   });
+
+  useEffect(() => {
+    //useeffect in case api exercises are still referencing dummy data
+    setNewExercise({
+      name: exercises[0].name,
+      kind: exercises[0].kind,
+      details: { ...exercises[0].details },
+      sets: { ...exercises[0].defaultSets }, //make sure default sets does not change
+      defaultSets: { ...exercises[0].defaultSets },
+    });
+  }, [exercises]);
 
   const handleNewWorkoutMode = () => {
     setNewWorkoutMode(true);
@@ -67,7 +79,7 @@ const AddExercisesToDay = ({ addExerciseForDay }) => {
 
   const handleSetChange = (e, setIndex, detail) => {
     const updatedExercise = { ...newExercise };
-    updatedExercise.sets[detail][setIndex] = e.currentTarget.value;
+    updatedExercise.sets[detail][setIndex] = +e.currentTarget.value;
     setNewExercise(updatedExercise);
   };
 

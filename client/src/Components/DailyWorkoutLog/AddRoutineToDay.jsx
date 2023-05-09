@@ -3,20 +3,27 @@ import { DataContext } from "../../context/Context";
 import DisplaySets from "../Shared/DisplaySets";
 import CreateWorkout from "../Shared/CreateWorkout";
 
-
 const AddRoutineToDay = ({ addRoutine }) => {
   const [editMode, setEditMode] = useState(false);
   const context = useContext(DataContext);
   const routines = context.routines;
   const setRoutines = context.setRoutines;
   const deleteRoutine = (index) => {
+    console.log("Api call to update user routines due to deletion");
+    //if api call is successful
     const copiedRoutines = [...routines];
     copiedRoutines.splice(index, 1);
     setRoutines(copiedRoutines);
+    //else if api call is not successful
+    //
   };
   const handleRoutineSubmission = (routine) => {
+    //if successful
+    console.log("Api call to edit log with new routine submission which will be handled by later api call in add exercise to day");
     addRoutine(routine);
     setEditMode(false);
+    //if not successful
+    //
   };
   useEffect(() => {}, [context, routines]);
   return (
@@ -37,7 +44,7 @@ const AddRoutineToDay = ({ addRoutine }) => {
               </span>
 
               <div className="flex flex-column wrap gap-lg">
-                <CreateWorkout/>
+                <CreateWorkout />
                 {routines.map((routine, index) => {
                   return (
                     <div
@@ -60,12 +67,13 @@ const AddRoutineToDay = ({ addRoutine }) => {
                       {routine.map((exercise) => {
                         return (
                           <div key={+index + exercise.name}>
-                            <DisplaySets exercise={exercise} displayName={true}/>
+                            <DisplaySets
+                              exercise={exercise}
+                              displayName={true}
+                            />
                           </div>
                         );
                       })}
-                      {/* Add exercise to date ability */}
-                      {/* Edit routine */}
                     </div>
                   );
                 })}

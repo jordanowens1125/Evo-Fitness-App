@@ -138,6 +138,10 @@ body {
 .space-between {
   justify-content: space-between;
 }
+
+.align-self-center{
+  align-self: center;
+}
 /* flex end */
 /* Padding */
 .padding-xl {

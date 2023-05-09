@@ -64,14 +64,21 @@ const DailyWorkoutLog = () => {
     if (updatedData[logIndex].exercises.length === 0) {
       updatedData.splice(logIndex, 1);
     }
+    console.log('Api call to update log to delete exercise from day')
+    //if successful
     setData(updatedData);
+    //else if not
+
   };
 
   const saveRoutine = () => {
     const updatedRoutines = [...routines];
     const copiedExercises = [...dailyLog.exercises];
     updatedRoutines.push(copiedExercises);
+    console.log('Api call to save routine');
+    //if api call successful
     setRoutines(updatedRoutines);
+    //else if call not successful
   };
 
   const updateExerciseEntryForDay = (exercise, exerciseIndex) => {
@@ -101,13 +108,16 @@ const DailyWorkoutLog = () => {
         updatedData.splice(logIndex, 1);
       }
     }
+    console.log('Api call to edit log with new info since exercise was edited');
+    //if successful
     setData(updatedData);
+    //if not then
   };
 
   const addExerciseForDay = (newExercise, dateData = data) => {
     const name = newExercise.name;
-    const index = findIndex(dateData, new Date(2023, 4, 1));
-    console.log(index);
+    // const index = findIndex(dateData, new Date(2023, 4, 1));
+    // console.log(index);
     const inputDate = convertDateToMMDDYYYYFormat(date);
 
     const score = 1;
@@ -152,7 +162,11 @@ const DailyWorkoutLog = () => {
       //sort newly added day
       updatedData = sortObjectsWithDatePropertyInMMDDYYYY(updatedData);
     }
+    console.log('Api call to update log');
+    //if api call sucessful
     setData(updatedData);
+    //else not successful
+    //
     return updatedData;
   };
 
@@ -181,7 +195,7 @@ const DailyWorkoutLog = () => {
       <div>
         {dailyLog ? (
           <div className="flex flex-column jcc margin-lg gap-lg">
-            <button onClick={saveRoutine}>Save today as routine</button>
+            <button onClick={saveRoutine} className="align-self-center">Save today as routine</button>
             
             <DailyLog
               log={dailyLog}

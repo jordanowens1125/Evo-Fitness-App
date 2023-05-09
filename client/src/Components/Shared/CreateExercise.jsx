@@ -3,6 +3,7 @@ import { kindsOfExercises } from "../../data/exerciseCategories";
 import { muscleGroups } from "../../data/bodySegments";
 import DropDownUsingName from "./DropDownUsingName";
 import { DataContext } from "../../context/Context";
+import { createExercise } from "../../api/exercises";
 
 const newExerciseObject = {
   name: "",
@@ -64,7 +65,7 @@ const CreateExercise = () => {
     resetValues();
   };
 
-  const createNewExercise = () => {
+  const createNewExercise = async() => {
     const copy = [...exercises];
     const muscleG = muscleGroups[muscleGroup];
     const exerciseType = kindsOfExercises[kind];
@@ -76,8 +77,14 @@ const CreateExercise = () => {
       defaultSets: exerciseType.defaultSets,
       segment: muscleG.segment,
     };
+    try {
+      await createExercise(newExercise)
+    } catch (error) {
+      
+    }
     copy.push(newExercise);
     setExerciseList(copy);
+    
     resetExerciseProps();
     cancel();
   };
