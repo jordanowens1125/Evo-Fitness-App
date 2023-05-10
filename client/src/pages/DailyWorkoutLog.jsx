@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import DailyLog from "../Components/DailyWorkoutLog/DailyLog";
 import {
   convertDateToMMDDYYYYFormat,
@@ -10,6 +10,7 @@ import AddRoutineToDay from "../Components/DailyWorkoutLog/AddRoutineToDay";
 import { findIndex } from "../utils/searchFunction";
 import NoData from "../Components/Shared/NoData";
 import DateComponent from "../Components/Shared/Date";
+import useAuthContext from "../hooks/useAuthContext";
 
 const findLogForDate = (date, data) => {
   for (let i = 0; i < data.length; i++) {
@@ -26,7 +27,37 @@ const DailyWorkoutLog = () => {
   const setData = context.setData;
   const routines = context.routines;
   const setRoutines = context.setRoutines;
+  const setExerciseList = context.setExerciseList;
   const [date, setDate] = useState(new Date());
+
+  useEffect(() => {
+    //api call for user data
+  }, []);
+
+  const { user } = useAuthContext();
+
+  useEffect(() => {
+    async function fetchData() {
+      const exerciseResponse = await fetch("/exercises", {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const exercisejson = await exerciseResponse.json();
+      if (exerciseResponse.ok) {
+        if (exercisejson.length > 0) {
+          setExerciseList(exercisejson);
+        }
+      }
+
+      //get user data
+    }
+
+
+    if (user) {
+      fetchData();
+    }
+  }, [user, setExerciseList]);
 
   const test = convertDateToMMDDYYYYFormat(date);
 
@@ -64,18 +95,17 @@ const DailyWorkoutLog = () => {
     if (updatedData[logIndex].exercises.length === 0) {
       updatedData.splice(logIndex, 1);
     }
-    console.log('Api call to update log to delete exercise from day')
+    console.log("Api call to update log to delete exercise from day");
     //if successful
     setData(updatedData);
     //else if not
-
   };
 
   const saveRoutine = () => {
     const updatedRoutines = [...routines];
     const copiedExercises = [...dailyLog.exercises];
     updatedRoutines.push(copiedExercises);
-    console.log('Api call to save routine');
+    console.log("Api call to save routine");
     //if api call successful
     setRoutines(updatedRoutines);
     //else if call not successful
@@ -108,13 +138,13 @@ const DailyWorkoutLog = () => {
         updatedData.splice(logIndex, 1);
       }
     }
-    console.log('Api call to edit log with new info since exercise was edited');
+    console.log("Api call to edit log with new info since exercise was edited");
     //if successful
     setData(updatedData);
     //if not then
   };
 
-  const addExerciseForDay = (newExercise, dateData = data) => {
+  const addExerciseForDay = async (newExercise, dateData = data) => {
     const name = newExercise.name;
     // const index = findIndex(dateData, new Date(2023, 4, 1));
     // console.log(index);
@@ -162,11 +192,24 @@ const DailyWorkoutLog = () => {
       //sort newly added day
       updatedData = sortObjectsWithDatePropertyInMMDDYYYY(updatedData);
     }
-    console.log('Api call to update log');
+    console.log("Api call to update log");
+
+    // const response = await fetch("/users/", {
+    //   method: "POST",
+    //   body: JSON.stringify(newExercise),
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: `Bearer ${user.token}`,
+    //   },
+    // });
     //if api call sucessful
-    setData(updatedData);
-    //else not successful
-    //
+    // if (!response.ok) {
+    //   console.log('Error');
+    //   //setError
+    // }
+    // if (response.ok) {
+    //   setData(updatedData);
+    // }
     return updatedData;
   };
 
@@ -195,8 +238,10 @@ const DailyWorkoutLog = () => {
       <div>
         {dailyLog ? (
           <div className="flex flex-column jcc margin-lg gap-lg">
-            <button onClick={saveRoutine} className="align-self-center">Save today as routine</button>
-            
+            <button onClick={saveRoutine} className="align-self-center">
+              Save today as routine
+            </button>
+
             <DailyLog
               log={dailyLog}
               removeExerciseFromLog={removeExerciseFromLog}

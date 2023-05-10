@@ -10,6 +10,10 @@ const ExerciseSchema = new Schema({
   sets: {},
   details: {},
   defaultSets: {},
+  user: {
+    type: String,
+    required: true,
+  }
 });
 
 module.exports = mongoose.model("Exercise", ExerciseSchema);

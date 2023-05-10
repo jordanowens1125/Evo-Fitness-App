@@ -1,21 +1,22 @@
 import Logo from "../assets/logo";
 import { useState } from "react";
-import { useLogin } from "../hooks/useLogin";
+import { useSignup } from "../hooks/useSignup";
 
-const Signin = () => {
+const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { signIn, error, isLoading } = useLogin();
+  const { signup, error, isLoading } = useSignup();
   const submit = async (e) => {
     e.preventDefault();
-    await signIn(email, password);
+    await signup(email, password);
   };
+
   return (
-    <section className="full-height full-width grow aic jcc flex body-color">
-      <div className="padding-lg flex-column aic grow margin-lg secondary-bg">
+    <>
+      <section className="full-height full-width grow aic jcc flex body-color">
         <form onSubmit={submit} className="flex-column aic gap-lg">
           <Logo value={60} />
-          <h3>Login</h3>
+          <h3>Sign Up</h3>
           <label htmlFor="Email:">Email: </label>
           <input
             type="email"
@@ -30,16 +31,18 @@ const Signin = () => {
             placeholder="Password: "
             onChange={(e) => setPassword(e.currentTarget.value)}
           />
-          <button className=" primary" disabled={isLoading}>
-            Login
+
+          <button type="submit" className="primary" disabled={isLoading}>
+            Sign Up
           </button>
           {error && <span>{error}</span>}
+          <a href="/signin" className="flex-column">
+            Already have an account?
+          </a>
         </form>
-        <span className="flex-column aic"></span>
-        <a href="/signup">Sign Up?</a>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
 
-export default Signin;
+export default Signup;

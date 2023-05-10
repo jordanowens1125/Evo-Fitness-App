@@ -7,7 +7,7 @@ export const getUser = async (id) =>
   });
 
 export const createUser = async (newUser) =>
-  await axios.post(`${baseURL}/create`, newUser).then((response) => {
+  await axios.post(`${baseURL}/signup`, newUser).then((response) => {
     return response.data;
   });
 

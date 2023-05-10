@@ -4,6 +4,7 @@ import { muscleGroups } from "../../data/bodySegments";
 import DropDownUsingName from "./DropDownUsingName";
 import { DataContext } from "../../context/Context";
 import { createExercise } from "../../api/exercises";
+import useAuthContext from "../../hooks/useAuthContext";
 
 const newExerciseObject = {
   name: "",
@@ -25,6 +26,8 @@ const CreateExercise = () => {
     sets: { ...exercises[0].defaultSets }, //make sure default sets does not change
     defaultSets: { ...exercises[0].defaultSets },
   });
+
+  const {user} = useAuthContext()
   const [muscleGroup, setMuscleGroup] = useState(0);
   const [active, setActive] = useState(false);
   const [kind, setKind] = useState(0);
@@ -65,7 +68,14 @@ const CreateExercise = () => {
     resetValues();
   };
 
-  const createNewExercise = async() => {
+  const createNewExercise = async (e) => {
+    e.preventDefault();
+
+    if (!user) {
+      //setError('You must be logged in')
+      return;
+    }
+
     const copy = [...exercises];
     const muscleG = muscleGroups[muscleGroup];
     const exerciseType = kindsOfExercises[kind];
@@ -78,15 +88,32 @@ const CreateExercise = () => {
       segment: muscleG.segment,
     };
     try {
-      await createExercise(newExercise)
-    } catch (error) {
-      
-    }
+      await createExercise(newExercise);
+    } catch (error) {}
     copy.push(newExercise);
-    setExerciseList(copy);
+
+    const response = await fetch("/exercises/create", {
+      method: "POST",
+      body: JSON.stringify(newExercise),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+
+    // const json = await response.json();
+    // console.log(json);
+    if (!response.ok) {
+      console.log(response);
+      //setError(json.error)
+    }
+    if (response.ok) {
+      setExerciseList(copy);
+      resetExerciseProps();
+      cancel();
+    }
+
     
-    resetExerciseProps();
-    cancel();
   };
 
   return (

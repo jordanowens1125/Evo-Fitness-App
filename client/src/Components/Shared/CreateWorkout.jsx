@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { DataContext } from "../../context/Context";
 import DisplaySetsInput from "./DisplaySetsInput";
+import useAuthContext from "../../hooks/useAuthContext";
 
 const CreateWorkout = () => {
   const [showModal, setShowModal] = useState(false);
@@ -10,6 +11,7 @@ const CreateWorkout = () => {
   const exercises = context.exerciseList;
   const routines = context.routines;
   const setRoutines = context.setRoutines;
+  const { user } = useAuthContext();
 
   const filteredItems = exercises.filter((item) => {
     const capitalizedTitle = item.name.toUpperCase();
@@ -38,8 +40,12 @@ const CreateWorkout = () => {
     setExercisesInWorkout(copiedExercises);
   };
 
-  const saveWorkout = () => {
-    
+  const saveWorkout = async (e) => {
+    e.preventDefault();
+    if (!user) {
+      //setError you must be logged in
+      return;
+    }
     const exercises = [];
     Object.keys(exercisesInWorkout).forEach((exercise) => {
       exercises.push({
@@ -52,14 +58,26 @@ const CreateWorkout = () => {
         defaultSets: { ...exercisesInWorkout[exercise].defaultSets },
       });
     });
-    const newRoutines = [exercises, ...routines];
-    console.log('Api call to add new workout')
-    //if api call is successful
-    setRoutines(newRoutines);
-    setExercisesInWorkout({});
-    setShowModal(false);
-    //if api call not successful
-    //
+    console.log("Api call to add new workout");
+    const response = await fetch(`/users/updateroutines`, {
+      method: "PUT",
+      body: JSON.stringify(exercises),
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': `Bearer ${user.token}`,
+      },
+    });
+
+    if (!response.ok) {
+      //setError(error)
+    }
+    if (response.ok) {
+      const newRoutines = [exercises, ...routines];
+      //if api call is successful
+      setRoutines(newRoutines);
+      setExercisesInWorkout({});
+      setShowModal(false);
+    }
   };
 
   const removeExerciseFromWorkout = (exercisekey) => {
@@ -79,7 +97,7 @@ const CreateWorkout = () => {
     setShowModal(false);
   };
 
-  const removeSet = (setIndex,exerciseName) => {
+  const removeSet = (setIndex, exerciseName) => {
     const oldExerciseObject = { ...exercisesInWorkout };
     const exercise = oldExerciseObject[exerciseName];
     const details = Object.keys(exercise.details);
