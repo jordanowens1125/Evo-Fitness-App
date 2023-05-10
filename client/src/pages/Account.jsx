@@ -1,22 +1,44 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import useAuthContext from "../hooks/useAuthContext";
 
 const Account = () => {
+  const { user } = useAuthContext();
   const [info, setInfo] = useState({
-    Name: "Jakx",
-    Age: 23,
-    Gender: "",
-    Height: {
-      Feet: 5,
-      Inches: 8,
-    },
-    CurrentWeight: 0,
+    name: "Jakx",
+    age: 23,
+    gender: "",
+    feet: 5,
+    inches: 8,
+    weight: 0,
   });
 
   const [editMode, setEditMode] = useState(false);
 
-  const handleSubmit = () => {
-    setInfo('')
-    setEditMode(false);
+  const handleSubmit = async () => {
+    const response = await fetch("users/updateinfo", {
+      method: "PUT",
+      body: JSON.stringify(info),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+    if (!response.ok) {
+      console.log("Error");
+      console.log(response);
+      //setError
+    }
+    if (response.ok) {
+      setEditMode(false);
+    }
+  };
+
+  const handleChange = (e) => {
+    const name = e.currentTarget.id;
+    const value = e.currentTarget.value;
+    const copy = { ...info };
+    copy[name] = value;
+    setInfo(copy);
   };
   return (
     <>
@@ -29,11 +51,46 @@ const Account = () => {
                   <h2>Update Profile:</h2>
                   <button onClick={() => setEditMode(false)}>Cancel</button>
                 </span>
-                <input type="text" value={info.Name} />
-                <input type="number" value={info.Age} />
-                <input type="number" value={info.Height.Feet} />
-                <input type="number" value={info.Height.Inches} />
-                <input type="number" value={info.CurrentWeight} />
+                <label htmlFor="Name">Name: </label>
+                <input
+                  type="text"
+                  value={info.name}
+                  id="name"
+                  placeholder="Name:"
+                  onChange={handleChange}
+                />
+                <label htmlFor="Age">Age: </label>
+                <input
+                  type="number"
+                  value={info.age}
+                  id="age"
+                  placeholder="Age:"
+                  onChange={handleChange}
+                />
+                <label htmlFor="Feet">Feet: </label>
+                <input
+                  type="number"
+                  value={info.feet}
+                  id="feet"
+                  placeholder="Feet:"
+                  onChange={handleChange}
+                />
+                <label htmlFor="Inches">Inches: </label>
+                <input
+                  type="number"
+                  value={info.inches}
+                  id="inches"
+                  placeholder="Inches:"
+                  onChange={handleChange}
+                />
+                <label htmlFor="Weight">Weight: </label>
+                <input
+                  type="number"
+                  value={info.weight}
+                  id="weight"
+                  placeholder="Weight:"
+                  onChange={handleChange}
+                />
                 <button onClick={handleSubmit} className="primary-button">
                   Submit
                 </button>
@@ -43,12 +100,12 @@ const Account = () => {
         ) : (
           <>
             <section className="padding-lg flex flex-column gap-lg jcc margin-lg full-width">
-              <h1>Name: {info.Name}</h1>
-              <p>Age: {info.Age}</p>
+              <h1>Name: {info.name}</h1>
+              <p>Age: {info.age}</p>
               <p>
-                Height:{info.Height.Feet} Feet - {info.Height.Inches} Inches{" "}
+                Height:{info.feet} Feet - {info.inches} Inches{" "}
               </p>
-              <p>Weight: {info.CurrentWeight}</p>
+              <p>Weight: {info.weight}</p>
               <button onClick={() => setEditMode(true)}>Edit</button>
             </section>
           </>

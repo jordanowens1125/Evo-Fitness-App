@@ -57,6 +57,9 @@ const getUser = async (req, res) => {
         exercises: user.exercises,
         log: user.log,
         routines: user.routines,
+        name: user.name,
+        weight: user.weight,
+        age: user.age,
       },
     });
   } catch (error) {
@@ -76,7 +79,7 @@ const updateUserLog = async (req, res) => {
         log: log,
       }
     );
-    res.status(200).json(user);
+    res.status(200).json();
   } catch (error) {
     res.status(404).json({ message: error });
   }
@@ -85,7 +88,7 @@ const updateUserLog = async (req, res) => {
 const updateUserRoutines = async (req, res) => {
   try {
     const id = req.user._id;
-    const routines = req.body
+    const routines = req.body;
     //update user routines
     const user = await User.findOneAndUpdate(
       { _id: id },
@@ -94,9 +97,8 @@ const updateUserRoutines = async (req, res) => {
       }
     );
     delete user.password;
-    res.status(200).json(user);
+    res.status(200).json();
   } catch (error) {
-    console.log(23);
     res.status(404).json({ message: error });
   }
 };
@@ -104,18 +106,18 @@ const updateUserRoutines = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const id = req.user._id;
-    const { name, handle, age, weight, height } = req.body;
-    const user = User.findOneAndUpdate(
+    const { name, handle, age, weight } = req.body;
+    const user = await User.findOneAndUpdate(
       { _id: id },
       {
         name: name,
-        handle: handle,
         age: age,
         weight: weight,
       }
     );
-    res.status(200).json(user);
+    res.status(200).json();
   } catch (error) {
+    console.log(897);
     res.status(404).json({ message: error });
   }
 };

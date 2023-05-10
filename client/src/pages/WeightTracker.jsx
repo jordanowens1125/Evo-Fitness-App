@@ -12,9 +12,7 @@ import {
 import { DataContext } from "../context/Context";
 import { generateRandomColor } from "../data/colors";
 import {
-  compareDatesInDateFormat,
   convertDateToMMDDYYYYFormat,
-  convertDatetoYYYYMMDDFormat,
   convertMMDDYYYYtoDateFormat,
   convertYYYYMMDDtoDate,
   getDatesForRange,
@@ -26,6 +24,7 @@ import DateComponent from "../Components/Shared/Date";
 
 const templateDay = {
   date: "",
+  officialDate: "",
   score: 0,
   weight: 0,
   exercises: [],
@@ -87,11 +86,21 @@ const filterDataByRange = (data, dateRange) => {
   return filteredArr;
 };
 
+const getCurrentWeight = (data) => {
+  if (data.length > 0) {
+    if (data[data.length - 1].weight) {
+      return data[data.length - 1].weight;
+    }
+  }
+  return 0;
+};
+
 const WeightTracker = () => {
   const context = useContext(DataContext);
   const data = context.data;
   const [randomColor, setRandomColor] = useState(generateRandomColor());
-  const [weightToday, setWeightToday] = useState(data[data.length - 1].weight);
+  const [weightToday, setWeightToday] = useState(getCurrentWeight(data));
+
   const [date, setDate] = useState(new Date());
   const [daysPrior, setDaysPrior] = useState(7);
   const [priorDate, setPriorDate] = useState(
@@ -112,14 +121,23 @@ const WeightTracker = () => {
     const day = new Date();
     const convertedDate = convertDateToMMDDYYYYFormat(day);
     //if this day does not exist
-    if (convertedDate !== newData[newData.length - 1].date) {
-      //make a new day object if there is not one already
+    if (newData.length > 0) {
+      if (convertedDate !== newData[newData.length - 1].date) {
+        //make a new day object if there is not one already
+        newData.push(templateDay);
+      }
+      const lastItemIndex = newData.length - 1;
+      newData[lastItemIndex].weight = +e.currentTarget.value;
+      newData[lastItemIndex].date = convertedDate;
+      context.setData(newData);
+    } else {
       newData.push(templateDay);
+      const lastItemIndex = newData.length - 1;
+      newData[lastItemIndex].weight = +e.currentTarget.value;
+      newData[lastItemIndex].date = convertedDate;
+      newData[lastItemIndex].officialDate = day;
+      context.setData(newData);
     }
-    const lastItemIndex = newData.length - 1;
-    newData[lastItemIndex].weight = +e.currentTarget.value;
-    newData[lastItemIndex].date = convertedDate;
-    context.setData(newData);
   };
 
   const setDateToToday = () => {
@@ -187,7 +205,7 @@ const WeightTracker = () => {
           <ResponsiveContainer height={400} width={"100%"}>
             <AreaChart
               data={filledData}
-              margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+              margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
             >
               <defs>
                 <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">

@@ -23,6 +23,6 @@ router.use(requireAuth)
 router.get('/', getUser)
 router.put('/updatelog/', updateUserLog);
 router.put("/updateroutines", updateUserRoutines);
-router.put("/updateinfo/", updateUser);
+router.put("/updateinfo", updateUser);
 
 module.exports = router;

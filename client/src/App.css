@@ -254,6 +254,14 @@ button:hover {
 .ghost-button:hover {
   color: var(--primary-color);
 }
+
+.disabled{
+  opacity: .5;
+}
+
+.disabled:hover{
+  
+}
 /* End of buttons */
 
 /* SVGs */

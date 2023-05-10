@@ -4,6 +4,8 @@ import CreateExercise from "../Shared/CreateExercise";
 import { DataContext } from "../../context/Context";
 // import { getExercises } from "../../api/exercises";
 
+
+
 const AddExercisesToDay = ({ addExerciseForDay }) => {
   const [newWorkoutMode, setNewWorkoutMode] = useState(false);
   const [exerciseValue, setExerciseValue] = useState(0);

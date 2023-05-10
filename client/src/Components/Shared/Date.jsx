@@ -32,14 +32,26 @@ const DateComponent = ({
               onChange={jumpToDate}
             ></input>
           </span>
-          <button onClick={increaseby1} className="no-border">
-            <RightArrow value={value} />
-          </button>
+          {isToday ? (
+            <>
+              <button className="no-border disabled">
+                <RightArrow value={value} />
+              </button>
+            </>
+          ) : (
+            <>
+              <button onClick={increaseby1} className="no-border">
+                <RightArrow value={value} />
+              </button>
+            </>
+          )}
         </div>
         {setDateToday ? (
           <>
             {isToday ? (
-              <><button disabled>Today</button></>
+              <>
+                <button disabled>Today</button>
+              </>
             ) : (
               <>
                 {" "}

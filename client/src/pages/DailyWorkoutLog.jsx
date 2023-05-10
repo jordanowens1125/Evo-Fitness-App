@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import DailyLog from "../Components/DailyWorkoutLog/DailyLog";
 import {
   convertDateToMMDDYYYYFormat,
@@ -7,7 +7,7 @@ import {
 import AddExercisesToDay from "../Components/DailyWorkoutLog/AddExercisesToDay";
 import { DataContext } from "../context/Context";
 import AddRoutineToDay from "../Components/DailyWorkoutLog/AddRoutineToDay";
-import { findIndex } from "../utils/searchFunction";
+// import { findIndex } from "../utils/searchFunction";
 import NoData from "../Components/Shared/NoData";
 import DateComponent from "../Components/Shared/Date";
 import useAuthContext from "../hooks/useAuthContext";
@@ -54,10 +54,11 @@ const DailyWorkoutLog = () => {
         },
       });
       const json = await response.json();
-      console.log(json.user);
       if (response.ok) {
         setRoutines(json.user.routines);
-        //setExerciseList(json.user.exercises);
+        if (json.user.exercises.length > 0) {
+          setExerciseList(json.user.exercises);
+        }
         setData(json.user.log);
       }
     }
@@ -65,7 +66,7 @@ const DailyWorkoutLog = () => {
     if (user) {
       fetchData();
     }
-  }, [user, setExerciseList, setRoutines]);
+  }, [user, setExerciseList, setRoutines, setData]);
 
   const test = convertDateToMMDDYYYYFormat(date);
 
@@ -97,16 +98,29 @@ const DailyWorkoutLog = () => {
     setDate(new Date(year, +month - 1, day));
   };
 
-  const removeExerciseFromLog = (exerciseIndex) => {
+  const removeExerciseFromLog = async (exerciseIndex) => {
     const updatedData = [...data];
     updatedData[logIndex].exercises.splice(exerciseIndex, 1);
     if (updatedData[logIndex].exercises.length === 0) {
       updatedData.splice(logIndex, 1);
     }
-    console.log("Api call to update log to delete exercise from day");
-    //if successful
-    setData(updatedData);
-    //else if not
+
+    const response = await fetch("/users/updatelog", {
+      method: "PUT",
+      body: JSON.stringify(updatedData),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.log("Error");
+      //setError
+    }
+    if (response.ok) {
+      setData(updatedData);
+    }
   };
 
   const saveRoutine = async () => {
@@ -133,10 +147,26 @@ const DailyWorkoutLog = () => {
     }
   };
 
-  const updateExerciseEntryForDay = (exercise, exerciseIndex) => {
+  const updateExerciseEntryForDay = async (exercise, exerciseIndex) => {
     const updatedData = [...data];
     updatedData[logIndex].exercises[exerciseIndex] = exercise;
-    setData(updatedData);
+
+    const response = await fetch("/users/updatelog", {
+      method: "PUT",
+      body: JSON.stringify(updatedData),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.log("Error");
+      //setError
+    }
+    if (response.ok) {
+      setData(updatedData);
+    }
   };
 
   const removeSetFromExercise = async (exerciseIndex, setIndex) => {
