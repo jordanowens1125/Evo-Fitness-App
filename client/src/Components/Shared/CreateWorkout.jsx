@@ -59,9 +59,10 @@ const CreateWorkout = () => {
       });
     });
     console.log("Api call to add new workout");
+    const newRoutines = [exercises, ...routines];
     const response = await fetch(`/users/updateroutines`, {
       method: "PUT",
-      body: JSON.stringify(exercises),
+      body: JSON.stringify(newRoutines),
       headers: {
         "Content-Type": "application/json",
         'Authorization': `Bearer ${user.token}`,
@@ -72,7 +73,6 @@ const CreateWorkout = () => {
       //setError(error)
     }
     if (response.ok) {
-      const newRoutines = [exercises, ...routines];
       //if api call is successful
       setRoutines(newRoutines);
       setExercisesInWorkout({});

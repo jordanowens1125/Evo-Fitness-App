@@ -20,7 +20,6 @@ const Layout = () => {
   const [theme, setTheme] = useState("dark-mode");
 
   const { user } = useAuthContext();
-  console.log(user);
   const { signOut } = useLogOut();
 
   const impactRef = useRef(null);

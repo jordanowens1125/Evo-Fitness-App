@@ -2,24 +2,46 @@ import React, { useContext, useState, useEffect } from "react";
 import { DataContext } from "../../context/Context";
 import DisplaySets from "../Shared/DisplaySets";
 import CreateWorkout from "../Shared/CreateWorkout";
+import useAuthContext from "../../hooks/useAuthContext";
 
 const AddRoutineToDay = ({ addRoutine }) => {
   const [editMode, setEditMode] = useState(false);
   const context = useContext(DataContext);
   const routines = context.routines;
   const setRoutines = context.setRoutines;
-  const deleteRoutine = (index) => {
+
+  const { user } = useAuthContext();
+
+  const deleteRoutine = async (index) => {
     console.log("Api call to update user routines due to deletion");
     //if api call is successful
     const copiedRoutines = [...routines];
     copiedRoutines.splice(index, 1);
-    setRoutines(copiedRoutines);
-    //else if api call is not successful
-    //
+
+    const response = await fetch("/users/updateroutines", {
+      method: "PUT",
+      body: JSON.stringify(copiedRoutines),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.log("Error");
+      //setError
+    }
+    if (response.ok) {
+      setRoutines(copiedRoutines);
+    }
   };
+
   const handleRoutineSubmission = (routine) => {
     //if successful
-    console.log("Api call to edit log with new routine submission which will be handled by later api call in add exercise to day");
+    console.log(
+      "Api call to edit log with new routine submission which will be handled by later api call in add exercise to day"
+    );
+
     addRoutine(routine);
     setEditMode(false);
     //if not successful

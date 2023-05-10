@@ -28,11 +28,8 @@ const DailyWorkoutLog = () => {
   const routines = context.routines;
   const setRoutines = context.setRoutines;
   const setExerciseList = context.setExerciseList;
-  const [date, setDate] = useState(new Date());
 
-  useEffect(() => {
-    //api call for user data
-  }, []);
+  const [date, setDate] = useState(new Date());
 
   const { user } = useAuthContext();
 
@@ -51,13 +48,24 @@ const DailyWorkoutLog = () => {
       }
 
       //get user data
+      const response = await fetch("/users", {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      const json = await response.json();
+      console.log(json.user);
+      if (response.ok) {
+        setRoutines(json.user.routines);
+        //setExerciseList(json.user.exercises);
+        setData(json.user.log);
+      }
     }
-
 
     if (user) {
       fetchData();
     }
-  }, [user, setExerciseList]);
+  }, [user, setExerciseList, setRoutines]);
 
   const test = convertDateToMMDDYYYYFormat(date);
 
@@ -101,14 +109,28 @@ const DailyWorkoutLog = () => {
     //else if not
   };
 
-  const saveRoutine = () => {
+  const saveRoutine = async () => {
     const updatedRoutines = [...routines];
     const copiedExercises = [...dailyLog.exercises];
     updatedRoutines.push(copiedExercises);
     console.log("Api call to save routine");
-    //if api call successful
-    setRoutines(updatedRoutines);
-    //else if call not successful
+    console.log(updatedRoutines);
+    const response = await fetch("/users/updateroutines", {
+      method: "PUT",
+      body: JSON.stringify(updatedRoutines),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.log("Error");
+      //setError
+    }
+    if (response.ok) {
+      setRoutines(updatedRoutines);
+    }
   };
 
   const updateExerciseEntryForDay = (exercise, exerciseIndex) => {
@@ -117,7 +139,7 @@ const DailyWorkoutLog = () => {
     setData(updatedData);
   };
 
-  const removeSetFromExercise = (exerciseIndex, setIndex) => {
+  const removeSetFromExercise = async (exerciseIndex, setIndex) => {
     const updatedData = [...data];
     const details = Object.keys(
       updatedData[logIndex].exercises[exerciseIndex].details
@@ -138,10 +160,23 @@ const DailyWorkoutLog = () => {
         updatedData.splice(logIndex, 1);
       }
     }
-    console.log("Api call to edit log with new info since exercise was edited");
-    //if successful
-    setData(updatedData);
-    //if not then
+    //console.log("Api call to edit log with new info since exercise was edited");
+    const response = await fetch("/users/updatelog", {
+      method: "PUT",
+      body: JSON.stringify(updatedData),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.log("Error");
+      //setError
+    }
+    if (response.ok) {
+      setData(updatedData);
+    }
   };
 
   const addExerciseForDay = async (newExercise, dateData = data) => {
@@ -192,24 +227,24 @@ const DailyWorkoutLog = () => {
       //sort newly added day
       updatedData = sortObjectsWithDatePropertyInMMDDYYYY(updatedData);
     }
-    console.log("Api call to update log");
 
-    // const response = await fetch("/users/", {
-    //   method: "POST",
-    //   body: JSON.stringify(newExercise),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: `Bearer ${user.token}`,
-    //   },
-    // });
-    //if api call sucessful
-    // if (!response.ok) {
-    //   console.log('Error');
-    //   //setError
-    // }
-    // if (response.ok) {
-    //   setData(updatedData);
-    // }
+    //console.log("Api call to update log");
+    const response = await fetch("/users/updatelog", {
+      method: "PUT",
+      body: JSON.stringify(updatedData),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.log("Error");
+      //setError
+    }
+    if (response.ok) {
+      setData(updatedData);
+    }
     return updatedData;
   };
 

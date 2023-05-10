@@ -14,10 +14,17 @@ const loginUser = async (req, res) => {
     const user = await User.login(email, password);
 
     //make token
-    delete user.password
+    delete user.password;
     const token = createToken(user._id);
-    console.log(user);
-    res.status(200).json({ user, token, });
+    res.status(200).json({
+      user: {
+        email: user.email,
+        exercises: user.exercises,
+        log: user.log,
+        routines: user.routines,
+      },
+      token,
+    });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
@@ -33,6 +40,27 @@ const signUp = async (req, res) => {
     res.status(200).json({ email, token });
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+};
+
+const getUser = async (req, res) => {
+  const id = req.user._id || null;
+  if (!id) {
+    throw Error("Invalid request");
+  }
+  try {
+    const user = await User.findById(id).populate("exercises");
+
+    res.status(200).json({
+      user: {
+        email: user.email,
+        exercises: user.exercises,
+        log: user.log,
+        routines: user.routines,
+      },
+    });
+  } catch (error) {
+    res.status(404).json({ message: error });
   }
 };
 
@@ -57,8 +85,7 @@ const updateUserLog = async (req, res) => {
 const updateUserRoutines = async (req, res) => {
   try {
     const id = req.user._id;
-    const routines = req.body;
-    const email = req.params.email;
+    const routines = req.body
     //update user routines
     const user = await User.findOneAndUpdate(
       { _id: id },
@@ -99,4 +126,5 @@ module.exports = {
   updateUserLog,
   updateUserRoutines,
   updateUser,
+  getUser,
 };
