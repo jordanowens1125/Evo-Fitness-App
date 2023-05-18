@@ -1,5 +1,5 @@
 {
-  "proxy":"http://localhost:8000",
+  "proxy": "http://localhost:8000",
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
@@ -21,6 +21,7 @@
     "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",
     "recharts": "^2.5.0",
+    "typescript": "^5.0.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
