@@ -1,9 +1,8 @@
-import React, { useState, useContext, useEffect } from "react";
+import  { useState, useContext } from "react";
 import {
   AreaChart,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   Area,
   Legend,
@@ -11,7 +10,6 @@ import {
 } from "recharts";
 
 import {
-  compareDatesInDateFormat,
   convertMMDDYYYYtoDateFormat,
   convertYYYYMMDDtoDate,
   getDatesForRange,
@@ -21,8 +19,6 @@ import {
 import DateRangeDropDown from "../ByDay/DateRangeDropDown";
 import { DataContext } from "../../context/Context";
 import { generateRandomColor } from "../../data/colors";
-import LeftArrow from "../../assets/left-arrow";
-import RightArrow from "../../assets/right-arrow";
 import DropDownUsingName from "../Shared/DropDownUsingName";
 import DateComponent from "../Shared/Date";
 
@@ -33,10 +29,10 @@ const getDisplayValue = (exercises, exercise, value) => {
     if (name === exercises[i].name) {
       if (exercises[i].sets[value.name]) {
         const addedValueToCount = exercises[i].sets[value.name].reduce(
-          (accums, current) => accums + current,
+          (accums, current) => accums + parseInt(current),
           0
         );
-        count = count + addedValueToCount;
+        count = parseInt(count) + addedValueToCount;
       }
     }
   }

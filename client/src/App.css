@@ -359,6 +359,12 @@ input[type="date"] {
   border-radius: 0.2rem;
 }
 
+input{
+  /* border: 1px solid var(--light-bg-color);
+  border-radius: 8px;
+  text-align: center; */
+}
+
 .primary-border {
   border: 1px solid var(--primary-color);
 }
