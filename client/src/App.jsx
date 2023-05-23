@@ -1,22 +1,21 @@
 import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
-import dummyData from "./Data/dummyData";
+
 import DailyWorkoutLog from "./Pages/DailyWorkoutLog";
 import Layout from "./Pages/Layout";
 import { DataContext } from "./Context/Context";
-import { storedRoutines } from "./Data/routines";
 // import Macros from "./pages/Macros";
 import WeightTracker from "./Pages/WeightTracker";
 import QuickLinks from "./Pages/QuickLinks";
 import WorkoutInfo from "./Pages/WorkoutInfo";
 import Account from "./Pages/Account";
-import { exercises } from "./Data/bodySegments";
 import Signin from "./Pages/Signin";
 import Signup from "./Pages/Signup";
-// import { getExercises } from "./api/exercises";
-// import ProtectedRoute from "./Components/Auth/ProtectedRoute";
 import useAuthContext from "./Hooks/useAuthContext";
+import dummyData from "./Data/dummyData"
+import { exercises } from "./Data/bodySegments";
+import { storedRoutines } from "./Data/routines";
 
 function App() {
   const [data, setData] = useState(dummyData.byDay);
