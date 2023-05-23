@@ -10,9 +10,15 @@ const Signin = () => {
     e.preventDefault();
     await signIn(email, password);
   };
+  const demoLogin = async () => {
+    await signIn(
+      process.env.REACT_APP_DEMO_EMAIL,
+      process.env.REACT_APP_DEMO_PASSWORD
+    );
+  };
   return (
     <section className="full-height full-width grow aic jcc flex body-color">
-      <div className="padding-lg flex-column aic grow margin-lg secondary-bg">
+      <div className="padding-lg flex-column aic grow margin-lg secondary-bg gap-md">
         <form onSubmit={submit} className="flex-column aic gap-lg">
           <Logo value={60} />
           <h3>Login</h3>
@@ -35,6 +41,9 @@ const Signin = () => {
           </button>
           {error && <span>{error}</span>}
         </form>
+        <button className="primary-button" onClick={demoLogin}>
+          Login as demo user
+        </button>
         <span className="flex-column aic"></span>
         <a href="/signup">Sign Up?</a>
       </div>

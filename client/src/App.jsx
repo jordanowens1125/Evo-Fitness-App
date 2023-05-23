@@ -42,12 +42,42 @@ function App() {
             <Route path="/" element={<Layout />}>
               <Route
                 index
-                element={user ? <DailyWorkoutLog /> : <Navigate to="signin" />}
+                element={user ? <DailyWorkoutLog /> : <Navigate to="/signin" />}
               />
-              <Route path="/weight" element={<WeightTracker />} />
+              <Route
+                path="weight"
+                element={user ? <WeightTracker /> : <Navigate to="/signin" />}
+              />
+              <Route
+                path="workoutInfo"
+                element={
+                  user ? (
+                    <WorkoutInfo />
+                  ) : (
+                    <Navigate to="/signin" />
+                  )
+                }
+              />
+              <Route
+                exact
+                path="/account"
+                element={user ? <Account /> : <Navigate to="/signin" />}
+              />
+              <Route
+                path="/quickLinks"
+                element={
+                  user ? (
+                    <QuickLinks />
+                  ) : (
+                    <Navigate to="/signin" />
+                  )
+                }
+              />
+
+              {/* <Route path="/weight" element={<WeightTracker />} />
               <Route path="/workoutInfo" element={<WorkoutInfo />} />
               <Route path="/account" element={<Account />} />
-              <Route path="/quickLinks" element={<QuickLinks />} />
+              <Route path="/quickLinks" element={<QuickLinks />} /> */}
               {/* <Exercises/> */}
               {/* <Macros /> */}
             </Route>
