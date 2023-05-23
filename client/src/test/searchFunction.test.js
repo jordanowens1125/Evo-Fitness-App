@@ -1,4 +1,4 @@
-import { findIndex } from "../utils/searchFunction";
+import { findIndex } from "../Utils/searchFunction";
 const dates = [
   { officialDate: new Date(2023, 2, 1) },
   { officialDate: new Date(2023, 3, 1) },

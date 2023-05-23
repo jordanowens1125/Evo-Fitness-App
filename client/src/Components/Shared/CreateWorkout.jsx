@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
-import { DataContext } from "../../context/Context";
+import { DataContext } from "../../Context/Context";
 import DisplaySetsInput from "./DisplaySetsInput";
-import useAuthContext from "../../hooks/useAuthContext";
+import useAuthContext from "../../Hooks/useAuthContext";
 
 const CreateWorkout = () => {
   const [showModal, setShowModal] = useState(false);
@@ -65,7 +65,7 @@ const CreateWorkout = () => {
       body: JSON.stringify(newRoutines),
       headers: {
         "Content-Type": "application/json",
-        'Authorization': `Bearer ${user.token}`,
+        Authorization: `Bearer ${user.token}`,
       },
     });
 

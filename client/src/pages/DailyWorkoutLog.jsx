@@ -3,14 +3,14 @@ import DailyLog from "../Components/DailyWorkoutLog/DailyLog";
 import {
   convertDateToMMDDYYYYFormat,
   sortObjectsWithDatePropertyInMMDDYYYY,
-} from "../utils/dateFunctions";
+} from "../Utils/dateFunctions";
 import AddExercisesToDay from "../Components/DailyWorkoutLog/AddExercisesToDay";
-import { DataContext } from "../context/Context";
+import { DataContext } from "../Context/Context";
 import AddRoutineToDay from "../Components/DailyWorkoutLog/AddRoutineToDay";
 // import { findIndex } from "../utils/searchFunction";
 import NoData from "../Components/Shared/NoData";
 import DateComponent from "../Components/Shared/Date";
-import useAuthContext from "../hooks/useAuthContext";
+import useAuthContext from "../Hooks/useAuthContext";
 
 const findLogForDate = (date, data) => {
   for (let i = 0; i < data.length; i++) {

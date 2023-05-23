@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import { DataContext } from "../../context/Context";
-import { returnDaysWithExercise } from "../../utils/filterFunctions";
+import { DataContext } from "../../Context/Context";
+import { returnDaysWithExercise } from "../../Utils/filterFunctions";
 import NoData from "../Shared/NoData";
 import DisplaySets from "../Shared/DisplaySets";
 
@@ -57,7 +57,7 @@ const ExerciseLog = (exerciseObject) => {
                 {day.date}
               </h3>
               <div>
-                <DisplaySets exercise={day}/>
+                <DisplaySets exercise={day} />
               </div>
             </section>
           );

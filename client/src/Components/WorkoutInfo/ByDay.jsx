@@ -1,4 +1,4 @@
-import  { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import {
   AreaChart,
   XAxis,
@@ -15,10 +15,10 @@ import {
   getDatesForRange,
   getFutureDate,
   getPriorDate,
-} from "../../utils/dateFunctions";
+} from "../../Utils/dateFunctions";
 import DateRangeDropDown from "../ByDay/DateRangeDropDown";
-import { DataContext } from "../../context/Context";
-import { generateRandomColor } from "../../data/colors";
+import { DataContext } from "../../Context/Context";
+import { generateRandomColor } from "../../Data/colors";
 import DropDownUsingName from "../Shared/DropDownUsingName";
 import DateComponent from "../Shared/Date";
 

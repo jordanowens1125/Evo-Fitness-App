@@ -9,8 +9,8 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { DataContext } from "../context/Context";
-import { generateRandomColor } from "../data/colors";
+import { DataContext } from "../Context/Context";
+import { generateRandomColor } from "../Data/colors";
 import {
   convertDateToMMDDYYYYFormat,
   convertMMDDYYYYtoDateFormat,
@@ -18,7 +18,7 @@ import {
   getDatesForRange,
   getFutureDate,
   getPriorDate,
-} from "../utils/dateFunctions";
+} from "../Utils/dateFunctions";
 import DateRangeDropDown from "../Components/ByDay/DateRangeDropDown";
 import DateComponent from "../Components/Shared/Date";
 

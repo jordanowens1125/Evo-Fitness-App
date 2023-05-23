@@ -1,29 +1,29 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
-import dummyData from "./data/dummyData";
-import DailyWorkoutLog from "./pages/DailyWorkoutLog";
-import Layout from "./pages/Layout";
-import { DataContext } from "./context/Context";
-import { storedRoutines } from "./data/routines";
+import dummyData from "./Data/dummyData";
+import DailyWorkoutLog from "./Pages/DailyWorkoutLog";
+import Layout from "./Pages/Layout";
+import { DataContext } from "./Context/Context";
+import { storedRoutines } from "./Data/routines";
 // import Macros from "./pages/Macros";
-import WeightTracker from "./pages/WeightTracker";
-import QuickLinks from "./pages/QuickLinks";
-import WorkoutInfo from "./pages/WorkoutInfo";
-import Account from "./pages/Account";
-import { exercises } from "./data/bodySegments";
-import Signin from "./pages/Signin";
-import Signup from "./pages/Signup";
+import WeightTracker from "./Pages/WeightTracker";
+import QuickLinks from "./Pages/QuickLinks";
+import WorkoutInfo from "./Pages/WorkoutInfo";
+import Account from "./Pages/Account";
+import { exercises } from "./Data/bodySegments";
+import Signin from "./Pages/Signin";
+import Signup from "./Pages/Signup";
 // import { getExercises } from "./api/exercises";
 // import ProtectedRoute from "./Components/Auth/ProtectedRoute";
-import useAuthContext from "./hooks/useAuthContext";
+import useAuthContext from "./Hooks/useAuthContext";
 
 function App() {
   const [data, setData] = useState(dummyData.byDay);
   const [routines, setRoutines] = useState(storedRoutines);
   const [exerciseList, setExerciseList] = useState(exercises);
-  const { user } = useAuthContext()
-  
+  const { user } = useAuthContext();
+
   return (
     <main className="dark-mode" id="App">
       <BrowserRouter>
@@ -50,13 +50,7 @@ function App() {
               />
               <Route
                 path="workoutInfo"
-                element={
-                  user ? (
-                    <WorkoutInfo />
-                  ) : (
-                    <Navigate to="/signin" />
-                  )
-                }
+                element={user ? <WorkoutInfo /> : <Navigate to="/signin" />}
               />
               <Route
                 exact
@@ -65,13 +59,7 @@ function App() {
               />
               <Route
                 path="/quickLinks"
-                element={
-                  user ? (
-                    <QuickLinks />
-                  ) : (
-                    <Navigate to="/signin" />
-                  )
-                }
+                element={user ? <QuickLinks /> : <Navigate to="/signin" />}
               />
               {/* <Exercises/> */}
               {/* <Macros /> */}

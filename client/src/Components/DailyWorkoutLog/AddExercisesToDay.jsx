@@ -1,10 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import DisplaySetsInput from "../Shared/DisplaySetsInput";
 import CreateExercise from "../Shared/CreateExercise";
-import { DataContext } from "../../context/Context";
+import { DataContext } from "../../Context/Context";
 // import { getExercises } from "../../api/exercises";
-
-
 
 const AddExercisesToDay = ({ addExerciseForDay }) => {
   const [newWorkoutMode, setNewWorkoutMode] = useState(false);

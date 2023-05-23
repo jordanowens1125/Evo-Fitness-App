@@ -8,9 +8,9 @@ import User from "../assets/user.jsx";
 import SignOut from "../assets/signout.jsx";
 import Hamburger from "../assets/hamburger.jsx";
 import Options from "../assets/options.jsx";
-import useOutsideClick from "../hooks/useOutsideClick.jsx";
-import { useLogOut } from "../hooks/useLogOut.js";
-import useAuthContext from "../hooks/useAuthContext.js";
+import useOutsideClick from "../Hooks/useOutsideClick.jsx";
+import { useLogOut } from "../Hooks/useLogOut.js";
+import useAuthContext from "../Hooks/useAuthContext.js";
 
 const svgValueDeskTop = 64;
 
@@ -125,7 +125,6 @@ const Layout = () => {
               <span onClick={() => setOpen(true)} className="flex aic">
                 {user && <>{user.email}</>}
                 <User value={svgValueDeskTop} />
-                
               </span>
               {open ? (
                 <>

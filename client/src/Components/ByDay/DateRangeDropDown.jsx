@@ -1,5 +1,5 @@
 import React from "react";
-import { daysPriorOptions } from "../../data/timeData";
+import { daysPriorOptions } from "../../Data/timeData";
 
 const DateRangeDropDown = ({ daysPrior, handleRangeChange }) => {
   return (

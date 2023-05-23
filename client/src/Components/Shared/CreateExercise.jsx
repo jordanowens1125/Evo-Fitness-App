@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
-import { kindsOfExercises } from "../../data/exerciseCategories";
-import { muscleGroups } from "../../data/bodySegments";
+import { kindsOfExercises } from "../../Data/exerciseCategories";
+import { muscleGroups } from "../../Data/bodySegments";
 import DropDownUsingName from "./DropDownUsingName";
-import { DataContext } from "../../context/Context";
+import { DataContext } from "../../Context/Context";
 import { createExercise } from "../../api/exercises";
-import useAuthContext from "../../hooks/useAuthContext";
+import useAuthContext from "../../Hooks/useAuthContext";
 
 const newExerciseObject = {
   name: "",
@@ -27,7 +27,7 @@ const CreateExercise = () => {
     defaultSets: { ...exercises[0].defaultSets },
   });
 
-  const {user} = useAuthContext()
+  const { user } = useAuthContext();
   const [muscleGroup, setMuscleGroup] = useState(0);
   const [active, setActive] = useState(false);
   const [kind, setKind] = useState(0);
@@ -112,8 +112,6 @@ const CreateExercise = () => {
       resetExerciseProps();
       cancel();
     }
-
-    
   };
 
   return (

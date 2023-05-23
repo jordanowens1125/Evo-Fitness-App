@@ -1,7 +1,7 @@
-import useAuthContext from "../hooks/useAuthContext";
+import useAuthContext from "./useAuthContext";
 
 export const useLogOut = () => {
-   const { dispatch } = useAuthContext();
+  const { dispatch } = useAuthContext();
 
   const signOut = () => {
     //remove user from storage

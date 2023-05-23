@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { DataContext } from "../../context/Context";
+import { DataContext } from "../../Context/Context";
 import NoData from "../Shared/NoData";
 import DisplaySets from "../Shared/DisplaySets";
 
@@ -28,16 +28,14 @@ const AllWorkouts = () => {
                           className="padding-md"
                           key={item.date + exercise.name}
                         >
-                            <DisplaySets exercise={exercise} displayName={true}/>
+                          <DisplaySets exercise={exercise} displayName={true} />
                         </section>
                       );
                     })}
                   </div>
                 );
               } else {
-                return <div key={item.date}>
-
-                </div>;
+                return <div key={item.date}></div>;
               }
             })}
           </>
