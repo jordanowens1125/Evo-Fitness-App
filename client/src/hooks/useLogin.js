@@ -9,7 +9,7 @@ export const useLogin = () => {
   const signIn = async (email, password) => {
     setIsLoading(true);
     setError(null);
-
+    console.log(email, password, `${process.env.REACT_APP_BASE_URL}`);
     //const response = await createUser({ email, password })
     const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users/login`, {
       method: "POST",
