@@ -18,7 +18,7 @@ const AddRoutineToDay = ({ addRoutine }) => {
     const copiedRoutines = [...routines];
     copiedRoutines.splice(index, 1);
 
-    const response = await fetch("/users/updateroutines", {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users/updateroutines`, {
       method: "PUT",
       body: JSON.stringify(copiedRoutines),
       headers: {

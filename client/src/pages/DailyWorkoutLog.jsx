@@ -35,7 +35,7 @@ const DailyWorkoutLog = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const exerciseResponse = await fetch("/exercises", {
+      const exerciseResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/exercises`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
@@ -48,7 +48,7 @@ const DailyWorkoutLog = () => {
       }
 
       //get user data
-      const response = await fetch("/users", {
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
@@ -105,7 +105,7 @@ const DailyWorkoutLog = () => {
       updatedData.splice(logIndex, 1);
     }
 
-    const response = await fetch("/users/updatelog", {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users/updatelog`, {
       method: "PUT",
       body: JSON.stringify(updatedData),
       headers: {
@@ -129,7 +129,7 @@ const DailyWorkoutLog = () => {
     updatedRoutines.push(copiedExercises);
     console.log("Api call to save routine");
     console.log(updatedRoutines);
-    const response = await fetch("/users/updateroutines", {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users/updateroutines`, {
       method: "PUT",
       body: JSON.stringify(updatedRoutines),
       headers: {
@@ -151,7 +151,7 @@ const DailyWorkoutLog = () => {
     const updatedData = [...data];
     updatedData[logIndex].exercises[exerciseIndex] = exercise;
 
-    const response = await fetch("/users/updatelog", {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users/updatelog`, {
       method: "PUT",
       body: JSON.stringify(updatedData),
       headers: {
@@ -191,7 +191,7 @@ const DailyWorkoutLog = () => {
       }
     }
     //console.log("Api call to edit log with new info since exercise was edited");
-    const response = await fetch("/users/updatelog", {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users/updatelog`, {
       method: "PUT",
       body: JSON.stringify(updatedData),
       headers: {
@@ -259,7 +259,7 @@ const DailyWorkoutLog = () => {
     }
 
     //console.log("Api call to update log");
-    const response = await fetch("/users/updatelog", {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users/updatelog`, {
       method: "PUT",
       body: JSON.stringify(updatedData),
       headers: {

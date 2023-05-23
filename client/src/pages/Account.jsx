@@ -15,7 +15,7 @@ const Account = () => {
   const [editMode, setEditMode] = useState(false);
 
   const handleSubmit = async () => {
-    const response = await fetch("users/updateinfo", {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}users/updateinfo`, {
       method: "PUT",
       body: JSON.stringify(info),
       headers: {

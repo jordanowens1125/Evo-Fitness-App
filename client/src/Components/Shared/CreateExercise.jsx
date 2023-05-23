@@ -92,7 +92,7 @@ const CreateExercise = () => {
     } catch (error) {}
     copy.push(newExercise);
 
-    const response = await fetch("/exercises/create", {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/exercises/create`, {
       method: "POST",
       body: JSON.stringify(newExercise),
       headers: {
