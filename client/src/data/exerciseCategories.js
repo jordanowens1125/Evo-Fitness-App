@@ -8,7 +8,7 @@ const Distance = { name: "Distance", units: "Miles" };
 const Time = { name: "Time", units: "Seconds" };
 const Repetition = { name: "Repetition", units: "" };
 
-const kindsOfExercises = [
+export const kindsOfExercises = [
   {
     name: "Weights/Reps",
     details: { Repetition, Weight },
@@ -98,8 +98,8 @@ const kindsOfExercises = [
   },
 ];
 
-let exercises = [];
-let exerciseItems = {};
+export let exercises = [];
+export const exerciseItems = {};
 kindsOfExercises.map((kind) => {
   if (kind.exercises.length > 0) {
     const exerciseObjects = kind.exercises.map((exercise) => {
@@ -123,4 +123,3 @@ kindsOfExercises.map((kind) => {
   return 1;
 });
 
-module.exports = { kindsOfExercises, exercises, exerciseItems };
