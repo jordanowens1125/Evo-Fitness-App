@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 
-import DailyWorkoutLog from "./Pages/DailyWorkoutLog";
-import Layout from "./Pages/Layout";
+import DailyWorkoutLog from "./pages/DailyWorkoutLog";
+import Layout from "./pages/Layout";
 import { DataContext } from "./Context/Context";
 // import Macros from "./pages/Macros";
-import WeightTracker from "./Pages/WeightTracker";
-import QuickLinks from "./Pages/QuickLinks";
-import WorkoutInfo from "./Pages/WorkoutInfo";
-import Account from "./Pages/Account";
-import Signin from "./Pages/Signin";
-import Signup from "./Pages/Signup";
+import WeightTracker from "./pages/WeightTracker";
+import QuickLinks from "./pages/QuickLinks";
+import WorkoutInfo from "./pages/WorkoutInfo";
+import Account from "./pages/Account";
+import Signin from "./pages/Signin";
+import Signup from "./pages/Signup";
 import useAuthContext from "./Hooks/useAuthContext";
 import dummyData from "./Data/dummyData"
 import { exercises } from "./Data/bodySegments";
