@@ -46,7 +46,7 @@
     "@types/chart.js": "^2.9.37"
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",
-  "main": "index.js",
+  "main": "index.jsx",
   "author": "",
   "license": "ISC"
 }
