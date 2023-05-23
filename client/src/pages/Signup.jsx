@@ -1,6 +1,6 @@
 import Logo from "../assets/logo";
 import { useState } from "react";
-import { useSignup } from "../Hooks/useSignup";
+import { useSignup } from "../hooks/useSignup";
 
 const Signup = () => {
   const [email, setEmail] = useState("");

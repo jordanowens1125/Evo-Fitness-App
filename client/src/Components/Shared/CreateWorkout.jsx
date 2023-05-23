@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { DataContext } from "../../Context/Context";
 import DisplaySetsInput from "./DisplaySetsInput";
-import useAuthContext from "../../Hooks/useAuthContext";
+import useAuthContext from "../../hooks/useAuthContext";
 
 const CreateWorkout = () => {
   const [showModal, setShowModal] = useState(false);

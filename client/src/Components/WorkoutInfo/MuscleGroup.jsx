@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { DataContext } from "../../Context/Context";
-import { muscleGroups } from "../../Data/muscleGroups";
+import { muscleGroups } from "../../data/muscleGroups";
 
 const MuscleGroup = () => {
   const context = useContext(DataContext);

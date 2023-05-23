@@ -1,4 +1,4 @@
-import { daysPriorOptions } from "../Data/timeData";
+import { daysPriorOptions } from "../data/timeData";
 import dayjs from "dayjs";
 //format returned is 'MM-DD-YYYY'
 export const getDatesForRange = (start, end) => {

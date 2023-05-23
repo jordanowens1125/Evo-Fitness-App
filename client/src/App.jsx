@@ -12,10 +12,10 @@ import WorkoutInfo from "./pages/WorkoutInfo";
 import Account from "./pages/Account";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
-import useAuthContext from "./Hooks/useAuthContext";
-import dummyData from "./Data/dummyData"
-import { exercises } from "./Data/bodySegments";
-import { storedRoutines } from "./Data/routines";
+import useAuthContext from "./hooks/useAuthContext";
+import dummyData from "./data/dummyData";
+import { exercises } from "./data/bodySegments";
+import { storedRoutines } from "./data/routines";
 
 function App() {
   const [data, setData] = useState(dummyData.byDay);

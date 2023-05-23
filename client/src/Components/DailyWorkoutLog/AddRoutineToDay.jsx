@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { DataContext } from "../../Context/Context";
 import DisplaySets from "../Shared/DisplaySets";
 import CreateWorkout from "../Shared/CreateWorkout";
-import useAuthContext from "../../Hooks/useAuthContext";
+import useAuthContext from "../../hooks/useAuthContext";
 
 const AddRoutineToDay = ({ addRoutine }) => {
   const [editMode, setEditMode] = useState(false);

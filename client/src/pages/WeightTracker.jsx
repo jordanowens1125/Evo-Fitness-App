@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { DataContext } from "../Context/Context";
-import { generateRandomColor } from "../Data/colors";
+import { generateRandomColor } from "../data/colors";
 import {
   convertDateToMMDDYYYYFormat,
   convertMMDDYYYYtoDateFormat,

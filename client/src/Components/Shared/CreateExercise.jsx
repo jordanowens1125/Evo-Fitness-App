@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
-import { kindsOfExercises } from "../../Data/exerciseCategories";
-import { muscleGroups } from "../../Data/bodySegments";
+import { kindsOfExercises } from "../../data/exerciseCategories";
+import { muscleGroups } from "../../data/bodySegments";
 import DropDownUsingName from "./DropDownUsingName";
 import { DataContext } from "../../Context/Context";
 import { createExercise } from "../../api/exercises";
-import useAuthContext from "../../Hooks/useAuthContext";
+import useAuthContext from "../../hooks/useAuthContext";
 
 const newExerciseObject = {
   name: "",

@@ -18,7 +18,7 @@ import {
 } from "../../Utils/dateFunctions";
 import DateRangeDropDown from "../ByDay/DateRangeDropDown";
 import { DataContext } from "../../Context/Context";
-import { generateRandomColor } from "../../Data/colors";
+import { generateRandomColor } from "../../data/colors";
 import DropDownUsingName from "../Shared/DropDownUsingName";
 import DateComponent from "../Shared/Date";
 

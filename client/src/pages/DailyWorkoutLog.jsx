@@ -10,7 +10,7 @@ import AddRoutineToDay from "../Components/DailyWorkoutLog/AddRoutineToDay";
 // import { findIndex } from "../utils/searchFunction";
 import NoData from "../Components/Shared/NoData";
 import DateComponent from "../Components/Shared/Date";
-import useAuthContext from "../Hooks/useAuthContext";
+import useAuthContext from "../hooks/useAuthContext";
 
 const findLogForDate = (date, data) => {
   for (let i = 0; i < data.length; i++) {

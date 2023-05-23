@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import dummyData from "../Data/dummyData";
+import dummyData from "../data/dummyData";
 
 export const DataContext = createContext(dummyData.byDay);
 
