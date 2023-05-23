@@ -1,7 +1,7 @@
 import React from "react";
 import RightArrow from "../../assets/right-arrow";
 import LeftArrow from "../../assets/left-arrow";
-import { convertDatetoYYYYMMDDFormat } from "../../Utils/dateFunctions";
+import { convertDatetoYYYYMMDDFormat } from "../../utils/dateFunctions";
 const value = 60;
 
 const DateComponent = ({

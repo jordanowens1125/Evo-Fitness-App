@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { DataContext } from "../../Context/Context";
-import { returnDaysWithExercise } from "../../Utils/filterFunctions";
+import { returnDaysWithExercise } from "../../utils/filterFunctions";
 import NoData from "../Shared/NoData";
 import DisplaySets from "../Shared/DisplaySets";
 

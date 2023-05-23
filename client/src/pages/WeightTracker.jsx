@@ -18,7 +18,7 @@ import {
   getDatesForRange,
   getFutureDate,
   getPriorDate,
-} from "../Utils/dateFunctions";
+} from "../utils/dateFunctions";
 import DateRangeDropDown from "../Components/ByDay/DateRangeDropDown";
 import DateComponent from "../Components/Shared/Date";
 

@@ -15,7 +15,7 @@ import {
   getDatesForRange,
   getFutureDate,
   getPriorDate,
-} from "../../Utils/dateFunctions";
+} from "../../utils/dateFunctions";
 import DateRangeDropDown from "../ByDay/DateRangeDropDown";
 import { DataContext } from "../../Context/Context";
 import { generateRandomColor } from "../../data/colors";

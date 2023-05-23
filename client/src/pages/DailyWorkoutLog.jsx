@@ -3,7 +3,7 @@ import DailyLog from "../Components/DailyWorkoutLog/DailyLog";
 import {
   convertDateToMMDDYYYYFormat,
   sortObjectsWithDatePropertyInMMDDYYYY,
-} from "../Utils/dateFunctions";
+} from "../utils/dateFunctions";
 import AddExercisesToDay from "../Components/DailyWorkoutLog/AddExercisesToDay";
 import { DataContext } from "../Context/Context";
 import AddRoutineToDay from "../Components/DailyWorkoutLog/AddRoutineToDay";
