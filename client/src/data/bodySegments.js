@@ -15,7 +15,6 @@ import {
   Triceps,
   Heart,
 } from "./muscleGroups";
-import { exerciseType, muscleGroupType } from "../types/exercise";
 
 export const bodySegments = [
   {
@@ -50,14 +49,14 @@ export const bodySegments = [
   },
 ];
 
-export const exercises: exerciseType[] = [];
+export const exercises = [];
 
-export const muscleGroups: muscleGroupType[] = [];
-export const exerciseObjectsWithAllInfo: any = {};
+export const muscleGroups = [];
+export const exerciseObjectsWithAllInfo = {};
 
 bodySegments.map((segment) => {
   return segment.muscleGroups.map((muscleGroup) => {
-    const muscleGroupObject: muscleGroupType = {
+    const muscleGroupObject = {
       name: muscleGroup.name,
       image: muscleGroup.image,
       color: muscleGroup.color,
@@ -66,7 +65,7 @@ bodySegments.map((segment) => {
     };
     if (muscleGroup.exercises.length > 0) {
       muscleGroup.exercises.map((exercise) => {
-        const exerciseObject: exerciseType = {
+        const exerciseObject = {
           name: exercise.name,
           kind: exercise.kind,
           details: exercise.details,

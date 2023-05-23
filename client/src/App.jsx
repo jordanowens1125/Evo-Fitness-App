@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 import dummyData from "./data/dummyData";
@@ -73,11 +73,6 @@ function App() {
                   )
                 }
               />
-
-              {/* <Route path="/weight" element={<WeightTracker />} />
-              <Route path="/workoutInfo" element={<WorkoutInfo />} />
-              <Route path="/account" element={<Account />} />
-              <Route path="/quickLinks" element={<QuickLinks />} /> */}
               {/* <Exercises/> */}
               {/* <Macros /> */}
             </Route>
