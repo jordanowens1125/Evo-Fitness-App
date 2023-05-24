@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-router.get('/', res.status(200).json())
+
+const { persist } = require("../controllers/persist");
+
+router.get('/', persist)
 
 
 module.exports = router;

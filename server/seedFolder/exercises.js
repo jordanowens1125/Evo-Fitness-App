@@ -36,6 +36,9 @@ const seedExercises = [
     },
     detailsList: [Repetition, Weight],
     defaultSets: { Repetition: [0], Weight: [0] },
+    muscleGroup: {
+      
+    }
   }),
   new Exercise({
     _id: new mongoose.Types.ObjectId("645ae2215a22a8ffb1eced8f"),

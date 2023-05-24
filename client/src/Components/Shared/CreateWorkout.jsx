@@ -58,7 +58,6 @@ const CreateWorkout = () => {
         defaultSets: { ...exercisesInWorkout[exercise].defaultSets },
       });
     });
-    console.log("Api call to add new workout");
     const newRoutines = [exercises, ...routines];
     const response = await fetch(
       `${process.env.REACT_APP_BASE_URL}/users/updateroutines`,
@@ -184,7 +183,7 @@ const CreateWorkout = () => {
                         onClick={() => addExerciseToWorkout(item)}
                         className="flex bg padding-md"
                       >
-                        {item.muscleGroup.image}
+                        {/* {item.muscleGroup.image} */}
 
                         <span className="flex-column">
                           {item.name}
