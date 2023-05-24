@@ -21,6 +21,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/exercises", require("./routes/exercises"));
 // app.use("/logs", require("./routes/logs"));
 app.use("/users", require("./routes/users"));
+app.use('/persist', require("./routes/persist"))
 
 app.listen(PORT, function () {
   console.log(`Server running on port ${PORT}.`);

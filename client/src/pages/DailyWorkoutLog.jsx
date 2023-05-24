@@ -32,7 +32,7 @@ const DailyWorkoutLog = () => {
   const [date, setDate] = useState(new Date());
 
   const { user } = useAuthContext();
-
+  console.log(user.token)
   useEffect(() => {
     async function fetchData() {
       const exerciseResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/exercises`, {
