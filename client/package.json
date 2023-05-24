@@ -1,5 +1,5 @@
 {
-  "proxy": "https://evo-fitness-backend.onrender.com",
+  "proxy": "http://localhost:8000",
   "name": "my-app",
   "version": "0.1.0",
   "private": true,

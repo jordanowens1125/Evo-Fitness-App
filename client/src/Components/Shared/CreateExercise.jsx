@@ -6,15 +6,6 @@ import { DataContext } from "../../Context/Context";
 import { createExercise } from "../../api/exercises";
 import useAuthContext from "../../hooks/useAuthContext";
 
-const newExerciseObject = {
-  name: "",
-  kind: kindsOfExercises[0],
-  muscleGroup: muscleGroups[0],
-  details: kindsOfExercises[0].details,
-  defaultSets: kindsOfExercises[0].defaultSets,
-  segment: muscleGroups[0].segment,
-};
-
 const CreateExercise = () => {
   const context = useContext(DataContext);
   const exercises = context.exerciseList;

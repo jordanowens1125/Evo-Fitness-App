@@ -51,6 +51,7 @@ UserSchema.statics.signup = async function (email, password) {
     "645ae2215a22a8ffb1eced8d",
     "645ae2215a22a8ffb1eced8e",
     "645ae2215a22a8ffb1eced8f",
+    "646e3d34e59b38d469b0741e",
   ];
   const user = await this.create({ email, password: hash, exercises });
   return user;

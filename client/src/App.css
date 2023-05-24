@@ -511,7 +511,7 @@ input:checked + .slider:before {
   height: 95%;
   border-radius: .3rem;
   overflow: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
   position: relative;
 }
 
@@ -606,7 +606,7 @@ nav .modal-content *{
 }
 
 
-@media screen and (min-width: 480px) {
+@media screen and (min-width: 550px) {
   .desktop{
     display: flex;
   }
@@ -615,7 +615,7 @@ nav .modal-content *{
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 550px) {
   .desktop{
     display: flex;
     display: none;

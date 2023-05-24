@@ -54,7 +54,7 @@ const DisplaySets = ({
                         placeholder={detail}
                         onChange={(e)=>handleSetChange(e, index, detail)}
                         className="width-xs"
-                        min={0}
+                        min={exercise.details[detail].min || 0}
                       />
                     </div>
                   </div>

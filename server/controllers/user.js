@@ -12,18 +12,17 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.login(email, password);
-
     //make token
     delete user.password;
     const token = createToken(user._id);
     res.status(200).json({
       user: {
-        email: user.email,
         exercises: user.exercises,
         log: user.log,
         routines: user.routines,
       },
       token,
+      email: user.email,
     });
   } catch (error) {
     res.status(400).json({ message: error.message });

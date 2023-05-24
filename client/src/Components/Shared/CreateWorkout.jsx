@@ -164,8 +164,9 @@ const CreateWorkout = () => {
                     );
                   })}
                 </div>
-
-                <button onClick={saveWorkout}>Save workout</button>
+                {Object.keys(exercisesInWorkout).length > 0 && (
+                  <button onClick={saveWorkout}>Save workout</button>
+                )}
               </div>
               Search Exercises:
               <div>

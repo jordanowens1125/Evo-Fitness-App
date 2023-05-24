@@ -21,6 +21,10 @@ const seedExercises = [
     },
     detailsList: [Repetition, Weight],
     defaultSets: { Repetition: [0], Weight: [0] },
+    muscleGroup: {
+      name: "Chest",
+      image: "",
+    },
   }),
   new Exercise({
     _id: new mongoose.Types.ObjectId("645ae2215a22a8ffb1eced8e"),
@@ -37,8 +41,9 @@ const seedExercises = [
     detailsList: [Repetition, Weight],
     defaultSets: { Repetition: [0], Weight: [0] },
     muscleGroup: {
-      
-    }
+      name: "Back",
+      image: "",
+    },
   }),
   new Exercise({
     _id: new mongoose.Types.ObjectId("645ae2215a22a8ffb1eced8f"),
@@ -54,6 +59,32 @@ const seedExercises = [
     },
     detailsList: [Repetition, Weight],
     defaultSets: { Repetition: [0], Weight: [0] },
+    muscleGroup: {
+      name: "Squads",
+      image: "",
+    },
+  }),
+  new Exercise({
+    _id: new mongoose.Types.ObjectId("646e3d34e59b38d469b0741e"),
+    name: "Planks",
+    segment: "Core",
+    kind: {
+      name: "Time",
+      details: { Time },
+    },
+    details: {
+      Time: { name: "Time", units: "Seconds" },
+    },
+    detailsList: [Repetition, Weight],
+    defaultSets: {
+      Time: [0],
+    },
+    muscleGroup: {
+      name: "Abs",
+      exercises: [],
+      color: "",
+      image: "Image of Abs",
+    },
   }),
 ];
 
