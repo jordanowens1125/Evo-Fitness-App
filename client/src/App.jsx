@@ -16,11 +16,13 @@ import useAuthContext from "./hooks/useAuthContext";
 import dummyData from "./data/dummyData";
 import { exercises } from "./data/bodySegments";
 import { storedRoutines } from "./data/routines";
+import weight from "./data/weightData";
 
 function App() {
   const [data, setData] = useState(dummyData.byDay);
   const [routines, setRoutines] = useState(storedRoutines);
   const [exerciseList, setExerciseList] = useState(exercises);
+  const [weightlog, setWeightLog] = useState(weight);
   const { user } = useAuthContext();
 
   return (
@@ -34,6 +36,8 @@ function App() {
             setRoutines,
             exerciseList,
             setExerciseList,
+            weightlog,
+            setWeightLog
           }}
         >
           <Routes>

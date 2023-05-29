@@ -20,6 +20,7 @@ const UserSchema = new Schema({
   weight: { type: Number },
   routines: [],
   log: [],
+  weightLog:[],
   exercises: [{ type: Schema.Types.ObjectId, ref: "Exercise" }],
 });
 

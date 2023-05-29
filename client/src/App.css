@@ -165,6 +165,9 @@ body {
   padding-right: 0;
 }
 
+.padding-top-md{
+  padding-top: 10px;
+}
 /* Padding */
 
 /* Bold */
@@ -605,6 +608,15 @@ nav .modal-content *{
   gap: 10px;
 }
 
+.custom-tooltip{
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-style: italic;
+  gap: 10px;
+  border: 1px solid var(--text-color);
+}
 
 @media screen and (min-width: 550px) {
   .desktop{

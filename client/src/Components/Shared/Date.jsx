@@ -15,7 +15,23 @@ const DateComponent = ({
     input.toISOString().slice(0, 10) === new Date().toISOString().slice(0, 10);
   return (
     <>
-      <div className="flex-column aic margin-bottom-lg">
+      <div className="flex-column aic margin-bottom-lg padding-top-md">
+        {setDateToday ? (
+          <>
+            {isToday ? (
+              <>
+                <button disabled>Today</button>
+              </>
+            ) : (
+              <>
+                {" "}
+                <button onClick={setDateToday}>Today</button>
+              </>
+            )}
+          </>
+        ) : (
+          <></>
+        )}
         <div className="flex space-around aic">
           <button onClick={decreaseby1} className="no-border rotate-180">
             <LeftArrow value={value} />
@@ -46,22 +62,6 @@ const DateComponent = ({
             </>
           )}
         </div>
-        {setDateToday ? (
-          <>
-            {isToday ? (
-              <>
-                <button disabled>Today</button>
-              </>
-            ) : (
-              <>
-                {" "}
-                <button onClick={setDateToday}>Today</button>
-              </>
-            )}
-          </>
-        ) : (
-          <></>
-        )}
       </div>
     </>
   );

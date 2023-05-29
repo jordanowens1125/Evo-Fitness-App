@@ -20,13 +20,12 @@ import {
 } from "../utils/dateFunctions";
 import DateRangeDropDown from "../Components/ByDay/DateRangeDropDown";
 import DateComponent from "../Components/Shared/Date";
+import useAuthContext from "../hooks/useAuthContext";
 
 const templateDay = {
   date: "",
   officialDate: "",
-  score: 0,
-  weight: 0,
-  exercises: [],
+  Weight: 0,
 };
 
 const populateEmptyData = (newDates) => {
@@ -34,11 +33,9 @@ const populateEmptyData = (newDates) => {
   for (let i = 0; i < newDates.length; i++) {
     let emptyData = {
       date: newDates[i],
-      score: 0,
-      exercises: [],
-      weight: 0,
+      Weight: 0,
     };
-    emptyData["weight"] = 0;
+    emptyData["Weight"] = 0;
     dates.push(emptyData);
   }
   return dates;
@@ -49,22 +46,21 @@ const inputDataIntoEmptyList = (sortedData, emptyDataForRange) => {
   let latestWeight = 0;
   let done = false;
   for (let i = 0; i < emptyDataForRange.length; i++) {
-    emptyDataForRange[i].weight = latestWeight;
+    emptyDataForRange[i].Weight = latestWeight;
     if (count >= sortedData.length) {
       done = true;
     }
     if (!done) {
       if (sortedData[count].date === emptyDataForRange[i].date) {
-        latestWeight = sortedData[count].weight || latestWeight;
+        latestWeight = sortedData[count].Weight || latestWeight;
         emptyDataForRange[i] = sortedData[count];
-        if (!emptyDataForRange[i].weight) {
-          emptyDataForRange[i].weight = latestWeight;
+        if (!emptyDataForRange[i].Weight) {
+          emptyDataForRange[i].Weight = latestWeight;
         }
         count++;
       }
     }
   }
-
   return emptyDataForRange;
 };
 
@@ -87,19 +83,33 @@ const filterDataByRange = (data, dateRange) => {
 
 const getCurrentWeight = (data) => {
   if (data.length > 0) {
-    if (data[data.length - 1].weight) {
-      return data[data.length - 1].weight;
+    if (data[data.length - 1].Weight) {
+      return data[data.length - 1].Weight;
     }
   }
   return 0;
 };
 
+const CustomTooltip = ({ active, payload, label }) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="custom-tooltip secondary-bg">
+        <i>{label} :</i>
+        <b className="label primary">{` ${payload[0].value} lbs`}</b>
+      </div>
+    );
+  }
+  return null;
+};
+
 const WeightTracker = () => {
   const context = useContext(DataContext);
-  const data = context.data;
+  const data = context.weightlog;
+  const { user } = useAuthContext();
   const [randomColor, setRandomColor] = useState(generateRandomColor());
   const [weightToday, setWeightToday] = useState(getCurrentWeight(data));
-
+  const [tempWeight, setTempWeight] = useState(weightToday);
+  const [logMode, setLogMode] = useState(false);
   const [date, setDate] = useState(new Date());
   const [daysPrior, setDaysPrior] = useState(7);
   const [priorDate, setPriorDate] = useState(
@@ -108,35 +118,17 @@ const WeightTracker = () => {
 
   const [dateRange, setDateRange] = useState(getDatesForRange(priorDate, date));
 
-  const emptyData = populateEmptyData(dateRange, "weight");
+  const emptyData = populateEmptyData(dateRange, "Weight");
 
   const filteredDataForRange = filterDataByRange(data, dateRange);
-
   const filledData = inputDataIntoEmptyList(filteredDataForRange, emptyData);
 
+  const handleClose = () => {
+    setLogMode(false);
+  };
+
   const handleLogWeightForDay = (e) => {
-    setWeightToday(e.currentTarget.value);
-    const newData = [...data];
-    const day = new Date();
-    const convertedDate = convertDateToMMDDYYYYFormat(day);
-    //if this day does not exist
-    if (newData.length > 0) {
-      if (convertedDate !== newData[newData.length - 1].date) {
-        //make a new day object if there is not one already
-        newData.push(templateDay);
-      }
-      const lastItemIndex = newData.length - 1;
-      newData[lastItemIndex].weight = +e.currentTarget.value;
-      newData[lastItemIndex].date = convertedDate;
-      context.setData(newData);
-    } else {
-      newData.push(templateDay);
-      const lastItemIndex = newData.length - 1;
-      newData[lastItemIndex].weight = +e.currentTarget.value;
-      newData[lastItemIndex].date = convertedDate;
-      newData[lastItemIndex].officialDate = day;
-      context.setData(newData);
-    }
+    setTempWeight(e.currentTarget.value);
   };
 
   const setDateToToday = () => {
@@ -171,9 +163,77 @@ const WeightTracker = () => {
     setDateRange(getDatesForRange(newPriorDate, date));
   };
 
+  const handleSubmit = async () => {
+    const newData = [...data];
+    const day = new Date();
+    const convertedDate = convertDateToMMDDYYYYFormat(day);
+    if (newData.length === 0) {
+      newData.push(templateDay);
+      const lastItemIndex = newData.length - 1;
+      newData[lastItemIndex].Weight = tempWeight;
+      newData[lastItemIndex].date = convertedDate;
+      newData[lastItemIndex].officialDate = day;
+    } else {
+      if (newData[newData.length - 1].date === convertedDate) {
+        newData[newData.length - 1].Weight = tempWeight;
+      } else {
+        newData.push(templateDay);
+        const lastItemIndex = newData.length - 1;
+        newData[lastItemIndex].Weight = tempWeight;
+        newData[lastItemIndex].date = convertedDate;
+        newData[lastItemIndex].officialDate = day;
+      }
+    }
+
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/users/updateweight`,
+      {
+        method: "PUT",
+        body: JSON.stringify(newData),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
+    if (!response.ok) {
+      console.log("Error");
+      //setError
+    }
+    if (response.ok) {
+      context.setWeightLog(newData);
+    }
+    setWeightToday(tempWeight);
+    setLogMode(false);
+  };
+
   return (
     <>
-      <div className="page flex-column  aic">
+      {logMode && (
+        <>
+          <div className="modal">
+            <div className="modal-content">
+              <h2>Log Weight for Today</h2>
+              <input
+                type="number"
+                placeholder="Weight"
+                value={tempWeight}
+                onChange={handleLogWeightForDay}
+                min={0}
+                max={800}
+              />
+              <button className="modal-cancel" onClick={handleClose}>
+                Cancel
+              </button>
+              <button className="primary" onClick={handleSubmit}>
+                Submit
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+
+      <div className="page flex-column aic">
         <DateComponent
           input={date}
           decreaseby1={testLeft}
@@ -181,26 +241,13 @@ const WeightTracker = () => {
           jumpToDate={jumpToDate}
           setDateToday={setDateToToday}
         />
-        <span className="flex">
-          Current Weight:
-          <input
-            type="number"
-            name="Weight"
-            id="Weight"
-            value={weightToday}
-            onChange={handleLogWeightForDay}
-            className="width-sm primary bg no-border heading-md"
-          />
-          lbs
+        <span className="flex aic gap-md">
+          <p>Current Weight:</p>
+          <b className="primary heading-md">{weightToday} lbs</b>
+          <button onClick={() => setLogMode(true)}>Log Weight</button>
         </span>
-        <div className="flex aic space-around wrap">
-          <DateRangeDropDown
-            daysPrior={daysPrior}
-            handleRangeChange={handleRangeChange}
-          />
-        </div>
 
-        <div className="full-width full-height grow flex aic">
+        <div className="full-width full-height grow flex aic jcc body-color">
           <ResponsiveContainer height={400} width={"100%"}>
             <AreaChart
               data={filledData}
@@ -224,10 +271,13 @@ const WeightTracker = () => {
               <XAxis dataKey="date" tickLine={false} />
               <YAxis tickLine={false} />
               {/* <CartesianGrid strokeDasharray=".5 3" /> */}
-              <Tooltip />
+              <Tooltip
+                cursor={{ fill: "transparent" }}
+                content={<CustomTooltip />}
+              />
               <Area
                 type="monotone"
-                dataKey={"weight"}
+                dataKey={"Weight"}
                 stroke={randomColor || "#8884d8"}
                 fillOpacity={1}
                 fill="url(#colorUv)"
@@ -235,6 +285,10 @@ const WeightTracker = () => {
               />
             </AreaChart>
           </ResponsiveContainer>
+          <DateRangeDropDown
+            daysPrior={daysPrior}
+            handleRangeChange={handleRangeChange}
+          />
         </div>
       </div>
     </>

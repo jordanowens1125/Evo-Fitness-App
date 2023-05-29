@@ -7,6 +7,7 @@ const {
   updateUserRoutines,
   updateUser,
   getUser,
+  updateUserWeightLog,
 } = require("../controllers/user");
 
 //login
@@ -24,5 +25,6 @@ router.get('/', getUser)
 router.put('/updatelog/', updateUserLog);
 router.put("/updateroutines", updateUserRoutines);
 router.put("/updateinfo", updateUser);
+router.put("/updateweight", updateUserWeightLog);
 
 module.exports = router;

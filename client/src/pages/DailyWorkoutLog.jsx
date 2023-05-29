@@ -28,24 +28,13 @@ const DailyWorkoutLog = () => {
   const routines = context.routines;
   const setRoutines = context.setRoutines;
   const setExerciseList = context.setExerciseList;
+  const setWeightLog = context.setWeightLog;
 
   const [date, setDate] = useState(new Date());
 
   const { user } = useAuthContext();
   useEffect(() => {
     async function fetchData() {
-      const exerciseResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/exercises`, {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      });
-      const exercisejson = await exerciseResponse.json();
-      if (exerciseResponse.ok) {
-        if (exercisejson.length > 0) {
-          setExerciseList(exercisejson);
-        }
-      }
-
       //get user data
       const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users`, {
         headers: {
@@ -59,13 +48,14 @@ const DailyWorkoutLog = () => {
           setExerciseList(json.user.exercises);
         }
         setData(json.user.log);
+        setWeightLog(json.user.weightLog);
       }
     }
 
     if (user) {
       fetchData();
     }
-  }, [user, setExerciseList, setRoutines, setData]);
+  }, [user, setExerciseList, setRoutines, setData, setWeightLog]);
 
   const test = convertDateToMMDDYYYYFormat(date);
 
@@ -104,14 +94,17 @@ const DailyWorkoutLog = () => {
       updatedData.splice(logIndex, 1);
     }
 
-    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users/updatelog`, {
-      method: "PUT",
-      body: JSON.stringify(updatedData),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/users/updatelog`,
+      {
+        method: "PUT",
+        body: JSON.stringify(updatedData),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
 
     if (!response.ok) {
       console.log("Error");
@@ -128,14 +121,17 @@ const DailyWorkoutLog = () => {
     updatedRoutines.push(copiedExercises);
     console.log("Api call to save routine");
     console.log(updatedRoutines);
-    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users/updateroutines`, {
-      method: "PUT",
-      body: JSON.stringify(updatedRoutines),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/users/updateroutines`,
+      {
+        method: "PUT",
+        body: JSON.stringify(updatedRoutines),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
 
     if (!response.ok) {
       console.log("Error");
@@ -150,14 +146,17 @@ const DailyWorkoutLog = () => {
     const updatedData = [...data];
     updatedData[logIndex].exercises[exerciseIndex] = exercise;
 
-    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users/updatelog`, {
-      method: "PUT",
-      body: JSON.stringify(updatedData),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/users/updatelog`,
+      {
+        method: "PUT",
+        body: JSON.stringify(updatedData),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
 
     if (!response.ok) {
       console.log("Error");
@@ -190,14 +189,17 @@ const DailyWorkoutLog = () => {
       }
     }
     //console.log("Api call to edit log with new info since exercise was edited");
-    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users/updatelog`, {
-      method: "PUT",
-      body: JSON.stringify(updatedData),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/users/updatelog`,
+      {
+        method: "PUT",
+        body: JSON.stringify(updatedData),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
 
     if (!response.ok) {
       console.log("Error");
@@ -258,14 +260,17 @@ const DailyWorkoutLog = () => {
     }
 
     //console.log("Api call to update log");
-    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users/updatelog`, {
-      method: "PUT",
-      body: JSON.stringify(updatedData),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/users/updatelog`,
+      {
+        method: "PUT",
+        body: JSON.stringify(updatedData),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
 
     if (!response.ok) {
       console.log("Error");

@@ -6,7 +6,6 @@ import DisplaySets from "../Shared/DisplaySets";
 const AllWorkouts = () => {
   const context = useContext(DataContext);
   const data = context.data;
-
   return (
     <>
       <div className="page">
