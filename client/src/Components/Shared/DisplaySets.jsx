@@ -12,7 +12,7 @@ const DisplaySets = ({ exercise, displayName }) => {
       {
         displayName ? <><i>{exercise.name}:</i></>:<></>
       }
-      <div className="flex gap-md margin-md">
+      <div className="flex gap-md margin-md ">
         {indexArray.map((index) => {
           return (
             <div key={index} className="card bg-border">

@@ -314,6 +314,10 @@ svg:not(.recharts-surface):hover {
   border-bottom: 3px solid var(--light-bg-color);
 }
 
+.border-bottom-primary{
+  border-bottom: 3px solid var(--bg-color);
+}
+
 /* End of global css */
 
 .box {
@@ -610,7 +614,7 @@ nav .modal-content *{
 }
 /* End of scroll to top element */
 .card{
-  width: 100%;
+  width: 300px;
   padding: 20px;
   display: flex;
   flex-direction: column;

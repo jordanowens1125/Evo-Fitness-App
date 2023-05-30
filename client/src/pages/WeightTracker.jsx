@@ -213,8 +213,8 @@ const WeightTracker = () => {
       {logMode && (
         <>
           <div className="modal">
-            <form className="modal-content" onSubmit={handleSubmit}>
-              <h2>Log Weight for Today</h2>
+            <form className="modal-content aic jcc" onSubmit={handleSubmit}>
+              <h2 className="border-bottom-primary padding-md">Log Weight for Today</h2>
               <input
                 type="number"
                 placeholder="Weight"

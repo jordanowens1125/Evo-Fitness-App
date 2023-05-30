@@ -54,7 +54,7 @@ const Layout = () => {
   const ProfileDropDown = () => {
     return (
       <>
-        <div ref={impactRef} className="popup">
+        <div ref={impactRef} className="popup flex-column aic jcc">
           <span className="full-width" onClick={() => setOpen(false)}>
             <NavLink
               to="/account"
@@ -79,8 +79,8 @@ const Layout = () => {
               Quick Links
             </NavLink>
           </span>
-          <span className="flex aic padding-sm" onClick={handleLogOutClick}>
-            Log Out
+          <span className="full-width padding-sm flex aic jcc" onClick={handleLogOutClick}>
+            <div>Log Out</div>
           </span>
         </div>
       </>

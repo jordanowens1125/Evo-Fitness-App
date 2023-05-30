@@ -125,7 +125,6 @@ const ByDay = ({ exerciseIndex, setExerciseIndex }) => {
   );
 
   const CustomTooltip = ({ active, payload, label, detail }) => {
-    console.log(detail);
     if (active && payload && payload.length) {
       return (
         <div className="custom-tooltip secondary-bg">

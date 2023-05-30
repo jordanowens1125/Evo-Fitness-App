@@ -13,7 +13,6 @@ const AddRoutineToDay = ({ addRoutine }) => {
   const { user } = useAuthContext();
 
   const deleteRoutine = async (index) => {
-    console.log("Api call to update user routines due to deletion");
     //if api call is successful
     const copiedRoutines = [...routines];
     copiedRoutines.splice(index, 1);
@@ -37,15 +36,8 @@ const AddRoutineToDay = ({ addRoutine }) => {
   };
 
   const handleRoutineSubmission = (routine) => {
-    //if successful
-    console.log(
-      "Api call to edit log with new routine submission which will be handled by later api call in add exercise to day"
-    );
-
     addRoutine(routine);
     setEditMode(false);
-    //if not successful
-    //
   };
   useEffect(() => {}, [context, routines]);
   return (

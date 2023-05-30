@@ -1,13 +1,10 @@
 import { useState, useContext, useEffect } from "react";
 import DailyLog from "../Components/DailyWorkoutLog/DailyLog";
-import {
-  convertDateToMMDDYYYYFormat,
-  sortObjectsWithDatePropertyInMMDDYYYY,
-} from "../utils/dateFunctions";
+import { convertDateToMMDDYYYYFormat } from "../utils/dateFunctions";
 import AddExercisesToDay from "../Components/DailyWorkoutLog/AddExercisesToDay";
 import { DataContext } from "../Context/Context";
 import AddRoutineToDay from "../Components/DailyWorkoutLog/AddRoutineToDay";
-// import { findIndex } from "../utils/searchFunction";
+import { findIndex } from "../utils/searchFunction";
 import NoData from "../Components/Shared/NoData";
 import DateComponent from "../Components/Shared/Date";
 import useAuthContext from "../hooks/useAuthContext";
@@ -29,7 +26,6 @@ const DailyWorkoutLog = () => {
   const setRoutines = context.setRoutines;
   const setExerciseList = context.setExerciseList;
   const setWeightLog = context.setWeightLog;
-
   const [date, setDate] = useState(new Date());
 
   const { user } = useAuthContext();
@@ -57,24 +53,14 @@ const DailyWorkoutLog = () => {
     }
   }, [user, setExerciseList, setRoutines, setData, setWeightLog]);
 
-  const test = convertDateToMMDDYYYYFormat(date);
+  const formattedDate = convertDateToMMDDYYYYFormat(date);
 
-  const [dailyLog, logIndex] = findLogForDate(test, data);
+  const [dailyLog, logIndex] = findLogForDate(formattedDate, data);
+
   const addRoutine = (listOfExercises) => {
     let copy = [...data];
-    for (let i = 0; i < listOfExercises.length; i++) {
-      const newExercise = {
-        name: listOfExercises[i].name,
-        kind: listOfExercises[i].kind,
-        details: listOfExercises[i].details,
-        defaultSets: listOfExercises[i].defaultSets,
-        muscleGroup: listOfExercises[i].muscleGroup,
-        segment: listOfExercises[i].segment,
-        sets: listOfExercises[i].sets,
-      };
-      copy = addExerciseForDay(newExercise, copy);
-    }
-    setData(copy);
+    const arr = JSON.parse(JSON.stringify(listOfExercises));
+    addExercisesForDay(arr, copy);
   };
 
   const handleDateChange = (num) => {
@@ -119,8 +105,6 @@ const DailyWorkoutLog = () => {
     const updatedRoutines = [...routines];
     const copiedExercises = [...dailyLog.exercises];
     updatedRoutines.push(copiedExercises);
-    console.log("Api call to save routine");
-    console.log(updatedRoutines);
     const response = await fetch(
       `${process.env.REACT_APP_BASE_URL}/users/updateroutines`,
       {
@@ -157,7 +141,6 @@ const DailyWorkoutLog = () => {
         },
       }
     );
-
     if (!response.ok) {
       console.log("Error");
       //setError
@@ -210,56 +193,64 @@ const DailyWorkoutLog = () => {
     }
   };
 
-  const addExerciseForDay = async (newExercise, dateData = data) => {
-    const name = newExercise.name;
-    // const index = findIndex(dateData, new Date(2023, 4, 1));
-    // console.log(index);
+  const addExercisesForDay = async (newExercises) => {
+    
     const inputDate = convertDateToMMDDYYYYFormat(date);
 
     const score = 1;
     //insert exercise for date
-    let count = 0;
-    let updatedData = structuredClone(dateData);
-    for (let i = 0; i < updatedData.length; i++) {
-      let dataForDay = updatedData[i];
-      if (dataForDay.date === inputDate) {
-        for (let j = 0; j < dataForDay.exercises.length; j++) {
-          //check and see if exercise is already present
-          if (name === dataForDay.exercises[j].name) {
-            const details = Object.keys(newExercise.details);
+    let updatedData = [...data];
+    if (updatedData.length > 0) {
+      const index = findIndex(data, date);
+      if (updatedData[index].date === inputDate) {
+        let dayExerciseObject = {};
+        for (let i = 0; i < updatedData[index].exercises.length; i++) {
+          let name = updatedData[index].exercises[i].name;
+          dayExerciseObject[name] = updatedData[index].exercises[i];
+        }
+        for (let j = 0; j < newExercises.length; j++) {
+          let name = newExercises[j].name;
+          if (dayExerciseObject[name]) {
+            const details = Object.keys(newExercises[j].details);
             for (let i = 0; i < details.length; i++) {
               const detail = details[i];
-              dataForDay.exercises[j].sets[detail] = dataForDay.exercises[
-                j
-              ].sets[detail].concat(newExercise.sets[detail]);
+              const newExerciseSets = newExercises[j].sets[detail];
+              const oldExerciseSets = dayExerciseObject[name].sets[detail];
+
+              dayExerciseObject[name].sets[detail] = [
+                ...oldExerciseSets,
+                ...newExerciseSets,
+              ];
             }
-            count += 1;
-          }
-          //if exercise is not present in day
-          //include exercise length to ensure it only happens after getting to end of list
-          if (count === 0 && j === dataForDay.exercises.length - 1) {
-            dataForDay.exercises.push(newExercise);
-            count += 1;
-            //be sure to break to prevent adding to list again
-            break;
+          } else {
+            dayExerciseObject[name] = newExercises[j];
           }
         }
-        updatedData[i] = dataForDay;
+        updatedData[index].exercises = [];
+        for (const key in dayExerciseObject) {
+          if (dayExerciseObject.hasOwnProperty(key)) {
+            updatedData[index].exercises.push(dayExerciseObject[key]);
+          }
+        }
+      } else {
+        let templateDay = {
+          date: inputDate,
+          score,
+          officialDate: date,
+          exercises: newExercises,
+        };
+        updatedData.splice(index, 0, templateDay);
       }
-    }
-
-    if (count === 0) {
-      updatedData.push({
+    } else {
+      let templateDay = {
         date: inputDate,
         score,
-        exercises: [newExercise],
         officialDate: date,
-      });
-      //sort newly added day
-      updatedData = sortObjectsWithDatePropertyInMMDDYYYY(updatedData);
+        exercises: newExercises,
+      };
+      updatedData.push(templateDay);
     }
-
-    //console.log("Api call to update log");
+    
     const response = await fetch(
       `${process.env.REACT_APP_BASE_URL}/users/updatelog`,
       {
@@ -298,7 +289,7 @@ const DailyWorkoutLog = () => {
       />
       <span className="flex jcc gap-lg">
         {/* Form to add exercises */}
-        <AddExercisesToDay addExerciseForDay={addExerciseForDay} />
+        <AddExercisesToDay addExercisesForDay={addExercisesForDay} />
 
         {/* End of Form to add exercises */}
         <AddRoutineToDay addRoutine={addRoutine} />

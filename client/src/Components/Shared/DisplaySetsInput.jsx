@@ -11,6 +11,19 @@ const DisplaySets = ({
   for (let i = 0; i < length; i++) {
     indexArray.push(i);
   }
+
+  const numberInputOnWheelPreventChange = (e) => {
+  // Prevent the input value change
+  e.target.blur()
+
+  // Prevent the page/container scrolling
+  e.stopPropagation()
+
+  // Refocus immediately, on the next tick (after the current function is done)
+  setTimeout(() => {
+    e.target.focus()
+  }, 0)
+}
   return (
     <>
       {displayName ? (
@@ -52,7 +65,8 @@ const DisplaySets = ({
                         id={`${exercise.name}-Set${index}-${detail}`}
                         value={exercise.sets[detail][index]}
                         placeholder={detail}
-                        onChange={(e)=>handleSetChange(e, index, detail)}
+                        onChange={(e) => handleSetChange(e, index, detail)}
+                        onWheel={numberInputOnWheelPreventChange}
                         className="width-xs"
                         min={exercise.details[detail].min || 0}
                       />

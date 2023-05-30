@@ -1,21 +1,25 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import useAuthContext from "../hooks/useAuthContext";
+import { DataContext } from "../Context/Context";
 
 const Account = () => {
   const { user } = useAuthContext();
+  const context = useContext(DataContext)
+  const data = context.weightlog;
+  let weight = data[data.length - 1].Weight
   const [info, setInfo] = useState({
     name: "Jakx",
     age: 23,
     gender: "",
     feet: 5,
     inches: 8,
-    weight: 0,
+    Weight: weight,
   });
 
   const [editMode, setEditMode] = useState(false);
 
   const handleSubmit = async () => {
-    const response = await fetch(`${process.env.REACT_APP_BASE_URL}users/updateinfo`, {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users/updateinfo`, {
       method: "PUT",
       body: JSON.stringify(info),
       headers: {
@@ -83,10 +87,10 @@ const Account = () => {
                   placeholder="Inches:"
                   onChange={handleChange}
                 />
-                <label htmlFor="Weight">Weight: </label>
+                <label htmlFor="Weight">Weight: Pounds(lbs) </label>
                 <input
                   type="number"
-                  value={info.weight}
+                  value={info.Weight}
                   id="weight"
                   placeholder="Weight:"
                   onChange={handleChange}
@@ -105,7 +109,7 @@ const Account = () => {
               <p>
                 Height:{info.feet} Feet - {info.inches} Inches{" "}
               </p>
-              <p>Weight: {info.weight}</p>
+              <p>Weight: {info.Weight} Pounds (lbs)</p>
               <button onClick={() => setEditMode(true)}>Edit</button>
             </section>
           </>
