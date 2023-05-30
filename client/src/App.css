@@ -168,6 +168,10 @@ body {
 .padding-top-md{
   padding-top: 10px;
 }
+
+.padding-bottom-md{
+  padding-top: 10px;
+}
 /* Padding */
 
 /* Bold */
@@ -340,6 +344,11 @@ svg:not(.recharts-surface):hover {
 
 .secondary {
   color: var(--secondary-color);
+}
+
+.sub-text{
+  font-size: small;
+  opacity: .9;
 }
 
 /* End of font styling */
@@ -608,6 +617,19 @@ nav .modal-content *{
   gap: 10px;
 }
 
+.exercise-card{
+  width: 150px;
+  border-radius: 10px;
+  transition: .5s;
+  border: 2px solid var(--bg-color);
+}
+
+.exercise-card:hover{
+  transform: scale(1.1);
+  cursor: pointer;
+  border: 1px solid var(--text-color);
+}
+
 .custom-tooltip{
   padding: 10px;
   display: flex;
@@ -637,5 +659,8 @@ nav .modal-content *{
   }
   body{
     font-size: 1rem;
+  }
+  .card{
+    width: 100%;
   }
 }

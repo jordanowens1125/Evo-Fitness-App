@@ -134,15 +134,44 @@ const CreateWorkout = () => {
         <>
           <div className="modal">
             <div className="modal-content">
-              <div>
+              <div className="flex-column gap-md">
                 <h3 className="flex space-between gap-md aic margin-bottom-lg">
                   New Workout Exercises
                   <button onClick={handleCancel}>X</button>
                 </h3>
-                <div className="flex-column gap-lg">
+                <i>Search Exercises (Click exercise to add):</i>
+
+                <div>
+                  <input
+                    type="text"
+                    value={searchParam}
+                    onChange={handleSearchParamChange}
+                    placeholder="Enter exercise name..."
+                    className="margin-bottom-md"
+                  />
+                  <ul id="search-results" className="flex gap-md">
+                    {filteredItems.map((item) => {
+                      return (
+                        <div
+                          key={item.name}
+                          onClick={() => addExerciseToWorkout(item)}
+                          className="flex padding-md exercise-card"
+                        >
+                          {/* {item.muscleGroup.image} */}
+                          <img src="" alt="" />
+                          <div className="flex-column">
+                            <i className="heading-sm">{item.name}</i>
+                            <p className="sub-text">{item.muscleGroup.name}</p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </ul>
+                </div>
+                <div className="flex-column gap-md">
                   {Object.keys(exercisesInWorkout).map((key, index) => {
                     return (
-                      <div key={key} className="gap-md bg padding-md">
+                      <div key={key} className="gap-md card">
                         {
                           <>
                             <DisplaySetsInput
@@ -165,35 +194,8 @@ const CreateWorkout = () => {
                   })}
                 </div>
                 {Object.keys(exercisesInWorkout).length > 0 && (
-                  <button onClick={saveWorkout}>Save workout</button>
+                  <button onClick={saveWorkout} className="primary-button">Save workout</button>
                 )}
-              </div>
-              Search Exercises:
-              <div>
-                <input
-                  type="text"
-                  value={searchParam}
-                  onChange={handleSearchParamChange}
-                  placeholder="Search for exercise"
-                />
-                <ul id="search-results" className="flex-column gap-md">
-                  {filteredItems.map((item) => {
-                    return (
-                      <div
-                        key={item.name}
-                        onClick={() => addExerciseToWorkout(item)}
-                        className="flex bg padding-md"
-                      >
-                        {/* {item.muscleGroup.image} */}
-
-                        <span className="flex-column">
-                          {item.name}
-                          {item.muscleGroup.name}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </ul>
               </div>
             </div>
           </div>

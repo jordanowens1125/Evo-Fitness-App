@@ -124,6 +124,19 @@ const ByDay = ({ exerciseIndex, setExerciseIndex }) => {
     detail
   );
 
+  const CustomTooltip = ({ active, payload, label, detail }) => {
+    console.log(detail);
+    if (active && payload && payload.length) {
+      return (
+        <div className="custom-tooltip secondary-bg">
+          <i>{label} :</i>
+          <b className="label primary">{`${payload[0].value} ${detail.units}`}</b>
+        </div>
+      );
+    }
+    return null;
+  };
+
   const setDateToToday = () => {
     const newDate = new Date();
     setDateInfo(newDate);
@@ -233,7 +246,7 @@ const ByDay = ({ exerciseIndex, setExerciseIndex }) => {
             <XAxis dataKey="date" tickLine={false} />
             <YAxis tickLine={false} />
 
-            <Tooltip />
+            <Tooltip content={<CustomTooltip detail={detail} />} />
             <Area
               type="monotone"
               dataKey={detail.name}

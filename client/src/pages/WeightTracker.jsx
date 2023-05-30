@@ -163,7 +163,8 @@ const WeightTracker = () => {
     setDateRange(getDatesForRange(newPriorDate, date));
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault()
     const newData = [...data];
     const day = new Date();
     const convertedDate = convertDateToMMDDYYYYFormat(day);
@@ -212,7 +213,7 @@ const WeightTracker = () => {
       {logMode && (
         <>
           <div className="modal">
-            <div className="modal-content">
+            <form className="modal-content" onSubmit={handleSubmit}>
               <h2>Log Weight for Today</h2>
               <input
                 type="number"
@@ -225,10 +226,10 @@ const WeightTracker = () => {
               <button className="modal-cancel" onClick={handleClose}>
                 Cancel
               </button>
-              <button className="primary" onClick={handleSubmit}>
+              <button className="primary" type="submit">
                 Submit
               </button>
-            </div>
+            </form>
           </div>
         </>
       )}

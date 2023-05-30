@@ -46,7 +46,7 @@ const Account = () => {
         {editMode ? (
           <>
             <section className="modal">
-              <div className="modal-content">
+              <div className="modal-content flex-column">
                 <span className="flex space-between gap-lg">
                   <h2>Update Profile:</h2>
                   <button onClick={() => setEditMode(false)}>Cancel</button>
@@ -99,7 +99,7 @@ const Account = () => {
           </>
         ) : (
           <>
-            <section className="padding-lg flex flex-column gap-lg jcc margin-lg full-width">
+            <section className="padding-lg flex flex-column gap-lg jcc margin-lg full-width aic">
               <h1>Name: {info.name}</h1>
               <p>Age: {info.age}</p>
               <p>
