@@ -52,6 +52,8 @@ const AddRoutineToDay = ({ addRoutine }) => {
                   onClick={() => {
                     setEditMode(false);
                   }}
+                  className="ghost-button"
+                  aria-label="Cancel"
                 >
                   Cancel
                 </button>
@@ -70,10 +72,16 @@ const AddRoutineToDay = ({ addRoutine }) => {
                         <span className="flex gap-lg">
                           <button
                             onClick={() => handleRoutineSubmission(routine)}
+                            className="primary-button"
+                            aria-label="Log Routine"
                           >
                             Log
                           </button>
-                          <button onClick={(e) => deleteRoutine(index)}>
+                          <button
+                            onClick={(e) => deleteRoutine(index)}
+                            className="ghost-button"
+                            aria-label="Delete Routine"
+                          >
                             Delete
                           </button>
                         </span>
@@ -100,8 +108,9 @@ const AddRoutineToDay = ({ addRoutine }) => {
           <button
             onClick={() => {
               setEditMode(true);
-              }}
-              className="secondary-button"
+            }}
+            className="secondary-button"
+            aria-label="Add A Routine"
           >
             Add Routine
           </button>

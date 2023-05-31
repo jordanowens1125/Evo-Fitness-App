@@ -306,7 +306,11 @@ const DailyWorkoutLog = () => {
       <div>
         {dailyLog ? (
           <div className="flex flex-column jcc margin-lg gap-lg">
-            <button onClick={saveRoutine} className="align-self-center secondary-button">
+            <button
+              onClick={saveRoutine}
+              className="align-self-center secondary-button"
+              aria-label="Save Today As A Routine"
+            >
               Save today as routine
             </button>
 

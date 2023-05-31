@@ -243,7 +243,7 @@ const Layout = () => {
                   <Hamburger value={svgValueMobile} />
                 </span>
               </div>
-              {/* <button className="scroll-to-top" onClick={executeScroll}>Back To Top</button> */}
+              {/* <button className="scroll-to-top" onClick={executeScroll} aria-label="Scroll Back To Top">Back To Top</button> */}
             </>
           )}
         </>

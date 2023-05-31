@@ -224,14 +224,20 @@ const WeightTracker = () => {
                 onChange={handleLogWeightForDay}
                 min={0}
                 max={800}
+                aria-label="Weight"
               />
               <button
                 className="modal-cancel ghost-button"
                 onClick={handleClose}
+                aria-label="Cancel"
               >
                 Cancel
               </button>
-              <button className="primary-button" type="submit">
+              <button
+                className="primary-button"
+                type="submit"
+                aria-label="Submit"
+              >
                 Submit
               </button>
             </form>
@@ -250,7 +256,11 @@ const WeightTracker = () => {
         <span className="flex aic gap-md">
           <p>Current Weight:</p>
           <b className="primary heading-md">{weightToday} lbs</b>
-          <button onClick={() => setLogMode(true)} className="secondary-button">
+          <button
+            onClick={() => setLogMode(true)}
+            className="secondary-button"
+            aria-label="Log Weight"
+          >
             Log Weight
           </button>
         </span>

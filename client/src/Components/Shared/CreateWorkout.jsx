@@ -137,7 +137,13 @@ const CreateWorkout = () => {
               <div className="flex-column gap-md">
                 <h3 className="flex space-between gap-md aic margin-bottom-lg">
                   New Workout Exercises
-                  <button onClick={handleCancel}>X</button>
+                  <button
+                    onClick={handleCancel}
+                    className="ghost-button"
+                    aria-label="Cancel"
+                  >
+                    Cancel
+                  </button>
                 </h3>
                 <i>Search Exercises (Click exercise to add):</i>
 
@@ -148,6 +154,7 @@ const CreateWorkout = () => {
                     onChange={handleSearchParamChange}
                     placeholder="Enter exercise name..."
                     className="margin-bottom-md"
+                    aria-label="Input Exercise Name"
                   />
                   <ul id="search-results" className="flex gap-md">
                     {filteredItems.map((item) => {
@@ -184,7 +191,11 @@ const CreateWorkout = () => {
                               }
                               removeSet={removeSet}
                             />
-                            <button onClick={() => addNewSet(key)}>
+                            <button
+                              onClick={() => addNewSet(key)}
+                              className="secondary-button"
+                              aria-label="Add New Set"
+                            >
                               New Set
                             </button>
                           </>
@@ -194,14 +205,26 @@ const CreateWorkout = () => {
                   })}
                 </div>
                 {Object.keys(exercisesInWorkout).length > 0 && (
-                  <button onClick={saveWorkout} className="primary-button">Save workout</button>
+                  <button
+                    onClick={saveWorkout}
+                    className="primary-button"
+                    aria-label="Save Workout"
+                  >
+                    Save workout
+                  </button>
                 )}
               </div>
             </div>
           </div>
         </>
       ) : (
-        <button onClick={() => setShowModal(true)} className="secondary-button">New Workout</button>
+        <button
+          onClick={() => setShowModal(true)}
+          className="secondary-button"
+          aria-label="Create A New Workout"
+        >
+          New Workout
+        </button>
       )}
     </>
   );

@@ -41,6 +41,7 @@ const Signup = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.currentTarget.value)}
+                aria-label="Email"
               />
             </span>
 
@@ -50,6 +51,7 @@ const Signup = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.currentTarget.value)}
+                aria-label="Password"
               />
             </span>
             {error && <span>{error}</span>}
@@ -57,6 +59,7 @@ const Signup = () => {
               type="submit"
               className="primary-button full-width"
               disabled={isLoading}
+              aria-label="Sign Up"
             >
               Sign Up
             </button>
@@ -65,6 +68,7 @@ const Signup = () => {
               className="secondary-button full-width"
               onClick={demoLogin}
               type="button"
+              aria-label="Log In As Demo User"
             >
               Log In As Demo User
             </button>

@@ -20,6 +20,7 @@ const loginUser = async (req, res) => {
         exercises: user.exercises,
         log: user.log,
         routines: user.routines,
+        name: user.name,
       },
       token,
       email: user.email,
@@ -57,7 +58,7 @@ const getUser = async (req, res) => {
         log: user.log,
         routines: user.routines,
         name: user.name,
-        weight: user.weight,
+        Weight: user.Weight,
         age: user.age,
         weightLog: user.weightLog,
       },
@@ -106,18 +107,18 @@ const updateUserRoutines = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const id = req.user._id;
-    const { name, handle, age, weight } = req.body;
+    const { name, dob, Weight, weightLog } = req.body;
     await User.findOneAndUpdate(
       { _id: id },
       {
         name: name,
-        age: age,
-        weight: weight,
+        dob: dob,
+        Weight: Weight,
+        weightLog: weightLog,
       }
     );
     res.status(200).json();
   } catch (error) {
-    console.log(897);
     res.status(404).json({ message: error });
   }
 };
@@ -128,7 +129,7 @@ const updateUserWeightLog = async (req, res) => {
     const id = req.user._id;
     //need id so i know who to update
     //update user log
-    const user = await User.findOneAndUpdate(
+    await User.findOneAndUpdate(
       { _id: id },
       {
         weightLog: weightLog,

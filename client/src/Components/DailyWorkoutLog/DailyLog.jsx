@@ -51,15 +51,18 @@ const DailyLog = ({
       <>
         {editMode ? (
           <>
-            <section
-              key={exercise.name}
-              className="padding-lg flex aic modal"
-            >
+            <section key={exercise.name} className="padding-lg flex aic modal">
               <div className="modal-content">
                 <span className="flex gap-sm aic wrap full-width space-between">
                   <h2 className="primary">{exercise.name}</h2>
 
-                  <button onClick={() => setEditMode(false)} className="ghost-button">Cancel</button>
+                  <button
+                    onClick={() => setEditMode(false)}
+                    className="ghost-button"
+                    aria-label="Cancel"
+                  >
+                    Cancel
+                  </button>
                 </span>
                 <div className="flex wrap gap-lg">
                   <DisplaySetsInput
@@ -71,8 +74,20 @@ const DailyLog = ({
                 </div>
 
                 <span className="flex aic space-between margin-top-lg">
-                  <button onClick={addNewSet} className="secondary-button">New Set?</button>
-                  <button onClick={() => handleSubmit()} className="primary-button">Submit</button>
+                  <button
+                    onClick={addNewSet}
+                    className="secondary-button"
+                    aria-label="Add a new set"
+                  >
+                    New Set?
+                  </button>
+                  <button
+                    onClick={() => handleSubmit()}
+                    className="primary-button"
+                    aria-label="Submit"
+                  >
+                    Submit
+                  </button>
                 </span>
               </div>
             </section>
@@ -85,8 +100,18 @@ const DailyLog = ({
             >
               <span className="flex margin-bottom-md gap-lg wrap">
                 <h2 className="primary">{exercise.name}</h2>
-                <button onClick={() => setEditMode(true)} className="secondary-button">Edit</button>
-                <button onClick={(e) => removeExerciseFromLog(exerciseIndex)} className="ghost-button">
+                <button
+                  onClick={() => setEditMode(true)}
+                  className="secondary-button"
+                  aria-label="Edit Exercise Log"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={(e) => removeExerciseFromLog(exerciseIndex)}
+                  className="ghost-button"
+                  aria-label="Delete Exercise"
+                >
                   Delete Exercise
                 </button>
               </span>

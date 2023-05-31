@@ -110,16 +110,24 @@ const CreateExercise = () => {
       {active ? (
         <>
           <div className="modal">
-            <div className="modal-content">
+            <form className="modal-content" onSubmit={createExercise}>
               <span className="flex space-between aic">
                 <h2>Create Exercise</h2>
-                <button onClick={resetExerciseProps}>Cancel</button>
+                <button
+                  onClick={resetExerciseProps}
+                  className="ghost-button"
+                  aria-label="Cancel"
+                >
+                  Cancel
+                </button>
               </span>
               <input
                 type="text"
                 placeholder="Name:"
                 value={name}
                 onChange={handleNameChange}
+                aria-label="Input Name"
+                required
               />
               <DropDownUsingName
                 value={muscleGroup}
@@ -133,8 +141,14 @@ const CreateExercise = () => {
                 listOfValues={kindsOfExercises}
                 title={"Exercise Type"}
               />
-              <button onClick={createNewExercise}>Submit</button>
-            </div>
+              <button
+                type="submit"
+                className="primary-button"
+                aria-label="Submit"
+              >
+                Submit
+              </button>
+            </form>
           </div>
         </>
       ) : (
@@ -142,6 +156,7 @@ const CreateExercise = () => {
           <button
             className="secondary-button"
             onClick={handleCreateNewExerciseClick}
+            aria-label="Create New Exercise"
           >
             Create New Exercise
           </button>

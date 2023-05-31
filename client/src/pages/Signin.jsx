@@ -37,6 +37,7 @@ const Signin = () => {
               value={email}
               onChange={(e) => setEmail(e.currentTarget.value)}
               className="full-width"
+              aria-label="Email"
             />
           </span>
 
@@ -46,10 +47,15 @@ const Signin = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.currentTarget.value)}
+              aria-label="Password"
             />
           </span>
           {error && <span>{error}</span>}
-          <button className="primary-button full-width" disabled={isLoading}>
+          <button
+            className="primary-button full-width "
+            disabled={isLoading}
+            aria-label="Sign In"
+          >
             Sign In
           </button>
 
@@ -57,6 +63,7 @@ const Signin = () => {
             className="secondary-button full-width"
             onClick={demoLogin}
             type="button"
+            aria-label="Log In As Demo User"
           >
             Log In As Demo User
           </button>

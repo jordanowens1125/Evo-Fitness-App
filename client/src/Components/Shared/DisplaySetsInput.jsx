@@ -31,7 +31,13 @@ const DisplaySets = ({
           <span className="flex space-between aic">
             <i className="primary ">{exercise.name}:</i>
             {removeExercise ? (
-              <button onClick={removeExercise}>X</button>
+              <button
+                onClick={removeExercise}
+                className="ghost-button"
+                aria-label="Remove Exercise"
+              >
+                Remove
+              </button>
             ) : (
               <></>
             )}
@@ -46,7 +52,11 @@ const DisplaySets = ({
             <div key={index} className="card bg-border gap-md secondary-bg">
               <span className="flex space-between">
                 <b>Set: {index + 1}</b>
-                <button onClick={() => removeSet(index, exercise.name)} className="ghost-button">
+                <button
+                  onClick={() => removeSet(index, exercise.name)}
+                  className="ghost-button"
+                  aria-label="Remove Set"
+                >
                   X
                 </button>
               </span>
@@ -69,6 +79,7 @@ const DisplaySets = ({
                         onWheel={numberInputOnWheelPreventChange}
                         className="width-xs"
                         min={exercise.details[detail].min || 0}
+                        aria-label={`Input ${detail} for set`}
                       />
                     </div>
                   </div>
