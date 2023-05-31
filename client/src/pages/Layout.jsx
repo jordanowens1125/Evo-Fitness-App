@@ -109,10 +109,10 @@ const Layout = () => {
             >
               <Dumbbell value={svgValueDeskTop} />
             </NavLink>
-            <label className="switch">
+            {/* <label className="switch">
               <input type="checkbox" aria-label="Change Color Theme" />
               <span className="slider round" onClick={changeTheme}></span>
-            </label>
+            </label> */}
             <NavLink
               to="/weight"
               className={({ isActive }) =>
@@ -220,7 +220,7 @@ const Layout = () => {
                       <SignOut value={svgValueMobile} />
                       Log Out
                     </NavLink>
-                    <span>
+                    {/* <span>
                       <label className="switch">
                         <input
                           type="checkbox"
@@ -231,7 +231,7 @@ const Layout = () => {
                           onClick={changeTheme}
                         ></span>
                       </label>
-                    </span>
+                    </span> */}
                   </div>
                 </div>
               </nav>

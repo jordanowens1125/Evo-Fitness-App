@@ -20,12 +20,12 @@ const DateComponent = ({
           <>
             {isToday ? (
               <>
-                <button disabled>Today</button>
+                <button disabled className="secondary-button disabled">Today</button>
               </>
             ) : (
               <>
                 {" "}
-                <button onClick={setDateToday}>Today</button>
+                <button onClick={setDateToday} className="secondary-button">Today</button>
               </>
             )}
           </>

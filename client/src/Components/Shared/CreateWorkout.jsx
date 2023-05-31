@@ -201,7 +201,7 @@ const CreateWorkout = () => {
           </div>
         </>
       ) : (
-        <button onClick={() => setShowModal(true)}>New Workout</button>
+        <button onClick={() => setShowModal(true)} className="secondary-button">New Workout</button>
       )}
     </>
   );

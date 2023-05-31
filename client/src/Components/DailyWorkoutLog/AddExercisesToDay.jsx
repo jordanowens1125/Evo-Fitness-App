@@ -106,7 +106,7 @@ const AddExercisesToDay = ({ addExercisesForDay }) => {
             <div className="modal-content ">
               <span className="flex space-between flex-start">
                 <p className="margin-bottom-lg heading-md">Log an exercise:</p>
-                <button onClick={cancel}>Cancel</button>
+                <button onClick={cancel} className="ghost-button">Cancel</button>
               </span>
 
               <div className="flex space-between ">
@@ -134,8 +134,8 @@ const AddExercisesToDay = ({ addExercisesForDay }) => {
                   removeSet={removeSet}
                 />
               </div>
-              <button onClick={addNewSetToExercise}>Add new set</button>
-              <button onClick={addNewExerciseAndSets} className="primary">
+              <button onClick={addNewSetToExercise} className="secondary-button">Add new set</button>
+              <button onClick={addNewExerciseAndSets} className="primary-button">
                 Submit
               </button>
             </div>
@@ -145,7 +145,7 @@ const AddExercisesToDay = ({ addExercisesForDay }) => {
         <>
           <button
             onClick={() => handleNewWorkoutMode()}
-            className="secondary-button"
+            className="primary-button"
           >
             Add Exercise
           </button>

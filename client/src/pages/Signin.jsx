@@ -18,34 +18,49 @@ const Signin = () => {
   };
   return (
     <section className="full-height full-width grow aic jcc flex body-color">
-      <div className="padding-lg flex-column aic grow margin-lg secondary-bg gap-md">
-        <form onSubmit={submit} className="flex-column aic gap-lg">
+      <div className="padding-xl  bg b-radius">
+        <form onSubmit={submit} className="flex-column gap-lg aic">
           <Logo value={60} />
-          <h3>Login</h3>
-          <label htmlFor="Email:">Email: </label>
-          <input
-            type="email"
-            value={email}
-            placeholder="Email: "
-            onChange={(e) => setEmail(e.currentTarget.value)}
-          />
-          <label htmlFor="Password:">Password:</label>
-          <input
-            type="password"
-            value={password}
-            placeholder="Password: "
-            onChange={(e) => setPassword(e.currentTarget.value)}
-          />
-          <button className=" primary" disabled={isLoading}>
-            Login
-          </button>
+          <div className="flex-column gap-md aic text-align">
+            <h2>Login To Your Account</h2>
+            <span>
+              <p>Don't Have An Account? </p>
+              <a href="/signup" className="primary">
+                <b className="primary">Sign Up</b>
+              </a>
+            </span>
+          </div>
+          <span className="full-width flex-column gap-md">
+            <label htmlFor="Email:">Email: </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.currentTarget.value)}
+              className="full-width"
+            />
+          </span>
+
+          <span className="full-width flex-column gap-md">
+            <label htmlFor="Password:">Password:</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.currentTarget.value)}
+            />
+          </span>
           {error && <span>{error}</span>}
+          <button className="primary-button full-width" disabled={isLoading}>
+            Sign In
+          </button>
+
+          <button
+            className="secondary-button full-width"
+            onClick={demoLogin}
+            type="button"
+          >
+            Log In As Demo User
+          </button>
         </form>
-        <button className="primary-button" onClick={demoLogin}>
-          Login as demo user
-        </button>
-        <span className="flex-column aic"></span>
-        <a href="/signup">Sign Up?</a>
       </div>
     </section>
   );

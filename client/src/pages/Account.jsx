@@ -4,9 +4,9 @@ import { DataContext } from "../Context/Context";
 
 const Account = () => {
   const { user } = useAuthContext();
-  const context = useContext(DataContext)
+  const context = useContext(DataContext);
   const data = context.weightlog;
-  let weight = data[data.length - 1].Weight
+  let weight = data[data.length - 1].Weight;
   const [info, setInfo] = useState({
     name: "Jakx",
     age: 23,
@@ -17,16 +17,19 @@ const Account = () => {
   });
 
   const [editMode, setEditMode] = useState(false);
-
+  const [theme, setTheme] = useState("dark-mode");
   const handleSubmit = async () => {
-    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users/updateinfo`, {
-      method: "PUT",
-      body: JSON.stringify(info),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/users/updateinfo`,
+      {
+        method: "PUT",
+        body: JSON.stringify(info),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
     if (!response.ok) {
       console.log("Error");
       console.log(response);
@@ -34,6 +37,19 @@ const Account = () => {
     }
     if (response.ok) {
       setEditMode(false);
+    }
+  };
+
+  const changeTheme = () => {
+    const element = document.getElementById("App");
+    if (theme === "dark-mode") {
+      element?.classList.remove("dark-mode");
+      setTheme("light-mode");
+      element?.classList.add("light-mode");
+    } else {
+      element?.classList.remove("light-mode");
+      setTheme("dark-mode");
+      element?.classList.add("dark-mode");
     }
   };
 
@@ -53,7 +69,7 @@ const Account = () => {
               <div className="modal-content flex-column">
                 <span className="flex space-between gap-lg">
                   <h2>Update Profile:</h2>
-                  <button onClick={() => setEditMode(false)}>Cancel</button>
+                  <button onClick={() => setEditMode(false)} className="ghost-button">Cancel</button>
                 </span>
                 <label htmlFor="Name">Name: </label>
                 <input
@@ -110,7 +126,11 @@ const Account = () => {
                 Height:{info.feet} Feet - {info.inches} Inches{" "}
               </p>
               <p>Weight: {info.Weight} Pounds (lbs)</p>
-              <button onClick={() => setEditMode(true)}>Edit</button>
+              {/* <label className="switch">
+                <input type="checkbox" aria-label="Change Color Theme" />
+                <span className="slider round" onClick={changeTheme}></span>
+              </label> */}
+              <button onClick={() => setEditMode(true)} className="primary-button">Edit</button>
             </section>
           </>
         )}

@@ -59,7 +59,7 @@ const DailyLog = ({
                 <span className="flex gap-sm aic wrap full-width space-between">
                   <h2 className="primary">{exercise.name}</h2>
 
-                  <button onClick={() => setEditMode(false)}>Cancel</button>
+                  <button onClick={() => setEditMode(false)} className="ghost-button">Cancel</button>
                 </span>
                 <div className="flex wrap gap-lg">
                   <DisplaySetsInput
@@ -71,8 +71,8 @@ const DailyLog = ({
                 </div>
 
                 <span className="flex aic space-between margin-top-lg">
-                  <button onClick={addNewSet}>New Set?</button>
-                  <button onClick={() => handleSubmit()}>Submit</button>
+                  <button onClick={addNewSet} className="secondary-button">New Set?</button>
+                  <button onClick={() => handleSubmit()} className="primary-button">Submit</button>
                 </span>
               </div>
             </section>
@@ -85,8 +85,8 @@ const DailyLog = ({
             >
               <span className="flex margin-bottom-md gap-lg wrap">
                 <h2 className="primary">{exercise.name}</h2>
-                <button onClick={() => setEditMode(true)}>Edit</button>
-                <button onClick={(e) => removeExerciseFromLog(exerciseIndex)}>
+                <button onClick={() => setEditMode(true)} className="secondary-button">Edit</button>
+                <button onClick={(e) => removeExerciseFromLog(exerciseIndex)} className="ghost-button">
                   Delete Exercise
                 </button>
               </span>

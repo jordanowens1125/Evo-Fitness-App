@@ -164,7 +164,7 @@ const WeightTracker = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const newData = [...data];
     const day = new Date();
     const convertedDate = convertDateToMMDDYYYYFormat(day);
@@ -214,7 +214,9 @@ const WeightTracker = () => {
         <>
           <div className="modal">
             <form className="modal-content aic jcc" onSubmit={handleSubmit}>
-              <h2 className="border-bottom-primary padding-md">Log Weight for Today</h2>
+              <h2 className="border-bottom-primary padding-md">
+                Log Weight for Today
+              </h2>
               <input
                 type="number"
                 placeholder="Weight"
@@ -223,10 +225,13 @@ const WeightTracker = () => {
                 min={0}
                 max={800}
               />
-              <button className="modal-cancel" onClick={handleClose}>
+              <button
+                className="modal-cancel ghost-button"
+                onClick={handleClose}
+              >
                 Cancel
               </button>
-              <button className="primary" type="submit">
+              <button className="primary-button" type="submit">
                 Submit
               </button>
             </form>
@@ -234,7 +239,7 @@ const WeightTracker = () => {
         </>
       )}
 
-      <div className="page flex-column aic">
+      <div className="page flex-column aic gap-md">
         <DateComponent
           input={date}
           decreaseby1={testLeft}
@@ -245,9 +250,14 @@ const WeightTracker = () => {
         <span className="flex aic gap-md">
           <p>Current Weight:</p>
           <b className="primary heading-md">{weightToday} lbs</b>
-          <button onClick={() => setLogMode(true)}>Log Weight</button>
+          <button onClick={() => setLogMode(true)} className="secondary-button">
+            Log Weight
+          </button>
         </span>
-
+        <DateRangeDropDown
+          daysPrior={daysPrior}
+          handleRangeChange={handleRangeChange}
+        />
         <div className="full-width full-height grow flex aic jcc body-color">
           <ResponsiveContainer height={400} width={"100%"}>
             <AreaChart
@@ -286,10 +296,6 @@ const WeightTracker = () => {
               />
             </AreaChart>
           </ResponsiveContainer>
-          <DateRangeDropDown
-            daysPrior={daysPrior}
-            handleRangeChange={handleRangeChange}
-          />
         </div>
       </div>
     </>

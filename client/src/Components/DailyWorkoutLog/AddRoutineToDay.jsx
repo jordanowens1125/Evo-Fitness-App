@@ -100,7 +100,8 @@ const AddRoutineToDay = ({ addRoutine }) => {
           <button
             onClick={() => {
               setEditMode(true);
-            }}
+              }}
+              className="secondary-button"
           >
             Add Routine
           </button>

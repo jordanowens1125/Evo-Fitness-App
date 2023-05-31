@@ -194,43 +194,51 @@ const DailyWorkoutLog = () => {
   };
 
   const addExercisesForDay = async (newExercises) => {
-    
     const inputDate = convertDateToMMDDYYYYFormat(date);
-
     const score = 1;
     //insert exercise for date
     let updatedData = [...data];
     if (updatedData.length > 0) {
       const index = findIndex(data, date);
-      if (updatedData[index].date === inputDate) {
-        let dayExerciseObject = {};
-        for (let i = 0; i < updatedData[index].exercises.length; i++) {
-          let name = updatedData[index].exercises[i].name;
-          dayExerciseObject[name] = updatedData[index].exercises[i];
-        }
-        for (let j = 0; j < newExercises.length; j++) {
-          let name = newExercises[j].name;
-          if (dayExerciseObject[name]) {
-            const details = Object.keys(newExercises[j].details);
-            for (let i = 0; i < details.length; i++) {
-              const detail = details[i];
-              const newExerciseSets = newExercises[j].sets[detail];
-              const oldExerciseSets = dayExerciseObject[name].sets[detail];
+      if (updatedData[index]) {
+        if (updatedData[index].date === inputDate) {
+          let dayExerciseObject = {};
+          for (let i = 0; i < updatedData[index].exercises.length; i++) {
+            let name = updatedData[index].exercises[i].name;
+            dayExerciseObject[name] = updatedData[index].exercises[i];
+          }
+          for (let j = 0; j < newExercises.length; j++) {
+            let name = newExercises[j].name;
+            if (dayExerciseObject[name]) {
+              const details = Object.keys(newExercises[j].details);
+              for (let i = 0; i < details.length; i++) {
+                const detail = details[i];
+                const newExerciseSets = newExercises[j].sets[detail];
+                const oldExerciseSets = dayExerciseObject[name].sets[detail];
 
-              dayExerciseObject[name].sets[detail] = [
-                ...oldExerciseSets,
-                ...newExerciseSets,
-              ];
+                dayExerciseObject[name].sets[detail] = [
+                  ...oldExerciseSets,
+                  ...newExerciseSets,
+                ];
+              }
+            } else {
+              dayExerciseObject[name] = newExercises[j];
             }
-          } else {
-            dayExerciseObject[name] = newExercises[j];
           }
-        }
-        updatedData[index].exercises = [];
-        for (const key in dayExerciseObject) {
-          if (dayExerciseObject.hasOwnProperty(key)) {
-            updatedData[index].exercises.push(dayExerciseObject[key]);
+          updatedData[index].exercises = [];
+          for (const key in dayExerciseObject) {
+            if (dayExerciseObject.hasOwnProperty(key)) {
+              updatedData[index].exercises.push(dayExerciseObject[key]);
+            }
           }
+        } else {
+          let templateDay = {
+            date: inputDate,
+            score,
+            officialDate: date,
+            exercises: newExercises,
+          };
+          updatedData.splice(index, 0, templateDay);
         }
       } else {
         let templateDay = {
@@ -239,7 +247,7 @@ const DailyWorkoutLog = () => {
           officialDate: date,
           exercises: newExercises,
         };
-        updatedData.splice(index, 0, templateDay);
+        updatedData.push(templateDay);
       }
     } else {
       let templateDay = {
@@ -250,7 +258,7 @@ const DailyWorkoutLog = () => {
       };
       updatedData.push(templateDay);
     }
-    
+
     const response = await fetch(
       `${process.env.REACT_APP_BASE_URL}/users/updatelog`,
       {
@@ -298,7 +306,7 @@ const DailyWorkoutLog = () => {
       <div>
         {dailyLog ? (
           <div className="flex flex-column jcc margin-lg gap-lg">
-            <button onClick={saveRoutine} className="align-self-center">
+            <button onClick={saveRoutine} className="align-self-center secondary-button">
               Save today as routine
             </button>
 
