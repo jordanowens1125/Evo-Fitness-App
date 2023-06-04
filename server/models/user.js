@@ -3,6 +3,9 @@ const { Schema } = mongoose;
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 
+const day = new Date();
+const stringDate = `${day.getMonth()}-${day.getDate()}-${day.getFullYear}`;
+
 const UserSchema = new Schema({
   email: {
     type: String,
@@ -19,7 +22,13 @@ const UserSchema = new Schema({
   Weight: { type: Number },
   routines: [],
   log: [],
-  weightLog: [],
+  weightLog: [
+    {
+      Weight: { type: Number, default: 0 },
+      officialDate: { type: Date, default: day },
+      date: { type: String, default: stringDate },
+    },
+  ],
   exercises: [{ type: Schema.Types.ObjectId, ref: "Exercise" }],
 });
 
