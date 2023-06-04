@@ -24,7 +24,6 @@ function App() {
   const [exerciseList, setExerciseList] = useState(exercises);
   const [weightlog, setWeightLog] = useState(weight);
   const { user } = useAuthContext();
-
   return (
     <main className="dark-mode" id="App">
       <BrowserRouter>
@@ -41,7 +40,6 @@ function App() {
           }}
         >
           <Routes>
-            {/* <Route element={<ProtectedRoute user={currentUser} />}> */}
             <Route path="/" element={<Layout />}>
               <Route
                 index
@@ -57,11 +55,11 @@ function App() {
               />
               <Route
                 exact
-                path="/account"
+                path="account"
                 element={user ? <Account /> : <Navigate to="/signin" />}
               />
               <Route
-                path="/quickLinks"
+                path="quickLinks"
                 element={user ? <QuickLinks /> : <Navigate to="/signin" />}
               />
               {/* <Exercises/> */}

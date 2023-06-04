@@ -12,16 +12,18 @@ const templateDay = {
 const Account = () => {
   const { user } = useAuthContext();
   const context = useContext(DataContext);
-  const data = context.weightlog;
-  let weight = data[data.length - 1].Weight;
+  let data = context.weightlog;
+  let weight = 0;
+  if (data.length > 0) {
+    data = data[data.length - 1].Weight;
+  }
   const [tempData, setTempData] = useState({
     name: user.user.name || "Jakx",
     Weight: weight,
     weightLog: data,
   });
-  console.log(user);
   const [info, setInfo] = useState({
-    name: user.user.name || "Jakx",
+    name: user?.user.name || "Jakx",
     // age: 23,
     // gender: "",
     // feet: 5,

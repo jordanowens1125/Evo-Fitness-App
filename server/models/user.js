@@ -13,13 +13,13 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  name: { type: String },
+  name: { type: String, default: "Evo" },
   // handle: { type: String },
   dob: { type: Number },
   Weight: { type: Number },
   routines: [],
   log: [],
-  weightLog:[],
+  weightLog: [],
   exercises: [{ type: Schema.Types.ObjectId, ref: "Exercise" }],
 });
 
