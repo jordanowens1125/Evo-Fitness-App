@@ -78,10 +78,6 @@ const CreateExercise = () => {
       defaultSets: exerciseType.defaultSets,
       segment: muscleG.segment,
     };
-    try {
-      await createExercise(newExercise);
-    } catch (error) {}
-    copy.push(newExercise);
 
     const response = await fetch(`${process.env.REACT_APP_BASE_URL}/exercises/create`, {
       method: "POST",
@@ -92,12 +88,12 @@ const CreateExercise = () => {
       },
     });
 
-    // const json = await response.json();
-    // console.log(json);
     if (!response.ok) {
       console.log(response);
       //setError(json.error)
     }
+    copy.push(newExercise)
+    console.log(copy);
     if (response.ok) {
       setExerciseList(copy);
       resetExerciseProps();
@@ -110,13 +106,14 @@ const CreateExercise = () => {
       {active ? (
         <>
           <div className="modal">
-            <form className="modal-content" onSubmit={createExercise}>
+            <form className="modal-content" onSubmit={createNewExercise}>
               <span className="flex space-between aic">
                 <h2>Create Exercise</h2>
                 <button
                   onClick={resetExerciseProps}
                   className="ghost-button"
                   aria-label="Cancel"
+                  type="button"
                 >
                   Cancel
                 </button>

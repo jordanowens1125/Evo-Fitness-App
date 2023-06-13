@@ -9,8 +9,7 @@ connectDB();
 
 const seedDB = async () => {
   try {
-    // await User.deleteMany({});
-    // await User.insertMany(seedUsers);
+    await User.deleteMany({})
     await Exercise.deleteMany({});
     await Exercise.insertMany(seedExercises);
   } catch (err) {

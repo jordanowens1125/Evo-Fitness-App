@@ -1,9 +1,9 @@
 import React from 'react'
 
-const NoData = () => {
+const NoData = ({title = 'Data'}) => {
   return (
     <section className="padding-lg margin-lg flex aic jcc heading-md">
-      No Data
+      No {title}
     </section>
   );
 }

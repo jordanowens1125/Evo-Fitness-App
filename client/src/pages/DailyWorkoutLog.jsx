@@ -37,6 +37,7 @@ const DailyWorkoutLog = () => {
           Authorization: `Bearer ${user.token}`,
         },
       });
+      
       const json = await response.json();
       if (response.ok) {
         setRoutines(json.user.routines);

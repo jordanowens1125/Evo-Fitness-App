@@ -13,6 +13,7 @@ import Account from "./pages/Account";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import useAuthContext from "./hooks/useAuthContext";
+import RequireAuth from "./Components/RequireAuth";
 import dummyData from "./data/dummyData";
 import { exercises } from "./data/bodySegments";
 import { storedRoutines } from "./data/routines";
@@ -36,36 +37,39 @@ function App() {
             exerciseList,
             setExerciseList,
             weightlog,
-            setWeightLog
+            setWeightLog,
           }}
         >
           <Routes>
             <Route path="/" element={<Layout />}>
-              <Route
-                index
-                element={user ? <DailyWorkoutLog /> : <Navigate to="/signin" />}
-              />
-              <Route
-                path="weight"
-                element={user ? <WeightTracker /> : <Navigate to="/signin" />}
-              />
-              <Route
-                path="workoutInfo"
-                element={user ? <WorkoutInfo /> : <Navigate to="/signin" />}
-              />
-              <Route
-                exact
-                path="account"
-                element={user ? <Account /> : <Navigate to="/signin" />}
-              />
-              <Route
-                path="quickLinks"
-                element={user ? <QuickLinks /> : <Navigate to="/signin" />}
-              />
-              {/* <Exercises/> */}
-              {/* <Macros /> */}
+              <Route element={<RequireAuth />}>
+                <Route
+                  index
+                  element={
+                    <DailyWorkoutLog />
+                  }
+                />
+                <Route
+                  path="weight"
+                  element={ <WeightTracker />}
+                />
+                <Route
+                  path="workoutInfo"
+                  element={ <WorkoutInfo />}
+                />
+                <Route
+                  exact
+                  path="account"
+                  element={ <Account />}
+                />
+                <Route
+                  path="quickLinks"
+                  element={ <QuickLinks />}
+                />
+                {/* <Exercises/> */}
+                {/* <Macros /> */}
+              </Route>
             </Route>
-
             {/* </Route> */}
             <Route
               path="/signin"

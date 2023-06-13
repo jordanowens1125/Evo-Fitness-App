@@ -44,6 +44,7 @@ const signUp = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
+  // console.log(req.user);
   const id = req.user._id || null;
   if (!id) {
     throw Error("Invalid request");

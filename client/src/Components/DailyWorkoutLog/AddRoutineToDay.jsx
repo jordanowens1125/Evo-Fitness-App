@@ -3,6 +3,7 @@ import { DataContext } from "../../Context/Context";
 import DisplaySets from "../Shared/DisplaySets";
 import CreateWorkout from "../Shared/CreateWorkout";
 import useAuthContext from "../../hooks/useAuthContext";
+import NoData from "../Shared/NoData"
 
 const AddRoutineToDay = ({ addRoutine }) => {
   const [editMode, setEditMode] = useState(false);
@@ -17,14 +18,17 @@ const AddRoutineToDay = ({ addRoutine }) => {
     const copiedRoutines = [...routines];
     copiedRoutines.splice(index, 1);
 
-    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users/updateroutines`, {
-      method: "PUT",
-      body: JSON.stringify(copiedRoutines),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${user.token}`,
-      },
-    });
+    const response = await fetch(
+      `${process.env.REACT_APP_BASE_URL}/users/updateroutines`,
+      {
+        method: "PUT",
+        body: JSON.stringify(copiedRoutines),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
 
     if (!response.ok) {
       console.log("Error");
@@ -61,44 +65,50 @@ const AddRoutineToDay = ({ addRoutine }) => {
 
               <div className="flex flex-column wrap gap-lg">
                 <CreateWorkout />
-                {routines.map((routine, index) => {
-                  return (
-                    <div
-                      key={index}
-                      className="bg-border padding-md full-width"
-                    >
-                      <div className="flex-column wrap margin-bottom-md gap-lg">
-                        <b className="primary">Routine {index + 1}:</b>
-                        <span className="flex gap-lg">
-                          <button
-                            onClick={() => handleRoutineSubmission(routine)}
-                            className="primary-button"
-                            aria-label="Log Routine"
-                          >
-                            Log
-                          </button>
-                          <button
-                            onClick={(e) => deleteRoutine(index)}
-                            className="ghost-button"
-                            aria-label="Delete Routine"
-                          >
-                            Delete
-                          </button>
-                        </span>
-                      </div>
-                      {routine.map((exercise) => {
-                        return (
-                          <div key={+index + exercise.name}>
-                            <DisplaySets
-                              exercise={exercise}
-                              displayName={true}
-                            />
+                {routines.length > 0 ? (
+                  <>
+                    {routines.map((routine, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="bg-border padding-md full-width"
+                        >
+                          <div className="flex-column wrap margin-bottom-md gap-lg">
+                            <b className="primary">Routine {index + 1}:</b>
+                            <span className="flex gap-lg">
+                              <button
+                                onClick={() => handleRoutineSubmission(routine)}
+                                className="primary-button"
+                                aria-label="Log Routine"
+                              >
+                                Log
+                              </button>
+                              <button
+                                onClick={(e) => deleteRoutine(index)}
+                                className="ghost-button"
+                                aria-label="Delete Routine"
+                              >
+                                Delete
+                              </button>
+                            </span>
                           </div>
-                        );
-                      })}
-                    </div>
-                  );
-                })}
+                          {routine.map((exercise) => {
+                            return (
+                              <div key={+index + exercise.name}>
+                                <DisplaySets
+                                  exercise={exercise}
+                                  displayName={true}
+                                />
+                              </div>
+                            );
+                          })}
+                        </div>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <><NoData title="Routines"/></>
+                )}
               </div>
             </div>
           </div>
