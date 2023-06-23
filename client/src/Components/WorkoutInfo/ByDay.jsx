@@ -1,15 +1,5 @@
 import { useState, useContext } from "react";
 import {
-  AreaChart,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Area,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
-
-import {
   convertMMDDYYYYtoDateFormat,
   convertYYYYMMDDtoDate,
   getDatesForRange,
@@ -18,9 +8,9 @@ import {
 } from "../../utils/dateFunctions";
 import DateRangeDropDown from "../ByDay/DateRangeDropDown";
 import { DataContext } from "../../Context/Context";
-import { generateRandomColor } from "../../data/colors";
 import DropDownUsingName from "../Shared/DropDownUsingName";
 import DateComponent from "../Shared/Date";
+import Chart from "../Shared/Chart";
 
 const getDisplayValue = (exercises, exercise, value) => {
   const name = exercise.name;
@@ -108,8 +98,7 @@ const ByDay = ({ exerciseIndex, setExerciseIndex }) => {
   const context = useContext(DataContext);
   const data = context.data;
   const exercises = context.exerciseList;
-  const exerciseObject = exercises[exerciseIndex];
-  const [randomColor, setRandomColor] = useState(generateRandomColor());
+  const exerciseObject = exercises[exerciseIndex];;
   const detailReference = Object.keys(exerciseObject["details"])[0];
   const [detail, setDetail] = useState(exerciseObject.details[detailReference]);
   const [dateRange, setDateRange] = useState(getDatesForRange(priorDate, date));
@@ -162,7 +151,6 @@ const ByDay = ({ exerciseIndex, setExerciseIndex }) => {
   };
 
   const handleExerciseChange = (e) => {
-    setRandomColor(generateRandomColor());
     const newObject = exercises[e.currentTarget.value];
     const firstDetail = Object.keys(newObject.details)[0];
     setExerciseIndex(e.currentTarget.value);
@@ -221,42 +209,11 @@ const ByDay = ({ exerciseIndex, setExerciseIndex }) => {
           />
         </span>
       </div>
-      <div className="full-width full-height grow flex aic">
-        <ResponsiveContainer width={"100%"} height={400}>
-          <AreaChart
-            data={filledData}
-            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-          >
-            <defs>
-              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                  offset="5%"
-                  stopColor={randomColor || "#8884d8"}
-                  stopOpacity={0.5}
-                />
-                <stop
-                  offset="90%"
-                  stopColor={randomColor || "#8884d8"}
-                  stopOpacity={0}
-                />
-              </linearGradient>
-            </defs>
-            <Legend verticalAlign="top" height={36} />
-            <XAxis dataKey="date" tickLine={false} />
-            <YAxis tickLine={false} />
-
-            <Tooltip content={<CustomTooltip detail={detail} />} />
-            <Area
-              type="monotone"
-              dataKey={detail.name}
-              stroke={randomColor || "#8884d8"}
-              fillOpacity={1}
-              fill="url(#colorUv)"
-              dot={true}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
+      <Chart
+        data={filledData}
+        CustomTooltip={<CustomTooltip detail={detail} />}
+        DataKey={detail.name}
+      />
     </>
   );
 };

@@ -3,7 +3,6 @@ import { kindsOfExercises } from "../../data/exerciseCategories";
 import { muscleGroups } from "../../data/bodySegments";
 import DropDownUsingName from "./DropDownUsingName";
 import { DataContext } from "../../Context/Context";
-import { createExercise } from "../../api/exercises";
 import useAuthContext from "../../hooks/useAuthContext";
 
 const CreateExercise = () => {

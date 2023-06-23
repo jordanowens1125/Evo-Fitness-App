@@ -1,7 +1,5 @@
-import React, { useState, useCallback } from "react";
-import { PieChart, Pie, Sector, ResponsiveContainer, Cell } from "recharts";
-import { generateRandomColor } from "../data/colors";
-
+import React from "react";
+import { PieChart, Pie, Cell } from "recharts";
 
 const data = [
   { name: "Group A", value: 400 },
