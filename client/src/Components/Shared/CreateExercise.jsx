@@ -92,7 +92,6 @@ const CreateExercise = () => {
       //setError(json.error)
     }
     copy.push(newExercise)
-    console.log(copy);
     if (response.ok) {
       setExerciseList(copy);
       resetExerciseProps();

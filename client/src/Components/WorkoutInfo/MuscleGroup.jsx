@@ -5,8 +5,6 @@ import { muscleGroups } from "../../data/muscleGroups";
 const MuscleGroup = () => {
   const context = useContext(DataContext);
   const data = context.data;
-
-  console.log(muscleGroups);
   const [muscleGroup, setMuscleGroup] = useState(muscleGroups[0]);
   const handleChange = (e) => {
     setMuscleGroup(e.currentTarget.value);
