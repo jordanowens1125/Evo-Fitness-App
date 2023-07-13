@@ -1,6 +1,8 @@
-import Logo from "../assets/logo";
 import { useState } from "react";
 import { useLogin } from "../hooks/useLogin";
+import Loading from "../Components/Shared/Loading";
+import Error from "../Components/Shared/Error";
+import Input from "../Components/Shared/Input";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
@@ -11,16 +13,20 @@ const Signin = () => {
     await signIn(email, password);
   };
   const demoLogin = async () => {
-    await signIn(
-      process.env.REACT_APP_DEMO_EMAIL,
-      process.env.REACT_APP_DEMO_PASSWORD
-    );
+    try {
+      await signIn(
+        process.env.REACT_APP_DEMO_EMAIL,
+        process.env.REACT_APP_DEMO_PASSWORD
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
   };
   return (
     <section className="full-height full-width grow aic jcc flex body-color">
       <div className="padding-xl  bg b-radius">
         <form onSubmit={submit} className="flex-column gap-lg aic">
-          <Logo value={60} />
+          <Loading isLoading={isLoading} />
           <div className="flex-column gap-md aic text-align">
             <h2>Login To Your Account</h2>
             <span>
@@ -30,27 +36,21 @@ const Signin = () => {
               </a>
             </span>
           </div>
-          <span className="full-width flex-column gap-md">
-            <label htmlFor="Email:">Email: </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.currentTarget.value)}
-              className="full-width"
-              aria-label="Email"
-            />
-          </span>
+          <Input
+            type={"email"}
+            value={email}
+            onChange={(e) => setEmail(e.currentTarget.value)}
+            label={"Email"}
+            alignItems={true}
+          />
+          <Input
+            type={"password"}
+            value={password}
+            onChange={(e) => setPassword(e.currentTarget.value)}
+            label={"Password"}
+            alignItems={true}
+          />
 
-          <span className="full-width flex-column gap-md">
-            <label htmlFor="Password:">Password:</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.currentTarget.value)}
-              aria-label="Password"
-            />
-          </span>
-          {error && <span>{error}</span>}
           <button
             className="primary-button full-width "
             disabled={isLoading}
@@ -67,6 +67,10 @@ const Signin = () => {
           >
             Log In As Demo User
           </button>
+          <b className="primary">
+            *Please wait a few moments for the server a few moments to load up
+          </b>
+          <Error error={error} />
         </form>
       </div>
     </section>

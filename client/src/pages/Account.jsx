@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import useAuthContext from "../hooks/useAuthContext";
 import { DataContext } from "../Context/Context";
 import { convertDateToMMDDYYYYFormat } from "../utils/dateFunctions";
+import Input from "../Components/Shared/Input";
 
 const templateDay = {
   date: "",
@@ -11,7 +12,7 @@ const templateDay = {
 
 const Account = () => {
   const { user } = useAuthContext();
- 
+
   const context = useContext(DataContext);
   const data = context.weightlog;
   let weight = data[data.length - 1].Weight;
@@ -84,19 +85,6 @@ const Account = () => {
     }
   };
 
-  // const changeTheme = () => {
-  //   const element = document.getElementById("App");
-  //   if (theme === "dark-mode") {
-  //     element?.classList.remove("dark-mode");
-  //     setTheme("light-mode");
-  //     element?.classList.add("light-mode");
-  //   } else {
-  //     element?.classList.remove("light-mode");
-  //     setTheme("dark-mode");
-  //     element?.classList.add("dark-mode");
-  //   }
-  // };
-
   const handleChange = (e) => {
     const name = e.currentTarget.id;
     const value = e.currentTarget.value;
@@ -128,14 +116,12 @@ const Account = () => {
                     Cancel
                   </button>
                 </span>
-                <label htmlFor="Name">Name: </label>
-                <input
+                <Input
                   type="text"
                   value={tempData.name}
                   id="name"
+                  label={"Name"}
                   onChange={handleChange}
-                  required
-                  aria-label="Input Name"
                 />
                 {/* <label htmlFor="Age">Age: </label>
                 <input
@@ -162,14 +148,13 @@ const Account = () => {
                   onChange={handleChange}
                   aria-label="Inches"
                 /> */}
-                <label htmlFor="Weight">Weight: Pounds(lbs) </label>
-                <input
+                <Input
                   type="number"
                   value={tempData.Weight}
                   id="Weight"
                   onChange={handleChange}
-                  required
-                  aria-label="Input for Weight"
+                  label={"Weight (lbs) "}
+                  max={500}
                 />
                 <button
                   className="primary-button"

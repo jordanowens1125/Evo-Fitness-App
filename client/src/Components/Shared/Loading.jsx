@@ -1,9 +1,11 @@
-import React from 'react'
+import React from "react";
 
-const Loading = () => {
+const Loading = ({ isLoading }) => {
   return (
-    <div>Loading</div>
-  )
-}
+    <div className="height-sm">
+      {isLoading && <div className="loader"></div>}
+    </div>
+  );
+};
 
-export default Loading
+export default Loading;

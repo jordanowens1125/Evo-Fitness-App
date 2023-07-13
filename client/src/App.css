@@ -20,12 +20,14 @@ body {
   --primary-color: #ff003c;
   --secondary-color: #ffccd8;
   --text-color: #fdfefe;
+  --error-bg: #d53a3a;
   background-color: var(--bg-color);
   color: var(--text-color);
   display: flex;
   flex-direction: column;
   width: 100vw;
   min-height: 100vh;
+  /* color-scheme: dark; */
 }
 
 /* Light Mode */
@@ -49,6 +51,8 @@ body {
   min-height: 100vh;
 }
 
+
+
 /* Global css */
 /* height/Width */
 .full-height {
@@ -71,7 +75,7 @@ body {
 }
 
 .height-xs {
-  height: 40px;
+  height: 25px;
 }
 .height-sm {
   height: 75px;
@@ -91,12 +95,13 @@ body {
 .flex {
   display: flex;
   flex-wrap: wrap;
+  gap: 5px;
 }
 
 .flex-column {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 5px;
 }
 
 .flex-end {
@@ -237,13 +242,14 @@ a {
 
 button:hover,
 a:hover {
-  transform: scale(1.1);
+  transform: scale(1.04);
   cursor: pointer;
 }
 
 .primary-button {
-  background-color: var(--primary-color);
-  color: var(--text-color);
+  background-color: var(--light-bg-color);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
 }
 
 .secondary-button {
@@ -314,8 +320,8 @@ svg:not(.recharts-surface):hover {
   border-bottom: 3px solid var(--bg-color);
 }
 
-.b-radius{
-  border-radius: .3rem;
+.b-radius {
+  border-radius: 0.3rem;
 }
 
 /* End of global css */
@@ -326,11 +332,11 @@ svg:not(.recharts-surface):hover {
 }
 
 /* Font styling */
-p{
+p {
   font-size: 14px;
 }
 
-.text-align{
+.text-align {
   text-align: center;
 }
 
@@ -383,16 +389,14 @@ input[type="date"] {
 
 input[type="text"],
 input[type="email"],
-input[type="password"]
-{
+input[type="password"] {
   outline: none;
   border: 3px solid var(--light-bg-color);
   padding: 8px;
   border-radius: 0.3rem;
 }
 
-input[type="number"]
-{
+input[type="number"] {
   outline: none;
   border: 3px solid var(--light-bg-color);
   padding: 4px;
@@ -512,6 +516,17 @@ input:checked + .slider:before {
   border-radius: 50%;
 }
 /* End of Toggle Switch */
+
+/* Error */
+.error {
+  width: 100%;
+  text-align: center;
+  padding: 5px;
+  align-items: center;
+  border-radius: 0.3rem;
+  background-color: var(--light-bg-color);
+  color: var(--error-bg);
+}
 
 /* Page class */
 .page {
@@ -662,6 +677,26 @@ nav .modal-content * {
   border: 1px solid var(--text-color);
 }
 
+/* CSS for loading icon */
+.loader {
+  padding: 5px;
+  border: 10px solid var(--light-bg-color);
+  border-radius: 50%;
+  border-top: 10px solid var(--primary-color);
+  width: 75px;
+  aspect-ratio: 1;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/* End of loader css */
 @media screen and (min-width: 550px) {
   .desktop {
     display: flex;
