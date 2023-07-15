@@ -1,9 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
 import { DataContext } from "../../Context/Context";
 import DisplaySets from "../Shared/DisplaySets";
-import CreateWorkout from "../Shared/CreateWorkout";
+import CreateWorkout from "../CreateWorkout/CreateWorkout";
 import useAuthContext from "../../hooks/useAuthContext";
-import NoData from "../Shared/NoData"
+import NoData from "../Shared/NoData";
+import Buttons from "../Shared/Buttons";
 
 const AddRoutineToDay = ({ addRoutine }) => {
   const [editMode, setEditMode] = useState(false);
@@ -107,7 +108,9 @@ const AddRoutineToDay = ({ addRoutine }) => {
                     })}
                   </>
                 ) : (
-                  <><NoData title="Routines"/></>
+                  <>
+                    <NoData title="Routines" />
+                  </>
                 )}
               </div>
             </div>
@@ -115,15 +118,10 @@ const AddRoutineToDay = ({ addRoutine }) => {
         </>
       ) : (
         <>
-          <button
-            onClick={() => {
-              setEditMode(true);
-            }}
-            className="secondary-button"
-            aria-label="Add A Routine"
-          >
-            Add Routine
-          </button>
+          <Buttons
+            secondary={"Add Routine"}
+            secondaryFunction={() => setEditMode(true)}
+          />
         </>
       )}
     </>

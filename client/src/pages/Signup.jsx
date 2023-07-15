@@ -4,6 +4,7 @@ import { useLogin } from "../hooks/useLogin";
 import Input from "../Components/Shared/Input";
 import Error from "../Components/Shared/Error";
 import Loading from "../Components/Shared/Loading";
+import Buttons from "../Components/Shared/Buttons";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -58,24 +59,16 @@ const Signup = () => {
             />
 
             {error && <span>{error}</span>}
-            <button
-              type="submit"
-              className="primary-button full-width"
+            <Buttons
               disabled={isLoading}
-              aria-label="Sign Up"
-            >
-              Sign Up
-            </button>
-
-            <button
-              className="secondary-button full-width"
-              onClick={demoLogin}
-              type="button"
-              aria-label="Log In As Demo User"
-            >
-              Log In As Demo User
-            </button>
-            <b className="primary">*Please wait a few moments for the server a few moments to load up</b>
+              primary={"Sign Up"}
+              fullWidth={true}
+              secondary={"Log in As A Demo User"}
+              secondaryFunction={demoLogin}
+            />
+            <b className="primary">
+              *Please wait a few moments for the server a few moments to load up
+            </b>
             <Error error={error} />
           </form>
         </div>

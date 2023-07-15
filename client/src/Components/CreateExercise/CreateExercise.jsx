@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { kindsOfExercises } from "../../data/exerciseCategories";
 import { muscleGroups } from "../../data/bodySegments";
-import DropDownUsingName from "./DropDownUsingName";
+import DropDownUsingName from "../Shared/DropDownUsingName";
 import { DataContext } from "../../Context/Context";
 import useAuthContext from "../../hooks/useAuthContext";
 

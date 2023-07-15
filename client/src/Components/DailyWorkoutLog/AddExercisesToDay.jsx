@@ -1,7 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import DisplaySetsInput from "../Shared/DisplaySetsInput";
-import CreateExercise from "../Shared/CreateExercise";
+import CreateExercise from "../CreateExercise/CreateExercise";
 import { DataContext } from "../../Context/Context";
+import Buttons from "../Shared/Buttons";
 
 const AddExercisesToDay = ({ addExercisesForDay }) => {
   const [newWorkoutMode, setNewWorkoutMode] = useState(false);
@@ -139,32 +140,21 @@ const AddExercisesToDay = ({ addExercisesForDay }) => {
                   removeSet={removeSet}
                 />
               </div>
-              <button
-                onClick={addNewSetToExercise}
-                className="secondary-button"
-                aria-label="Add New Set"
-              >
-                Add new set
-              </button>
-              <button
-                onClick={addNewExerciseAndSets}
-                className="primary-button"
-                aria-label="Submit Exercise"
-              >
-                Submit
-              </button>
+              <Buttons
+                secondary={"Add New Set"}
+                secondaryFunction={addNewSetToExercise}
+                primary={"Submit"}
+                primaryFunction={addNewExerciseAndSets}
+              />
             </div>
           </div>
         </>
       ) : (
         <>
-          <button
-            onClick={() => handleNewWorkoutMode()}
-            className="primary-button"
-            aria-label="Add Exercise"
-          >
-            Add Exercise
-          </button>
+          <Buttons
+            primary={"Add Exercise"}
+            primaryFunction={handleNewWorkoutMode}
+          />
         </>
       )}
     </>

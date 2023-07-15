@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { DataContext } from "../../Context/Context";
-import DisplaySetsInput from "./DisplaySetsInput";
+import DisplaySetsInput from "../Shared/DisplaySetsInput";
 import useAuthContext from "../../hooks/useAuthContext";
 
 const CreateWorkout = () => {
