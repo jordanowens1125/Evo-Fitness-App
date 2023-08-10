@@ -1,5 +1,5 @@
 # Evo Fitness App
-This project is a workout tracking app that enables users to create workouts and log them as well as their weight in which are displayed in Nivo charts and daily logs.
+This project is a workout tracking app that enables users to create workouts, exercises and log them as well as their weight in which are displayed in Nivo charts and daily logs.
 
 **Link to project:** [https://bugtracker-frontend-2zlk.onrender.com](https://dashboard.render.com/static/srv-chir2rd269v2e2bepjmg)
 
