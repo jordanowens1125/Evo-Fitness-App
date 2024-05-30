@@ -54,7 +54,7 @@ const Signup = () => {
 
           <div className="alt">
             <div className="new">
-              <a href="/login">Login?</a>
+              <a href="/signin">Login?</a>
             </div>
 
             <p onClick={demoLogin} className="primary">
