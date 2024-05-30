@@ -4,8 +4,7 @@ import Loading from "../Components/Shared/Loading";
 import Error from "../Components/Shared/Error";
 import Input from "../Components/Shared/Input";
 import Buttons from "../Components/Shared/Buttons";
-
-import "./Signin.scss";
+import "./Sign.scss";
 
 const Signin = () => {
   const [email, setEmail] = useState("");
