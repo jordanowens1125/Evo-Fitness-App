@@ -1,2 +1,22 @@
 node_modules
 .env
+
+Updates
+    Redesign 
+        home Screen
+        Workouts Page
+    Newer workouts should be shown first in workouts section
+    Have images for exercises
+    Current exercise session
+        Keep track of time during workout
+        Saves entire workout session
+    Fix weight aspect and weight tracking
+    Play music?
+        Spotify integration?
+    
+
+References
+    https://workoutrackerr.netlify.app/charts
+    https://www.reddit.com/r/reactjs/comments/eyr4kf/after_almost_a_year_of_learning_react_native_here/
+    https://www.reddit.com/r/reactnative/comments/1csjj15/i_have_released_my_first_fitness_app_the_story/
+       

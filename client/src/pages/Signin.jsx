@@ -5,6 +5,8 @@ import Error from "../Components/Shared/Error";
 import Input from "../Components/Shared/Input";
 import Buttons from "../Components/Shared/Buttons";
 
+import "./Signin.scss";
+
 const Signin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,48 +26,38 @@ const Signin = () => {
     }
   };
   return (
-    <section className="full-height full-width grow aic jcc flex body-color">
-      <div className="padding-xl  bg b-radius">
-        <form onSubmit={submit} className="flex-column gap-lg aic">
-          <Loading isLoading={isLoading} />
-          <div className="flex-column gap-md aic text-align">
-            <h2>Login To Your Account</h2>
-            <span>
-              <p>Don't Have An Account? </p>
-              <a href="/signup" className="primary">
-                <b className="primary">Sign Up</b>
-              </a>
-            </span>
+    <section className="form-section">
+      <form onSubmit={submit} className="container">
+        <Loading isLoading={isLoading} />
+
+        <h1>Evo Fit Log In</h1>
+        <p className="wait">
+          *Please wait a few moments for the server to load up*
+        </p>
+        <Input
+          type={"email"}
+          value={email}
+          onChange={(e) => setEmail(e.currentTarget.value)}
+          label={"Email"}
+        />
+        <Input
+          type={"password"}
+          value={password}
+          onChange={(e) => setPassword(e.currentTarget.value)}
+          label={"Password"}
+        />
+        <Buttons disabled={isLoading} primary={"Sign In"} fullWidth={true} />
+
+        <div className="alt">
+          <div className="new">
+            <a href="/signup">Sign Up?</a>
           </div>
-          <Input
-            type={"email"}
-            value={email}
-            onChange={(e) => setEmail(e.currentTarget.value)}
-            label={"Email"}
-            alignItems={true}
-          />
-          <Input
-            type={"password"}
-            value={password}
-            onChange={(e) => setPassword(e.currentTarget.value)}
-            label={"Password"}
-            alignItems={true}
-          />
 
-          <Buttons
-            disabled={isLoading}
-            primary={"Login"}
-            fullWidth={true}
-            secondary={"Log in As A Demo User"}
-            secondaryFunction={demoLogin}
-          />
+          <p onClick={demoLogin} className="primary">Test Account</p>
+        </div>
 
-          <b className="primary">
-            *Please wait a few moments for the server a few moments to load up
-          </b>
-          <Error error={error} />
-        </form>
-      </div>
+        <Error error={error} />
+      </form>
     </section>
   );
 };

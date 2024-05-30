@@ -1,0 +1,24 @@
+.loader-wrapper {
+  min-height: 80px;
+}
+
+.loader {
+  padding: 5px;
+  border-radius: 50%;
+  border: 10px solid var(--bg-color);
+  border-top: 10px solid var(--primary-color);
+
+  width: 75px;
+  aspect-ratio: 1;
+  animation: spin 1s linear infinite;
+  margin: auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
